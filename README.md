@@ -1,158 +1,51 @@
 # Interview Prep OS
 
-A local-first web app for working through the markdown interview-prep system in `senior-fullstack-interview-prep/`.
+Interview Prep OS is a local-first web app for following a markdown-based interview preparation plan.
 
-The goal is to keep the markdown curriculum as the durable source of truth, while giving the day-to-day experience a guided dashboard, searchable library, progress tracking, weak-area capture, and exportable local state.
+It keeps the prep curriculum in markdown, while providing a cleaner daily experience with a dashboard, guided study pages, search, progress tracking, weak-area notes, and JSON export/import.
 
-## Vision
+## Hosted App
 
-Markdown is excellent for writing and maintaining the prep material, but it is not ideal for daily execution. This app turns the 24-week plan into an interactive operating system:
-
-- See the next study day and current readiness at a glance.
-- Follow each day as a guided workflow instead of a long document.
-- Track completion, scores, notes, artifacts, weak areas, and job-search activity.
-- Search across days, banks, project notes, career material, and tracking files.
-- Keep all personal progress local and portable through JSON export/import.
-
-## How It Works
-
-The app has two separate layers:
-
-- Curriculum content: generated from markdown files in `senior-fullstack-interview-prep/`.
-- Personal progress: stored locally in the browser under `interview-prep-progress:v1`.
-
-On launch, the app runs the content generator:
-
-```bash
-npm run generate
-```
-
-That generator parses the markdown files, extracts the 6-month / 24-week / 168-day structure, converts markdown to HTML with table support, and writes:
+You can use the hosted version here:
 
 ```text
-src/data/prep-content.json
+https://shekharroy.com/interview-prep-app/
 ```
 
-The app imports that generated JSON and renders the dashboard, roadmap, study day, library, trackers, and settings pages.
+## Overview
 
-## First-Time Setup
+The app is built around two parts:
+
+* **Curriculum content**: generated from markdown files in `senior-fullstack-interview-prep/`
+* **Personal progress**: stored locally in the browser
+
+Your progress is not written back into the markdown files. It stays local and can be exported or imported as a JSON file.
+
+## Features
+
+* Dashboard with current progress and next study day
+* Roadmap for the full prep plan
+* Guided daily study pages
+* Searchable prep library
+* Trackers for weak areas, scores, readiness, and job applications
+* Local progress storage
+* Progress export/import through JSON
+
+## Getting Started
+
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-## Launch
+Start the app:
 
 ```bash
 npm start
 ```
 
-This regenerates content from the markdown files, starts Vite, and opens the app in your browser.
-
-If the default port is busy, Vite will suggest or use another local port.
-
-## Main Screens
-
-### Dashboard
-
-The starting screen. It shows:
-
-- Current suggested study day.
-- Overall completion percentage.
-- Active days.
-- Open weak areas.
-- Weekly score count.
-- Month-by-month progress.
-
-### Roadmap
-
-Shows the full 6-month / 24-week / 168-day plan. Each day tile reflects local progress state and opens the guided study page.
-
-### Study Day
-
-The main execution screen for daily prep.
-
-It includes:
-
-- Day title, goal, progress percentage, and mark-complete action.
-- Collapsible progress details for checklist, scores, notes, artifact links, and weak areas.
-- One compact day-context summary instead of scattered metadata boxes.
-- Full-width rendered study content.
-- Previous/next day navigation.
-
-### Library
-
-Search and browse the source material.
-
-Useful searches include:
-
-- `DSA-001`
-- `RabbitMQ`
-- `ProblemDetails`
-- `Azure Service Bus`
-- `system design`
-
-### Trackers
-
-Vertical collapsible tracker sections for:
-
-- Weak areas.
-- Weekly scores.
-- Readiness areas.
-- Job applications.
-
-Each tracker can be expanded when needed and kept out of the way when not needed.
-
-### Settings
-
-Use this page to:
-
-- Export progress as JSON.
-- Import a saved progress JSON file.
-- Reset local progress.
-- View generated content metadata.
-
-## Progress Model
-
-Progress is stored only in the browser. The app does not write progress back into the markdown files.
-
-Tracked state includes:
-
-- Active day.
-- Day status: not started, in progress, complete.
-- Completed sections.
-- Completion checklist state.
-- Mini-test score.
-- Self-score.
-- Notes.
-- Artifact links or paths.
-- Weak-area notes and saved weak areas.
-- Weekly scores.
-- Readiness area scores/statuses.
-- Job applications.
-
-Exported progress files are named like:
-
-```text
-interview-prep-progress-YYYY-MM-DD.json
-```
-
-Import validates the schema before replacing local progress. The app keeps stable IDs such as `day-001`, `week-01`, and `month-01` so progress can survive normal markdown edits.
-
-## URL Flow
-
-The app uses local hash routes, so refresh/back/forward work without a backend router.
-
-Examples:
-
-```text
-#/dashboard
-#/roadmap
-#/study/day-001
-#/library
-#/trackers
-#/settings
-```
+This generates the app content from markdown and opens the local app in your browser.
 
 ## Commands
 
@@ -160,25 +53,25 @@ Examples:
 npm run generate
 ```
 
-Generate `src/data/prep-content.json` from markdown.
+Generate app content from markdown.
 
 ```bash
 npm start
 ```
 
-Generate content, start the local app, and open the browser.
+Generate content, start the app, and open it in the browser.
 
 ```bash
 npm run dev
 ```
 
-Generate content and start Vite without forcing the browser to open.
+Generate content and start the dev server.
 
 ```bash
 npm run build
 ```
 
-Generate content, type-check, and build the production bundle.
+Generate content, type-check, and build the production app.
 
 ```bash
 npm run preview
@@ -192,57 +85,80 @@ npm test
 
 Generate content and run tests.
 
+## Main Screens
+
+### Dashboard
+
+Shows your current study status, progress, active days, weak areas, scores, and month-by-month progress.
+
+### Roadmap
+
+Shows the full prep plan. Each day can be opened and tracked individually.
+
+### Study Day
+
+Guides you through one day of prep with study content, checklist items, notes, scores, artifacts, and weak-area capture.
+
+### Library
+
+Lets you search and browse prep material across days, topics, banks, projects, career notes, and tracking files.
+
+### Trackers
+
+Provides sections for weak areas, weekly scores, readiness areas, and job applications.
+
+### Settings
+
+Lets you export progress, import saved progress, reset local progress, and view generated content metadata.
+
+## Progress Storage
+
+Progress is stored in browser local storage under:
+
+```text
+interview-prep-progress:v1
+```
+
+Exported progress files use names like:
+
+```text
+interview-prep-progress-YYYY-MM-DD.json
+```
+
+Export your progress before switching browsers, clearing site data, or moving to another machine.
+
 ## Project Structure
 
 ```text
 senior-fullstack-interview-prep/
-  Source markdown curriculum.
+  Source markdown curriculum
 
 scripts/generate-content.mjs
-  Markdown parser and content generator.
+  Markdown parser and content generator
 
 src/data/prep-content.json
-  Generated app content.
+  Generated app content
 
 src/App.tsx
-  Main app UI, routing, screens, and interactions.
+  Main app UI and routes
 
 src/lib/progress.ts
-  Local progress storage, import/export validation, and progress helpers.
+  Progress storage, import/export, and helpers
 
 src/types.ts
-  Content and progress data contracts.
+  Shared content and progress types
 
 src/styles/app.css
-  Application styling and responsive layout.
+  App styling
 
 tests/
-  Parser and progress tests.
+  Parser and progress tests
 ```
-
-## Testing Coverage
-
-Current tests verify:
-
-- Exactly 6 months, 24 weeks, and 168 days are generated.
-- Day 1 metadata, sections, checklist, mini-test, and artifacts parse correctly.
-- Banks, projects, career, tracking, and foundation docs appear in the library.
-- Search records include important terms such as `DSA-001`, `RabbitMQ`, and `ProblemDetails`.
-- Progress persists and reloads from browser storage.
-- Invalid progress imports are rejected.
-- Imported progress is normalized to the current content hash while preserving stable IDs.
 
 ## Design Principles
 
-- Local-first: no login, no backend, no cloud dependency.
-- Markdown-first: edit curriculum in markdown, regenerate app content.
-- Progress is portable: export/import JSON whenever needed.
-- Study flow first: dashboard and study day are built for execution, not marketing.
-- Low distraction: detailed inputs are collapsible, while status stays visible.
-- Responsive by default: top navigation collapses on mobile and content stacks cleanly.
-
-## Notes
-
-- `src/data/prep-content.json` is generated from the markdown and can be regenerated at any time.
-- `dist/`, `node_modules/`, caches, logs, local env files, and exported progress JSON files are ignored by git.
-- Browser local storage is device/browser-specific, so export progress before switching browsers, clearing site data, or moving machines.
+* Markdown-first: curriculum stays easy to edit
+* Local-first: no login, backend, or cloud dependency
+* Portable progress: export and import JSON when needed
+* Study-focused: built for daily execution, not just reading
+* Low distraction: details stay available without cluttering the main flow

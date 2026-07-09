@@ -1341,63 +1341,63 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What does async/await do? | Suspends/resumes async flow; does not automatically create thread | 4 |
-| 2 | What is an async state machine? | Compiler-generated structure preserving state across awaits | 4 |
-| 3 | What does `Task.WhenAll` do? | Completes when all supplied tasks complete | 3 |
-| 4 | Why avoid `.Result` in server code? | Blocks threads, starvation/deadlock risk | 5 |
-| 5 | What is cooperative cancellation? | Work stops only when token is observed | 4 |
-| 6 | How do timeouts relate to cancellation? | Timeout can trigger cancellation after duration | 4 |
-| 7 | What is I/O-bound work? | Waiting on external resource | 3 |
-| 8 | What is CPU-bound work? | CPU computation work | 3 |
-| 9 | What is ThreadPool starvation? | Work waits because worker threads are blocked/busy | 5 |
-| 10 | What does ConfigureAwait control? | Continuation context capture | 3 |
-| 11 | What is garbage collection? | Managed memory reclamation | 3 |
-| 12 | Explain Gen 0, Gen 1, Gen 2. | Generations by object survival age | 5 |
-| 13 | What is LOH? | Large Object Heap for large allocations | 4 |
-| 14 | `IDisposable` vs GC? | Deterministic external cleanup vs managed memory reclamation | 5 |
-| 15 | Task vs ValueTask? | Task default; ValueTask for often-sync hot paths with complexity | 5 |
-| 16 | What is IAsyncEnumerable? | Async stream consumed with await foreach | 4 |
-| 17 | Why avoid async void in services? | Cannot await/compose/catch reliably | 4 |
-| 18 | Why establish performance baseline? | Proves change and guides optimization | 4 |
-| 19 | Why can microbenchmarks mislead? | Narrow conditions, not production context | 4 |
-| 20 | Why measure before optimizing? | Avoid guessing and optimize actual bottleneck | 4 |
+| 1 | What does async/await do? | Suspends/resumes async flow; does not automatically create thread | 3 |
+| 2 | What is an async state machine? | Compiler-generated structure preserving state across awaits | 3 |
+| 3 | What does `Task.WhenAll` do? | Completes when all supplied tasks complete | 2 |
+| 4 | Why avoid `.Result` in server code? | Blocks threads, starvation/deadlock risk | 3 |
+| 5 | What is cooperative cancellation? | Work stops only when token is observed | 2 |
+| 6 | How do timeouts relate to cancellation? | Timeout can trigger cancellation after duration | 2 |
+| 7 | What is I/O-bound work? | Waiting on external resource | 2 |
+| 8 | What is CPU-bound work? | CPU computation work | 2 |
+| 9 | What is ThreadPool starvation? | Work waits because worker threads are blocked/busy | 3 |
+| 10 | What does ConfigureAwait control? | Continuation context capture | 2 |
+| 11 | What is garbage collection? | Managed memory reclamation | 2 |
+| 12 | Explain Gen 0, Gen 1, Gen 2. | Generations by object survival age | 3 |
+| 13 | What is LOH? | Large Object Heap for large allocations | 2 |
+| 14 | `IDisposable` vs GC? | Deterministic external cleanup vs managed memory reclamation | 3 |
+| 15 | Task vs ValueTask? | Task default; ValueTask for often-sync hot paths with complexity | 3 |
+| 16 | What is IAsyncEnumerable? | Async stream consumed with await foreach | 2 |
+| 17 | Why avoid async void in services? | Cannot await/compose/catch reliably | 2 |
+| 18 | Why establish performance baseline? | Proves change and guides optimization | 2 |
+| 19 | Why can microbenchmarks mislead? | Narrow conditions, not production context | 2 |
+| 20 | Why measure before optimizing? | Avoid guessing and optimize actual bottleneck | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Endpoint uses `.Result` on EF query. What risk? | Thread blocking, starvation, async-over-sync issue | 4 |
-| 2 | Client disconnects during long request. What should happen? | Cancellation token should propagate and stop work when possible | 4 |
-| 3 | CPU-heavy report runs inside request. What do you consider? | Background work, queue later, avoid blocking request path | 4 |
-| 4 | API latency spikes with high allocation. What inspect? | Allocation profile, GC counts, hot paths, payload size | 4 |
-| 5 | Developer replaces every Task with ValueTask. Response? | Avoid blanket use; use when measured and appropriate | 4 |
-| 6 | Async stream returns all data only after full list loaded. Issue? | Not truly streaming; loads everything first | 4 |
-| 7 | Benchmark ran once in Debug mode. Concern? | Not reliable; need warm-up, Release, repeated runs | 4 |
-| 8 | OperationCanceledException logged as error for every client disconnect. Improve? | Treat expected cancellation differently, monitor patterns | 4 |
+| 1 | Endpoint uses `.Result` on EF query. What risk? | Thread blocking, starvation, async-over-sync issue | 2 |
+| 2 | Client disconnects during long request. What should happen? | Cancellation token should propagate and stop work when possible | 2 |
+| 3 | CPU-heavy report runs inside request. What do you consider? | Background work, queue later, avoid blocking request path | 2 |
+| 4 | API latency spikes with high allocation. What inspect? | Allocation profile, GC counts, hot paths, payload size | 2 |
+| 5 | Developer replaces every Task with ValueTask. Response? | Avoid blanket use; use when measured and appropriate | 2 |
+| 6 | Async stream returns all data only after full list loaded. Issue? | Not truly streaming; loads everything first | 2 |
+| 7 | Benchmark ran once in Debug mode. Concern? | Not reliable; need warm-up, Release, repeated runs | 2 |
+| 8 | OperationCanceledException logged as error for every client disconnect. Improve? | Treat expected cancellation differently, monitor patterns | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | `Task.Delay` ignores cancellation. | Pass token to `Task.Delay` and check token in loop | 4 |
-| 2 | Recursive tree function never stops. | Add null/base case | 4 |
-| 3 | String concat loop causes high allocations. | Use `StringBuilder` or redesign hot path; measure | 4 |
-| 4 | Validate BST only checks immediate children. | Pass min/max bounds through recursion | 4 |
+| 1 | `Task.Delay` ignores cancellation. | Pass token to `Task.Delay` and check token in loop | 2 |
+| 2 | Recursive tree function never stops. | Add null/base case | 2 |
+| 3 | String concat loop causes high allocations. | Use `StringBuilder` or redesign hot path; measure | 2 |
+| 4 | Validate BST only checks immediate children. | Pass min/max bounds through recursion | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-029 - Maximum Depth of Binary Tree.  
 Required approach: recursive depth with null base case.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-032 - Validate BST.  
 Required approach: recursive lower/upper bounds.  
-Points: 7.
+Points: 4.
 
 Problem 3: Runtime implementation prompt.  
 Task: Write pseudocode for an async operation that supports timeout and cancellation.  
 Expected points: `CancellationTokenSource`, `CancelAfter`, pass token to awaited operations, catch expected cancellation.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -1411,7 +1411,7 @@ Expected points:
 * allocations and GC.
 * measurement-first approach.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -1430,7 +1430,7 @@ Strong answer expectations:
 * One code-level example.
 * One production risk and tradeoff per prompt.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -1443,7 +1443,7 @@ Expected answer structure:
 * Action: measured, inspected logs, reproduced, isolated variable.
 * Result: fix or learning.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -2796,63 +2796,63 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is Vite? | Frontend build/dev tool | 3 |
-| 2 | What is a React component? | Function/class returning UI from props/state | 3 |
-| 3 | What are props? | Inputs from parent to child | 3 |
-| 4 | Why type props? | Compile-time contract and safer usage | 4 |
-| 5 | Why avoid `any`? | Removes type safety | 3 |
-| 6 | What is a union type? | Value limited to alternatives | 3 |
-| 7 | What is a discriminated union? | Union variants with common literal discriminator | 4 |
-| 8 | TypeScript compile-time vs runtime validation? | TS checks code; runtime data still needs validation | 5 |
-| 9 | What triggers a React render? | State/props/context changes | 3 |
-| 10 | Why update state immutably? | Predictable changes and render behavior | 4 |
-| 11 | Why do list keys matter? | Reconciliation and stable identity | 4 |
-| 12 | Why avoid index keys in mutable lists? | Identity bugs on insert/remove/reorder | 4 |
-| 13 | What does useEffect do? | Runs side effects after render based on deps | 4 |
-| 14 | How can effect create infinite loop? | Updates dependency that re-runs effect repeatedly | 4 |
-| 15 | Why use loading/error/success state? | Predictable async UI | 3 |
-| 16 | What is a route-level page? | Screen mapped to route/navigation state | 3 |
-| 17 | Why use feature folders? | Keep related domain files together | 3 |
-| 18 | What is a custom hook? | Reusable stateful hook logic | 4 |
-| 19 | What is derived state? | Computed from existing state/props | 3 |
-| 20 | When is useMemo useful? | Expensive calculation or stable identity when needed | 3 |
+| 1 | What is Vite? | Frontend build/dev tool | 2 |
+| 2 | What is a React component? | Function/class returning UI from props/state | 2 |
+| 3 | What are props? | Inputs from parent to child | 2 |
+| 4 | Why type props? | Compile-time contract and safer usage | 3 |
+| 5 | Why avoid `any`? | Removes type safety | 2 |
+| 6 | What is a union type? | Value limited to alternatives | 2 |
+| 7 | What is a discriminated union? | Union variants with common literal discriminator | 3 |
+| 8 | TypeScript compile-time vs runtime validation? | TS checks code; runtime data still needs validation | 3 |
+| 9 | What triggers a React render? | State/props/context changes | 2 |
+| 10 | Why update state immutably? | Predictable changes and render behavior | 3 |
+| 11 | Why do list keys matter? | Reconciliation and stable identity | 3 |
+| 12 | Why avoid index keys in mutable lists? | Identity bugs on insert/remove/reorder | 3 |
+| 13 | What does useEffect do? | Runs side effects after render based on deps | 2 |
+| 14 | How can effect create infinite loop? | Updates dependency that re-runs effect repeatedly | 2 |
+| 15 | Why use loading/error/success state? | Predictable async UI | 2 |
+| 16 | What is a route-level page? | Screen mapped to route/navigation state | 2 |
+| 17 | Why use feature folders? | Keep related domain files together | 2 |
+| 18 | What is a custom hook? | Reusable stateful hook logic | 2 |
+| 19 | What is derived state? | Computed from existing state/props | 2 |
+| 20 | When is useMemo useful? | Expensive calculation or stable identity when needed | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | API returns status `"Done"` but frontend expects union. What happens? | TS catches hardcoded values; runtime needs validation for server data | 4 |
-| 2 | List uses array index as key and items reorder. Risk? | Wrong component identity/state | 4 |
-| 3 | Effect fetches data on every render. Cause? | Missing/wrong dependency array or unstable dependency | 4 |
-| 4 | Dashboard stores counts separately from tasks. Risk? | State can get out of sync | 4 |
-| 5 | One component handles all routes and UI. Improve? | Split route pages, layout, feature folders | 4 |
-| 6 | Frontend has no loading/error state. Risk? | Poor UX and unclear failures | 4 |
-| 7 | Team wants Redux immediately. Response? | Evaluate complexity; local/custom hooks may be enough | 4 |
-| 8 | Backend DTO changes field name. How catch? | Type check, contract tests/generated types/manual mapping review | 4 |
+| 1 | API returns status `"Done"` but frontend expects union. What happens? | TS catches hardcoded values; runtime needs validation for server data | 2 |
+| 2 | List uses array index as key and items reorder. Risk? | Wrong component identity/state | 2 |
+| 3 | Effect fetches data on every render. Cause? | Missing/wrong dependency array or unstable dependency | 2 |
+| 4 | Dashboard stores counts separately from tasks. Risk? | State can get out of sync | 2 |
+| 5 | One component handles all routes and UI. Improve? | Split route pages, layout, feature folders | 2 |
+| 6 | Frontend has no loading/error state. Risk? | Poor UX and unclear failures | 2 |
+| 7 | Team wants Redux immediately. Response? | Evaluate complexity; local/custom hooks may be enough | 2 |
+| 8 | Backend DTO changes field name. How catch? | Type check, contract tests/generated types/manual mapping review | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Clicking status mutates task but UI does not update reliably. | Use immutable state update and setter | 4 |
-| 2 | Effect sets state after unmount. | Add cleanup/abort guard | 4 |
-| 3 | Severity 6 renders as normal. | Use union/narrowing and validate data | 4 |
-| 4 | Route nav appears on every page with duplicated code. | Extract shared layout | 4 |
+| 1 | Clicking status mutates task but UI does not update reliably. | Use immutable state update and setter | 2 |
+| 2 | Effect sets state after unmount. | Add cleanup/abort guard | 2 |
+| 3 | Severity 6 renders as normal. | Use union/narrowing and validate data | 2 |
+| 4 | Route nav appears on every page with duplicated code. | Extract shared layout | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-035 - Level Order Traversal.  
 Required approach: BFS queue with level separation.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-036 - Merge Intervals.  
 Required approach: sort by start and merge overlaps.  
-Points: 6.
+Points: 4.
 
 Problem 3: React implementation prompt.  
 Task: Sketch a typed `ApiState<T>` rendering function for loading/error/success.  
 Expected points: discriminated union, narrowing by `kind`, no unsafe data access.  
-Points: 8.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -2867,7 +2867,7 @@ Expected points:
 * Routes and layout.
 * Custom hooks and derived state.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -2886,7 +2886,7 @@ Strong answer expectations:
 * Correct hook rules.
 * Tradeoffs around abstractions/global state.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -2899,7 +2899,7 @@ Expected answer structure:
 * Action: components, types, hooks, testing.
 * Result: working UI and clearer understanding.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -4238,63 +4238,63 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Why centralize API calls? | Base URL, errors, headers, types, maintainability | 4 |
-| 2 | What should API client do on non-2xx? | Throw/map typed error with status/message | 4 |
-| 3 | Why use environment variable for API base URL? | Environment-specific backend address | 3 |
-| 4 | Controlled vs uncontrolled input? | React state controlled vs DOM/ref controlled | 4 |
-| 5 | Client validation vs server validation? | UX vs authoritative trust boundary | 5 |
-| 6 | Why disable submit while submitting? | Prevent duplicate requests | 3 |
-| 7 | How map ProblemDetails to UI? | Parse status/errors and show user-readable messages | 4 |
-| 8 | Why not token in query string? | Logs/history/leakage risk | 4 |
-| 9 | What is 401 UI? | Authentication required | 3 |
-| 10 | What is 403 UI? | Authenticated but forbidden | 3 |
-| 11 | What should component tests focus on? | User-visible behavior | 4 |
-| 12 | Why prefer accessible queries? | Resilient tests and accessibility alignment | 4 |
-| 13 | What is React.memo? | Skip render when props equal | 3 |
-| 14 | What does useCallback do? | Memoizes function identity | 3 |
-| 15 | What does useMemo do? | Memoizes computed value | 3 |
-| 16 | What is context performance risk? | Context changes re-render consumers | 4 |
-| 17 | Empty state vs error state? | Empty is valid data; error is failure | 4 |
-| 18 | What does error boundary catch? | Render errors in child tree | 4 |
-| 19 | Why keep mock fallback explicit? | Useful for dev but must not hide integration failures | 4 |
-| 20 | What proves full-stack integration? | UI action persists through backend and reload | 4 |
+| 1 | Why centralize API calls? | Base URL, errors, headers, types, maintainability | 3 |
+| 2 | What should API client do on non-2xx? | Throw/map typed error with status/message | 3 |
+| 3 | Why use environment variable for API base URL? | Environment-specific backend address | 2 |
+| 4 | Controlled vs uncontrolled input? | React state controlled vs DOM/ref controlled | 3 |
+| 5 | Client validation vs server validation? | UX vs authoritative trust boundary | 3 |
+| 6 | Why disable submit while submitting? | Prevent duplicate requests | 2 |
+| 7 | How map ProblemDetails to UI? | Parse status/errors and show user-readable messages | 3 |
+| 8 | Why not token in query string? | Logs/history/leakage risk | 3 |
+| 9 | What is 401 UI? | Authentication required | 2 |
+| 10 | What is 403 UI? | Authenticated but forbidden | 2 |
+| 11 | What should component tests focus on? | User-visible behavior | 2 |
+| 12 | Why prefer accessible queries? | Resilient tests and accessibility alignment | 2 |
+| 13 | What is React.memo? | Skip render when props equal | 2 |
+| 14 | What does useCallback do? | Memoizes function identity | 2 |
+| 15 | What does useMemo do? | Memoizes computed value | 2 |
+| 16 | What is context performance risk? | Context changes re-render consumers | 2 |
+| 17 | Empty state vs error state? | Empty is valid data; error is failure | 2 |
+| 18 | What does error boundary catch? | Render errors in child tree | 2 |
+| 19 | Why keep mock fallback explicit? | Useful for dev but must not hide integration failures | 2 |
+| 20 | What proves full-stack integration? | UI action persists through backend and reload | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Backend returns 400 validation ProblemDetails. What should UI do? | Show field/general errors, allow correction | 4 |
-| 2 | Backend unavailable. What should UI do? | Show retryable error state | 4 |
-| 3 | User double-clicks submit. How prevent duplicate? | Disable while submitting, idempotency later for backend flows | 4 |
-| 4 | Protected endpoint returns 403. What message? | Forbidden, not login prompt only | 4 |
-| 5 | Component test queries CSS class. Improve? | Query by role/text/label | 4 |
-| 6 | Memoization added everywhere. Concern? | Complexity without measured benefit | 4 |
-| 7 | Empty weak areas list shows red error. Fix? | Empty state with next action | 4 |
-| 8 | UI works with mocks but fails with backend. What check? | Contract, base URL, CORS, status mapping, casing | 4 |
+| 1 | Backend returns 400 validation ProblemDetails. What should UI do? | Show field/general errors, allow correction | 2 |
+| 2 | Backend unavailable. What should UI do? | Show retryable error state | 2 |
+| 3 | User double-clicks submit. How prevent duplicate? | Disable while submitting, idempotency later for backend flows | 2 |
+| 4 | Protected endpoint returns 403. What message? | Forbidden, not login prompt only | 2 |
+| 5 | Component test queries CSS class. Improve? | Query by role/text/label | 2 |
+| 6 | Memoization added everywhere. Concern? | Complexity without measured benefit | 2 |
+| 7 | Empty weak areas list shows red error. Fix? | Empty state with next action | 2 |
+| 8 | UI works with mocks but fails with backend. What check? | Contract, base URL, CORS, status mapping, casing | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Create form sends request with blank title. | Add client validation and keep server validation | 4 |
-| 2 | Network error crashes component. | Catch in API client/hook and render error state | 4 |
-| 3 | Test passes even when button missing. | Use user-facing assertion for button/action behavior | 4 |
-| 4 | Render logs show all cards re-render on unrelated state. | Check props, callbacks, memoization, parent state | 4 |
+| 1 | Create form sends request with blank title. | Add client validation and keep server validation | 2 |
+| 2 | Network error crashes component. | Catch in API client/hook and render error state | 2 |
+| 3 | Test passes even when button missing. | Use user-facing assertion for button/action behavior | 2 |
+| 4 | Render logs show all cards re-render on unrelated state. | Check props, callbacks, memoization, parent state | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-038 - Kth Smallest in BST.  
 Required approach: inorder traversal with early stop.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-040 - Maximum Subarray.  
 Required approach: Kadane's algorithm with all-negative handling.  
-Points: 6.
+Points: 4.
 
 Problem 3: Frontend implementation prompt.  
 Task: Design a typed form submit flow for `CreateStudyTaskRequest`.  
 Expected points: controlled fields, client validation, submit state, API call, ProblemDetails handling, update list.  
-Points: 8.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -4309,7 +4309,7 @@ Expected points:
 * Tests.
 * Memoization tradeoffs.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -4328,7 +4328,7 @@ Strong answer expectations:
 * Correct 400/401/403 handling.
 * No over-optimization claims.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -4341,7 +4341,7 @@ Expected answer structure:
 * Action: added states, validation, retry, tests.
 * Result: clearer and safer workflow.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -5700,63 +5700,63 @@ At the end of the day, these should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is a Docker image? | Immutable package for containers | 3 |
-| 2 | What is a container? | Running instance of image | 3 |
-| 3 | Why use multi-stage Dockerfile? | Smaller/cleaner runtime image | 4 |
-| 4 | Why keep secrets out of images? | Image sharing/caching/rotation risk | 4 |
-| 5 | What is static frontend build? | Built HTML/CSS/JS assets served by web server | 4 |
-| 6 | Why not run Vite dev server in production image? | Dev server is for local development, not optimized serving | 4 |
-| 7 | What is CORS? | Browser cross-origin request policy | 4 |
-| 8 | What is Docker Compose? | Local multi-container orchestration definition | 4 |
-| 9 | How do containers reach each other in Compose? | Service name DNS on shared network | 4 |
-| 10 | Why is localhost tricky in containers? | Refers to the container itself | 4 |
-| 11 | What is a volume used for? | Persistent/shared storage | 3 |
-| 12 | Does depends_on guarantee readiness? | No, only start order/basic dependency | 4 |
-| 13 | What is CI? | Automated build/test checks | 3 |
-| 14 | What is CD? | Deployment/release automation/process | 3 |
-| 15 | What should frontend CI run? | install, typecheck, tests, build | 4 |
-| 16 | What should backend CI run? | restore, build, test | 4 |
-| 17 | Why separate CI jobs? | Clear ownership, runtime differences, parallelism | 3 |
-| 18 | What makes a demo path reliable? | Repeatable steps, health checks, troubleshooting | 4 |
-| 19 | Why document limitations? | Honest scope, trust, clear next steps | 4 |
-| 20 | What is deferred to Month 4? | Clean Architecture, LLD, messaging basics | 3 |
+| 1 | What is a Docker image? | Immutable package for containers | 2 |
+| 2 | What is a container? | Running instance of image | 2 |
+| 3 | Why use multi-stage Dockerfile? | Smaller/cleaner runtime image | 3 |
+| 4 | Why keep secrets out of images? | Image sharing/caching/rotation risk | 3 |
+| 5 | What is static frontend build? | Built HTML/CSS/JS assets served by web server | 3 |
+| 6 | Why not run Vite dev server in production image? | Dev server is for local development, not optimized serving | 3 |
+| 7 | What is CORS? | Browser cross-origin request policy | 3 |
+| 8 | What is Docker Compose? | Local multi-container orchestration definition | 3 |
+| 9 | How do containers reach each other in Compose? | Service name DNS on shared network | 2 |
+| 10 | Why is localhost tricky in containers? | Refers to the container itself | 2 |
+| 11 | What is a volume used for? | Persistent/shared storage | 2 |
+| 12 | Does depends_on guarantee readiness? | No, only start order/basic dependency | 2 |
+| 13 | What is CI? | Automated build/test checks | 2 |
+| 14 | What is CD? | Deployment/release automation/process | 2 |
+| 15 | What should frontend CI run? | install, typecheck, tests, build | 2 |
+| 16 | What should backend CI run? | restore, build, test | 2 |
+| 17 | Why separate CI jobs? | Clear ownership, runtime differences, parallelism | 2 |
+| 18 | What makes a demo path reliable? | Repeatable steps, health checks, troubleshooting | 2 |
+| 19 | Why document limitations? | Honest scope, trust, clear next steps | 2 |
+| 20 | What is deferred to Month 4? | Clean Architecture, LLD, messaging basics | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | API container cannot connect to Redis at localhost. Explain. | localhost is API container; use `redis` service name | 4 |
-| 2 | Frontend container builds with wrong API URL. Cause? | Build-time env baked into static assets | 4 |
-| 3 | Compose starts API before DB ready. What handle? | health checks/retry/startup resilience | 4 |
-| 4 | CI workflow contains real connection string. Problem? | Secret leak; use secrets/env and no deployment secrets in file | 4 |
-| 5 | Docker image includes source secrets. Problem? | Image layers can expose secrets; remove and rotate | 4 |
-| 6 | Demo fails with CORS error. What inspect? | API allowed origins/methods/headers/frontend URL | 4 |
-| 7 | Interviewer asks if PrepTrack is production deployed. Answer? | Honest: local/full-stack portfolio, deployment hardening later | 4 |
-| 8 | CI takes too long. What improve carefully? | cache dependencies, split jobs, choose critical tests, measure | 4 |
+| 1 | API container cannot connect to Redis at localhost. Explain. | localhost is API container; use `redis` service name | 2 |
+| 2 | Frontend container builds with wrong API URL. Cause? | Build-time env baked into static assets | 2 |
+| 3 | Compose starts API before DB ready. What handle? | health checks/retry/startup resilience | 2 |
+| 4 | CI workflow contains real connection string. Problem? | Secret leak; use secrets/env and no deployment secrets in file | 2 |
+| 5 | Docker image includes source secrets. Problem? | Image layers can expose secrets; remove and rotate | 2 |
+| 6 | Demo fails with CORS error. What inspect? | API allowed origins/methods/headers/frontend URL | 2 |
+| 7 | Interviewer asks if PrepTrack is production deployed. Answer? | Honest: local/full-stack portfolio, deployment hardening later | 2 |
+| 8 | CI takes too long. What improve carefully? | cache dependencies, split jobs, choose critical tests, measure | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | API Docker build fails after copying wrong project path. | Fix build context/COPY paths | 4 |
-| 2 | Frontend static app returns 404 on refresh for route. | Configure server fallback to index.html for SPA routes | 4 |
-| 3 | Compose `.env` committed with secrets. | Remove secrets, rotate, commit `.env.example` only | 4 |
-| 4 | CI passes backend but frontend type errors locally. | Add frontend typecheck to CI | 4 |
+| 1 | API Docker build fails after copying wrong project path. | Fix build context/COPY paths | 2 |
+| 2 | Frontend static app returns 404 on refresh for route. | Configure server fallback to index.html for SPA routes | 2 |
+| 3 | Compose `.env` committed with secrets. | Remove secrets, rotate, commit `.env.example` only | 2 |
+| 4 | CI passes backend but frontend type errors locally. | Add frontend typecheck to CI | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-041 - Sort Colors.  
 Required approach: Dutch national flag pointers.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-042 - Non-overlapping Intervals.  
 Required approach: sort by end and greedy keep/remove.  
-Points: 6.
+Points: 4.
 
 Problem 3: Docker/CI design prompt.  
 Task: Sketch a full-stack local delivery setup for PrepTrack.  
 Expected points: API image, frontend image, Compose services, Redis/database, env example, CI build/test.  
-Points: 8.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -5771,7 +5771,7 @@ Expected points:
 * CI build/test checks.
 * Limitations before production deployment.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -5791,7 +5791,7 @@ Strong answer expectations:
 * Tradeoffs and limitations.
 * No production overclaiming.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -5804,7 +5804,7 @@ Expected answer structure:
 * Action: scripts, Docker, CI, docs, checks.
 * Result: faster onboarding or safer changes.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 

@@ -1414,63 +1414,63 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is a modular monolith? | One deployable app with internal module boundaries | 4 |
-| 2 | What is an architecture boundary? | Responsibility/dependency separation | 4 |
-| 3 | Why not microservices for PrepTrack now? | Complexity not justified; boundaries first | 4 |
-| 4 | What is dependency direction in Clean Architecture? | Outer layers depend inward | 5 |
-| 5 | What belongs in domain layer? | Core business rules/entities independent of frameworks | 4 |
-| 6 | What belongs in application layer? | Use cases/orchestration/interfaces | 4 |
-| 7 | What belongs in infrastructure layer? | EF, Redis, external implementations | 4 |
-| 8 | What belongs in API layer? | HTTP boundary, controllers, auth, DTO mapping | 4 |
-| 9 | What is Strategy pattern? | Interchangeable behavior behind interface | 4 |
-| 10 | What is Factory pattern? | Centralized creation/selection | 4 |
-| 11 | What is one Strategy overuse smell? | Only one simple behavior with no variation | 4 |
-| 12 | Why plan a refactor before coding? | Reduce risk and preserve behavior | 4 |
-| 13 | What is public contract preservation? | Routes/status/DTO behavior stay stable | 4 |
-| 14 | Why refactor one slice first? | Limits blast radius and proves pattern | 4 |
-| 15 | What is TTL cache? | Cache with expiry per entry | 4 |
-| 16 | Why max-size eviction? | Prevent unbounded memory growth | 4 |
-| 17 | Local memory cache vs Redis? | Per-process vs shared/distributed external store | 4 |
-| 18 | What does BFS use? | Queue and visited set | 3 |
-| 19 | What does Number of Islands test? | Grid DFS/BFS connected components | 3 |
-| 20 | What is Top K Frequent pattern? | Frequency map plus heap/bucket | 3 |
+| 1 | What is a modular monolith? | One deployable app with internal module boundaries | 3 |
+| 2 | What is an architecture boundary? | Responsibility/dependency separation | 3 |
+| 3 | Why not microservices for PrepTrack now? | Complexity not justified; boundaries first | 3 |
+| 4 | What is dependency direction in Clean Architecture? | Outer layers depend inward | 3 |
+| 5 | What belongs in domain layer? | Core business rules/entities independent of frameworks | 3 |
+| 6 | What belongs in application layer? | Use cases/orchestration/interfaces | 3 |
+| 7 | What belongs in infrastructure layer? | EF, Redis, external implementations | 2 |
+| 8 | What belongs in API layer? | HTTP boundary, controllers, auth, DTO mapping | 2 |
+| 9 | What is Strategy pattern? | Interchangeable behavior behind interface | 2 |
+| 10 | What is Factory pattern? | Centralized creation/selection | 2 |
+| 11 | What is one Strategy overuse smell? | Only one simple behavior with no variation | 2 |
+| 12 | Why plan a refactor before coding? | Reduce risk and preserve behavior | 2 |
+| 13 | What is public contract preservation? | Routes/status/DTO behavior stay stable | 2 |
+| 14 | Why refactor one slice first? | Limits blast radius and proves pattern | 2 |
+| 15 | What is TTL cache? | Cache with expiry per entry | 2 |
+| 16 | Why max-size eviction? | Prevent unbounded memory growth | 2 |
+| 17 | Local memory cache vs Redis? | Per-process vs shared/distributed external store | 2 |
+| 18 | What does BFS use? | Queue and visited set | 2 |
+| 19 | What does Number of Islands test? | Grid DFS/BFS connected components | 2 |
+| 20 | What is Top K Frequent pattern? | Frequency map plus heap/bucket | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Domain entity references EF Core attributes everywhere. Concern? | Framework leakage into domain; evaluate mapping alternatives | 4 |
-| 2 | Controller contains task transition rules. Improve? | Move rules to domain/application and keep controller thin | 4 |
-| 3 | Refactor changes API route names. Concern? | Breaks public contract; preserve or version intentionally | 4 |
-| 4 | Team wants microservices after creating three folders. Response? | Folders are not services; discuss deployment/data/ownership tradeoffs | 4 |
-| 5 | Factory now calculates all business rules. Concern? | Factory should select/create; rules belong in strategy/domain | 4 |
-| 6 | Cache grows forever. Fix? | TTL cleanup and max-size eviction | 4 |
-| 7 | Cache used in multi-instance app for shared data. Concern? | Local cache is per instance; use distributed cache if shared consistency needed | 4 |
-| 8 | Graph BFS revisits nodes repeatedly. Fix? | Mark visited on enqueue | 4 |
+| 1 | Domain entity references EF Core attributes everywhere. Concern? | Framework leakage into domain; evaluate mapping alternatives | 2 |
+| 2 | Controller contains task transition rules. Improve? | Move rules to domain/application and keep controller thin | 2 |
+| 3 | Refactor changes API route names. Concern? | Breaks public contract; preserve or version intentionally | 2 |
+| 4 | Team wants microservices after creating three folders. Response? | Folders are not services; discuss deployment/data/ownership tradeoffs | 2 |
+| 5 | Factory now calculates all business rules. Concern? | Factory should select/create; rules belong in strategy/domain | 2 |
+| 6 | Cache grows forever. Fix? | TTL cleanup and max-size eviction | 2 |
+| 7 | Cache used in multi-instance app for shared data. Concern? | Local cache is per instance; use distributed cache if shared consistency needed | 2 |
+| 8 | Graph BFS revisits nodes repeatedly. Fix? | Mark visited on enqueue | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Clean Architecture refactor causes circular project references. | Recheck dependency direction; move interfaces inward | 4 |
-| 2 | Completed task can move back to Planned. | Enforce domain transition rule and test it | 4 |
-| 3 | Cache returns expired value. | Check expiry on read and remove expired entry | 4 |
-| 4 | Number of Islands counts diagonals. | Use only up/down/left/right neighbors | 4 |
+| 1 | Clean Architecture refactor causes circular project references. | Recheck dependency direction; move interfaces inward | 2 |
+| 2 | Completed task can move back to Planned. | Enforce domain transition rule and test it | 2 |
+| 3 | Cache returns expired value. | Check expiry on read and remove expired entry | 2 |
+| 4 | Number of Islands counts diagonals. | Use only up/down/left/right neighbors | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-045 - Number of Islands.  
 Required approach: DFS/BFS grid traversal with visited marking.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-047 - Top K Frequent Elements.  
 Required approach: frequency map plus heap or bucket.  
-Points: 6.
+Points: 4.
 
 Problem 3: LLD prompt.  
 Task: Design TTL cache with `Get`, `Set`, expiry, and max-size eviction.  
 Expected points: data structures, expiry, eviction, thread safety, complexity.  
-Points: 8.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -1484,7 +1484,7 @@ Expected points:
 * domain/application/infrastructure/API responsibilities.
 * tradeoffs.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -1503,7 +1503,7 @@ Strong answer expectations:
 * Tradeoffs.
 * Avoid folder-only architecture answers.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -1516,7 +1516,7 @@ Expected answer structure:
 * Action: one slice, tests, incremental refactor.
 * Result: clearer boundaries without breaking behavior.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -2904,64 +2904,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What does Adapter solve? | Converts incompatible external API to internal contract | 3 |
-| 2 | What does Decorator solve? | Adds behavior around same interface | 3 |
-| 3 | In-process Observer vs broker? | Observer is in-memory/non-durable; broker crosses processes and can be durable | 5 |
-| 4 | What is Mediator useful for? | Dispatching requests/handlers and cross-cutting behavior when complexity warrants | 4 |
-| 5 | What does EF DbContext already provide? | Unit-of-work-like change tracking and SaveChanges | 4 |
-| 6 | What is generic repository risk? | Hides EF query capability and overgeneralizes CRUD | 4 |
-| 7 | What is Specification? | Encapsulated query criteria | 3 |
-| 8 | What does CQRS separate? | Commands/writes and queries/reads | 3 |
-| 9 | What is BackgroundService? | Hosted long-running worker in ASP.NET Core | 3 |
-| 10 | Why is in-process queue not durable? | It lives in app memory and is lost on crash/restart | 5 |
-| 11 | What is idempotency key? | Client operation key for safe retries | 4 |
-| 12 | Same key same body behavior? | Return stored/original result without duplicate side effect | 4 |
-| 13 | Same key different body behavior? | 409 Conflict | 3 |
-| 14 | What is outbox pattern? | Store message record with business data in same transaction | 5 |
-| 15 | Why does outbox still need idempotent consumers? | Publishing/redelivery can duplicate messages | 5 |
-| 16 | What is cache stampede? | Many callers rebuild expired value simultaneously | 4 |
-| 17 | What is hot key? | Key with disproportionate traffic | 3 |
-| 18 | What should Redis lock include? | Expiry and owner token | 4 |
-| 19 | What does Course Schedule test? | Directed graph cycle detection/topological sort | 4 |
-| 20 | What does Subsets test? | Backtracking include/exclude | 3 |
+| 1 | What does Adapter solve? | Converts incompatible external API to internal contract | 2 |
+| 2 | What does Decorator solve? | Adds behavior around same interface | 2 |
+| 3 | In-process Observer vs broker? | Observer is in-memory/non-durable; broker crosses processes and can be durable | 3 |
+| 4 | What is Mediator useful for? | Dispatching requests/handlers and cross-cutting behavior when complexity warrants | 3 |
+| 5 | What does EF DbContext already provide? | Unit-of-work-like change tracking and SaveChanges | 2 |
+| 6 | What is generic repository risk? | Hides EF query capability and overgeneralizes CRUD | 2 |
+| 7 | What is Specification? | Encapsulated query criteria | 2 |
+| 8 | What does CQRS separate? | Commands/writes and queries/reads | 2 |
+| 9 | What is BackgroundService? | Hosted long-running worker in ASP.NET Core | 2 |
+| 10 | Why is in-process queue not durable? | It lives in app memory and is lost on crash/restart | 3 |
+| 11 | What is idempotency key? | Client operation key for safe retries | 2 |
+| 12 | Same key same body behavior? | Return stored/original result without duplicate side effect | 2 |
+| 13 | Same key different body behavior? | 409 Conflict | 2 |
+| 14 | What is outbox pattern? | Store message record with business data in same transaction | 3 |
+| 15 | Why does outbox still need idempotent consumers? | Publishing/redelivery can duplicate messages | 3 |
+| 16 | What is cache stampede? | Many callers rebuild expired value simultaneously | 2 |
+| 17 | What is hot key? | Key with disproportionate traffic | 2 |
+| 18 | What should Redis lock include? | Expiry and owner token | 2 |
+| 19 | What does Course Schedule test? | Directed graph cycle detection/topological sort | 2 |
+| 20 | What does Subsets test? | Backtracking include/exclude | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | External email client has awkward method names. Pattern? | Adapter | 4 |
-| 2 | Need logging around email sender without changing it. Pattern? | Decorator | 4 |
-| 3 | Reminder job must survive app crash. Use in-process queue? | No; use durable queue/outbox | 4 |
-| 4 | Client retries POST after timeout. Risk and fix? | Duplicate side effect; idempotency key | 4 |
-| 5 | API saves interview then crashes before publish. Fix? | Outbox pattern | 4 |
-| 6 | Outbox worker publishes same event twice. Consumer requirement? | Idempotent consumer/deduplication | 4 |
-| 7 | Popular cache key expires and DB spikes. Diagnosis? | Cache stampede | 4 |
-| 8 | Redis lock has no expiry. Risk? | Dead/stale lock blocks forever | 4 |
-| 9 | Full CQRS framework proposed for simple CRUD. Response? | Explain concept vs ceremony; not always needed | 4 |
+| 1 | External email client has awkward method names. Pattern? | Adapter | 2 |
+| 2 | Need logging around email sender without changing it. Pattern? | Decorator | 2 |
+| 3 | Reminder job must survive app crash. Use in-process queue? | No; use durable queue/outbox | 2 |
+| 4 | Client retries POST after timeout. Risk and fix? | Duplicate side effect; idempotency key | 2 |
+| 5 | API saves interview then crashes before publish. Fix? | Outbox pattern | 2 |
+| 6 | Outbox worker publishes same event twice. Consumer requirement? | Idempotent consumer/deduplication | 2 |
+| 7 | Popular cache key expires and DB spikes. Diagnosis? | Cache stampede | 2 |
+| 8 | Redis lock has no expiry. Risk? | Dead/stale lock blocks forever | 2 |
+| 9 | Full CQRS framework proposed for simple CRUD. Response? | Explain concept vs ceremony; not always needed | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Duplicate interview created on retry. | Store idempotency record and enforce key uniqueness/request hash | 4 |
-| 2 | Outbox row marked published before broker call succeeds. | Mark published only after confirmed publish; retry failed/uncertain states | 4 |
-| 3 | Background worker ignores cancellation. | Pass and observe cancellation token | 4 |
-| 4 | Course Schedule treats graph as undirected. | Use directed graph and cycle detection/topological sort | 4 |
+| 1 | Duplicate interview created on retry. | Store idempotency record and enforce key uniqueness/request hash | 2 |
+| 2 | Outbox row marked published before broker call succeeds. | Mark published only after confirmed publish; retry failed/uncertain states | 2 |
+| 3 | Background worker ignores cancellation. | Pass and observe cancellation token | 2 |
+| 4 | Course Schedule treats graph as undirected. | Use directed graph and cycle detection/topological sort | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-051 - Jump Game.  
 Required approach: greedy farthest reachable index.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-053 - Course Schedule.  
 Required approach: directed graph cycle detection or Kahn's algorithm.  
-Points: 7.
+Points: 4.
 
 Problem 3: Reliability implementation prompt.  
 Task: Design an idempotent `POST /api/interviews` endpoint.  
 Expected points: required key, request hash, stored response, conflict on different body, transaction/unique key.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -2976,7 +2976,7 @@ Expected points:
 * idempotent consumers.
 * monitoring/retry.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -2995,7 +2995,7 @@ Strong answer expectations:
 * Correct tradeoffs.
 * Clear path to Week 15 messaging.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -3008,7 +3008,7 @@ Expected answer structure:
 * Action: idempotency, retry, transaction, logging, or outbox.
 * Result: safer behavior.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -4412,64 +4412,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is a queue? | One successful consumer handles each message | 3 |
-| 2 | What is pub/sub? | Publish once, multiple independent subscribers can receive | 3 |
-| 3 | What is at-least-once delivery? | Message may be delivered more than once | 4 |
-| 4 | What is a DLQ? | Holding area for messages that cannot be processed normally | 4 |
-| 5 | What is a Service Bus namespace? | Container for queues/topics | 3 |
-| 6 | What package is used for .NET Service Bus? | `Azure.Messaging.ServiceBus` | 3 |
-| 7 | Queue vs topic? | Queue is work stream; topic fans out to subscriptions | 5 |
-| 8 | What is a subscription? | Subscriber-specific stream under a topic | 4 |
-| 9 | What do filters use? | Message metadata/properties | 3 |
-| 10 | What is peek-lock? | Receiver locks before complete; redelivery possible | 5 |
-| 11 | What controls DLQ after repeated failures? | Max delivery count | 4 |
-| 12 | What is duplicate detection based on? | Message ID within configured window | 4 |
-| 13 | What are sessions for? | Ordered processing for same session ID | 4 |
-| 14 | What are scheduled messages for? | Future visibility/delayed send | 3 |
-| 15 | What is Azure Storage Queue visibility timeout? | Temporary hidden period after dequeue | 5 |
-| 16 | What is dequeue count used for? | Poison message handling | 4 |
-| 17 | Why use Storage Queue? | Simple lightweight queueing | 3 |
-| 18 | Why use Service Bus topic? | Multiple independent subscribers | 4 |
-| 19 | Why keep idempotent consumers? | Duplicates/redelivery still possible | 5 |
-| 20 | What does Rotting Oranges test? | Multi-source BFS | 3 |
+| 1 | What is a queue? | One successful consumer handles each message | 2 |
+| 2 | What is pub/sub? | Publish once, multiple independent subscribers can receive | 2 |
+| 3 | What is at-least-once delivery? | Message may be delivered more than once | 3 |
+| 4 | What is a DLQ? | Holding area for messages that cannot be processed normally | 2 |
+| 5 | What is a Service Bus namespace? | Container for queues/topics | 2 |
+| 6 | What package is used for .NET Service Bus? | `Azure.Messaging.ServiceBus` | 2 |
+| 7 | Queue vs topic? | Queue is work stream; topic fans out to subscriptions | 3 |
+| 8 | What is a subscription? | Subscriber-specific stream under a topic | 2 |
+| 9 | What do filters use? | Message metadata/properties | 2 |
+| 10 | What is peek-lock? | Receiver locks before complete; redelivery possible | 3 |
+| 11 | What controls DLQ after repeated failures? | Max delivery count | 2 |
+| 12 | What is duplicate detection based on? | Message ID within configured window | 2 |
+| 13 | What are sessions for? | Ordered processing for same session ID | 2 |
+| 14 | What are scheduled messages for? | Future visibility/delayed send | 2 |
+| 15 | What is Azure Storage Queue visibility timeout? | Temporary hidden period after dequeue | 3 |
+| 16 | What is dequeue count used for? | Poison message handling | 2 |
+| 17 | Why use Storage Queue? | Simple lightweight queueing | 2 |
+| 18 | Why use Service Bus topic? | Multiple independent subscribers | 2 |
+| 19 | Why keep idempotent consumers? | Duplicates/redelivery still possible | 3 |
+| 20 | What does Rotting Oranges test? | Multi-source BFS | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | One background worker should process each job. | Use queue | 4 |
-| 2 | Reminder and audit both react to scheduling. | Use topic/subscriptions | 4 |
-| 3 | Message fails repeatedly from bad schema. | DLQ/poison handling and alert | 4 |
-| 4 | Worker crashes before complete. | Message can be redelivered; consumer must be idempotent | 4 |
-| 5 | Need per-interview ordering. | Consider Service Bus sessions carefully | 4 |
-| 6 | Need simple storage-adjacent background processing. | Consider Azure Storage Queue | 4 |
-| 7 | Need rich filtering and pub/sub. | Service Bus topic/subscription | 4 |
-| 8 | Duplicate message ID is resent inside detection window. | Broker may drop/ignore duplicate if enabled | 4 |
-| 9 | DLQ has messages. | Investigate, fix, replay carefully | 4 |
+| 1 | One background worker should process each job. | Use queue | 2 |
+| 2 | Reminder and audit both react to scheduling. | Use topic/subscriptions | 2 |
+| 3 | Message fails repeatedly from bad schema. | DLQ/poison handling and alert | 2 |
+| 4 | Worker crashes before complete. | Message can be redelivered; consumer must be idempotent | 2 |
+| 5 | Need per-interview ordering. | Consider Service Bus sessions carefully | 2 |
+| 6 | Need simple storage-adjacent background processing. | Consider Azure Storage Queue | 2 |
+| 7 | Need rich filtering and pub/sub. | Service Bus topic/subscription | 2 |
+| 8 | Duplicate message ID is resent inside detection window. | Broker may drop/ignore duplicate if enabled | 2 |
+| 9 | DLQ has messages. | Investigate, fix, replay carefully | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Receiver completes before DB write succeeds. | Complete only after successful side effect | 4 |
-| 2 | Topic subscription receives irrelevant events. | Add/filter on stable message property | 4 |
-| 3 | Storage Queue message reappears during long processing. | Increase/update visibility timeout or split work | 4 |
-| 4 | Duplicate reminder created after redelivery. | Add idempotent consumer/dedupe key | 4 |
+| 1 | Receiver completes before DB write succeeds. | Complete only after successful side effect | 2 |
+| 2 | Topic subscription receives irrelevant events. | Add/filter on stable message property | 2 |
+| 3 | Storage Queue message reappears during long processing. | Increase/update visibility timeout or split work | 2 |
+| 4 | Duplicate reminder created after redelivery. | Add idempotent consumer/dedupe key | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-054 - Rotting Oranges.  
 Required approach: multi-source BFS.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-057 - Graph Valid Tree.  
 Required approach: edge count plus connected/acyclic check.  
-Points: 7.
+Points: 4.
 
 Problem 3: Queue selection prompt.  
 Task: Choose between Service Bus queue, Service Bus topic, Storage Queue, BackgroundService, and Function trigger for three scenarios.  
 Expected points: requirement-driven choices, durability, pub/sub, simplicity, failure behavior.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -4484,7 +4484,7 @@ Expected points:
 * DLQ/poison handling.
 * idempotent consumers.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -4505,7 +4505,7 @@ Strong answer expectations:
 * Reliability and operations included.
 * No unsupported broker topics.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -4518,7 +4518,7 @@ Expected answer structure:
 * Action: compared options with constraints.
 * Result: simpler or more reliable design.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -5945,64 +5945,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is RabbitMQ? | Message broker used for queues/routing/asynchronous processing | 3 |
-| 2 | What is an exchange? | Routes published messages to queues through bindings | 5 |
-| 3 | What is a binding? | Link/rule from exchange to queue | 3 |
-| 4 | Direct vs fanout vs topic? | Exact key, broadcast, pattern match | 6 |
-| 5 | What is manual ack? | Explicit successful processing confirmation | 4 |
-| 6 | What is prefetch? | Limit on unacked delivered messages | 4 |
-| 7 | Why avoid auto-ack for important work? | Message can be lost if processing fails after delivery | 5 |
-| 8 | What is a durable queue? | Queue survives broker restart when configured | 3 |
-| 9 | What is persistent message? | Message marked for more durable storage | 3 |
-| 10 | What is DLX? | Dead-letter exchange for failed/expired/rejected messages | 5 |
-| 11 | Why cap retries? | Prevent infinite poison message loops | 4 |
-| 12 | What is outbox in InterviewOps? | Stored event row in same transaction as interview | 5 |
-| 13 | What is idempotent consumer table? | Record of processed event IDs to prevent duplicate side effects | 5 |
-| 14 | When ack/complete broker message? | After successful idempotent processing | 5 |
-| 15 | Azure Service Bus vs RabbitMQ topic model? | Topics/subscriptions vs exchanges/bindings/queues | 5 |
-| 16 | What does Generate Parentheses test? | Backtracking with constraints | 3 |
-| 17 | What does Task Scheduler test? | Frequency/heap or formula | 3 |
-| 18 | What does LRU Cache test? | Hash map plus doubly linked list | 4 |
-| 19 | What does Network Delay Time test? | Dijkstra/min heap | 4 |
-| 20 | What does Word Ladder test? | BFS transformation graph | 3 |
+| 1 | What is RabbitMQ? | Message broker used for queues/routing/asynchronous processing | 2 |
+| 2 | What is an exchange? | Routes published messages to queues through bindings | 3 |
+| 3 | What is a binding? | Link/rule from exchange to queue | 2 |
+| 4 | Direct vs fanout vs topic? | Exact key, broadcast, pattern match | 3 |
+| 5 | What is manual ack? | Explicit successful processing confirmation | 2 |
+| 6 | What is prefetch? | Limit on unacked delivered messages | 2 |
+| 7 | Why avoid auto-ack for important work? | Message can be lost if processing fails after delivery | 3 |
+| 8 | What is a durable queue? | Queue survives broker restart when configured | 2 |
+| 9 | What is persistent message? | Message marked for more durable storage | 2 |
+| 10 | What is DLX? | Dead-letter exchange for failed/expired/rejected messages | 3 |
+| 11 | Why cap retries? | Prevent infinite poison message loops | 2 |
+| 12 | What is outbox in InterviewOps? | Stored event row in same transaction as interview | 3 |
+| 13 | What is idempotent consumer table? | Record of processed event IDs to prevent duplicate side effects | 3 |
+| 14 | When ack/complete broker message? | After successful idempotent processing | 3 |
+| 15 | Azure Service Bus vs RabbitMQ topic model? | Topics/subscriptions vs exchanges/bindings/queues | 3 |
+| 16 | What does Generate Parentheses test? | Backtracking with constraints | 2 |
+| 17 | What does Task Scheduler test? | Frequency/heap or formula | 2 |
+| 18 | What does LRU Cache test? | Hash map plus doubly linked list | 2 |
+| 19 | What does Network Delay Time test? | Dijkstra/min heap | 2 |
+| 20 | What does Word Ladder test? | BFS transformation graph | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Need route `interview.scheduled` to reminders only. | Direct or topic exchange with binding/routing key | 4 |
-| 2 | Need broadcast to audit and analytics. | Fanout exchange or appropriate pub/sub model | 4 |
-| 3 | Consumer crashes before ack. | Message can redeliver; idempotency required | 4 |
-| 4 | One consumer gets too many messages. | Adjust prefetch/concurrency | 4 |
-| 5 | Message fails forever. | Cap retries and dead-letter/parking queue | 4 |
-| 6 | API saves interview then publish fails. | Outbox pattern | 4 |
-| 7 | Same event delivered twice. | Processed event table/unique key | 4 |
-| 8 | Azure-first team wants managed broker. | Service Bus likely fits | 4 |
-| 9 | Local routing lab needs exchange types. | RabbitMQ fits learning/lab need | 4 |
+| 1 | Need route `interview.scheduled` to reminders only. | Direct or topic exchange with binding/routing key | 2 |
+| 2 | Need broadcast to audit and analytics. | Fanout exchange or appropriate pub/sub model | 2 |
+| 3 | Consumer crashes before ack. | Message can redeliver; idempotency required | 2 |
+| 4 | One consumer gets too many messages. | Adjust prefetch/concurrency | 2 |
+| 5 | Message fails forever. | Cap retries and dead-letter/parking queue | 2 |
+| 6 | API saves interview then publish fails. | Outbox pattern | 2 |
+| 7 | Same event delivered twice. | Processed event table/unique key | 2 |
+| 8 | Azure-first team wants managed broker. | Service Bus likely fits | 2 |
+| 9 | Local routing lab needs exchange types. | RabbitMQ fits learning/lab need | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Queue exists but messages never arrive. | Check exchange, binding, routing key, and publish target | 4 |
-| 2 | Duplicate reminders appear after redelivery. | Add idempotent consumer with unique event key | 4 |
-| 3 | Poison message keeps retrying forever. | Add retry cap and DLX/parking path | 4 |
-| 4 | RabbitMQ consumer processes too many messages at once. | Configure prefetch and concurrency | 4 |
+| 1 | Queue exists but messages never arrive. | Check exchange, binding, routing key, and publish target | 2 |
+| 2 | Duplicate reminders appear after redelivery. | Add idempotent consumer with unique event key | 2 |
+| 3 | Poison message keeps retrying forever. | Add retry cap and DLX/parking path | 2 |
+| 4 | RabbitMQ consumer processes too many messages at once. | Configure prefetch and concurrency | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-060 - Generate Parentheses.  
 Required approach: constrained backtracking.  
-Points: 6.
+Points: 3.
 
 Problem 2: DSA-063 - Network Delay Time.  
 Required approach: Dijkstra with min heap.  
-Points: 7.
+Points: 4.
 
 Problem 3: Project 2 design prompt.  
 Task: Explain and sketch `POST /api/interviews` through outbox, broker publish, and idempotent reminder consumer.  
 Expected points: controller, EF transaction, outbox row, publisher worker, broker, consumer handler, processed event key, ack/complete after success, DLQ/dead-letter.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -6017,7 +6017,7 @@ Expected points:
 * idempotent consumers remain necessary.
 * DLQ/dead-letter monitoring.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -6038,7 +6038,7 @@ Strong answer expectations:
 * Reliability before tooling.
 * Clear broker selection tradeoffs.
 
-Points: 10.
+Points: 5.
 
 ### Behavioral Question
 
@@ -6051,7 +6051,7 @@ Expected answer structure:
 * Action: small slice, tests, documentation, rollout.
 * Result: lower risk and clearer design.
 
-Points: 8.
+Points: 4.
 
 ### Scoring Rubric
 

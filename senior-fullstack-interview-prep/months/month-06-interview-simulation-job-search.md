@@ -1350,66 +1350,66 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What does hash map lookup improve? | average O(1) lookup by trading memory | 4 |
-| 2 | Fixed vs variable sliding window? | fixed size vs condition-driven shrink/expand | 4 |
-| 3 | Why monotonic stack is O(n)? | each element pushed/popped at most once | 4 |
-| 4 | How avoid binary search bugs? | define invariant, boundaries, and test edge cases | 5 |
-| 5 | DFS vs BFS? | depth-first stack/recursion vs level-order queue | 4 |
-| 6 | What does topological sort require? | directed acyclic graph | 3 |
-| 7 | DP first step? | define state | 4 |
-| 8 | What should system design start with? | requirements and constraints | 5 |
-| 9 | What should service selection depend on? | workload and tradeoffs | 5 |
-| 10 | Event Grid best fit? | event notification/routing | 3 |
-| 11 | Event Hubs best fit? | high-throughput stream ingestion | 3 |
-| 12 | Service Bus best fit? | durable brokered queue/topic processing | 4 |
-| 13 | RabbitMQ exchange role? | routes messages to queues through bindings | 4 |
-| 14 | OpenTelemetry role? | instrumentation model for telemetry | 4 |
-| 15 | Application Insights role? | Azure observability backend/APM | 4 |
-| 16 | What should project defense include? | context, role, architecture, tradeoffs, impact | 5 |
-| 17 | What is STAR? | Situation, Task, Action, Result | 3 |
-| 18 | Why include improvement path? | shows maturity and tradeoff awareness | 4 |
-| 19 | What makes behavioral story strong? | specific action and measurable result/reflection | 4 |
-| 20 | What should every weak area become? | scheduled retake | 4 |
+| 1 | What does hash map lookup improve? | average O(1) lookup by trading memory | 3 |
+| 2 | Fixed vs variable sliding window? | fixed size vs condition-driven shrink/expand | 2 |
+| 3 | Why monotonic stack is O(n)? | each element pushed/popped at most once | 2 |
+| 4 | How avoid binary search bugs? | define invariant, boundaries, and test edge cases | 3 |
+| 5 | DFS vs BFS? | depth-first stack/recursion vs level-order queue | 2 |
+| 6 | What does topological sort require? | directed acyclic graph | 2 |
+| 7 | DP first step? | define state | 2 |
+| 8 | What should system design start with? | requirements and constraints | 3 |
+| 9 | What should service selection depend on? | workload and tradeoffs | 3 |
+| 10 | Event Grid best fit? | event notification/routing | 2 |
+| 11 | Event Hubs best fit? | high-throughput stream ingestion | 2 |
+| 12 | Service Bus best fit? | durable brokered queue/topic processing | 2 |
+| 13 | RabbitMQ exchange role? | routes messages to queues through bindings | 2 |
+| 14 | OpenTelemetry role? | instrumentation model for telemetry | 2 |
+| 15 | Application Insights role? | Azure observability backend/APM | 2 |
+| 16 | What should project defense include? | context, role, architecture, tradeoffs, impact | 3 |
+| 17 | What is STAR? | Situation, Task, Action, Result | 2 |
+| 18 | Why include improvement path? | shows maturity and tradeoff awareness | 2 |
+| 19 | What makes behavioral story strong? | specific action and measurable result/reflection | 2 |
+| 20 | What should every weak area become? | scheduled retake | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | You freeze on a coding pattern. | state brute force, identify pattern, use small example | 4 |
-| 2 | You skip requirements in system design. | restart with clarifying questions and constraints | 4 |
-| 3 | Interviewer asks why outbox matters. | explain DB/publish dual-write and retry | 4 |
-| 4 | Interviewer asks why not Event Hubs for reminders. | stream ingestion differs from work queue | 4 |
-| 5 | Behavioral story has no result. | add measurable or concrete outcome | 4 |
-| 6 | Project answer sounds too perfect. | add tradeoff and next improvement | 4 |
-| 7 | DSA solution passes sample but edge case fails. | slow down and test boundary cases | 4 |
-| 8 | You cannot explain Azure service choice. | map requirement to service and mention poor fit | 4 |
-| 9 | You ramble in project defense. | switch to 30-second summary then layered detail | 4 |
+| 1 | You freeze on a coding pattern. | state brute force, identify pattern, use small example | 2 |
+| 2 | You skip requirements in system design. | restart with clarifying questions and constraints | 2 |
+| 3 | Interviewer asks why outbox matters. | explain DB/publish dual-write and retry | 2 |
+| 4 | Interviewer asks why not Event Hubs for reminders. | stream ingestion differs from work queue | 2 |
+| 5 | Behavioral story has no result. | add measurable or concrete outcome | 2 |
+| 6 | Project answer sounds too perfect. | add tradeoff and next improvement | 2 |
+| 7 | DSA solution passes sample but edge case fails. | slow down and test boundary cases | 2 |
+| 8 | You cannot explain Azure service choice. | map requirement to service and mention poor fit | 2 |
+| 9 | You ramble in project defense. | switch to 30-second summary then layered detail | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Sliding window never shrinks. | define validity condition and shrink loop | 4 |
-| 2 | Graph traversal loops forever. | fix visited marking | 4 |
-| 3 | DP recurrence is unclear. | redefine state and base cases | 4 |
-| 4 | Behavioral answer is vague. | add concrete situation, action, result, reflection | 4 |
+| 1 | Sliding window never shrinks. | define validity condition and shrink loop | 2 |
+| 2 | Graph traversal loops forever. | fix visited marking | 2 |
+| 3 | DP recurrence is unclear. | redefine state and base cases | 2 |
+| 4 | Behavioral answer is vague. | add concrete situation, action, result, reflection | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA timed retake.  
 Task: Solve three weakest DSA revision problems.  
 Expected points: pattern recognition, correct code, edge cases, complexity.  
-Points: 7.
+Points: 4.
 
 Problem 2: System design retake.  
 Task: Design PrepTrack or InterviewOps in 20 minutes.  
 Expected points: requirements, APIs/data, architecture, Azure, observability, tradeoffs.  
-Points: 7.
+Points: 4.
 
 Problem 3: Project defense.  
 Task: Defend InterviewOps in 5 minutes.  
 Expected points: outbox, broker, idempotency, DLQ/dead-letter, observability, tradeoffs.  
-Points: 6.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -1424,7 +1424,7 @@ Expected points:
 * behavioral story readiness.
 * retake plan.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -1444,7 +1444,7 @@ Strong answer expectations:
 * concrete examples.
 * honest weak-area plan.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -1457,7 +1457,7 @@ Expected answer structure:
 * Action: structured practice, feedback, retakes.
 * Result: measurable improvement or readiness.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -2852,66 +2852,66 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is resume positioning? | aligning profile to target roles | 4 |
-| 2 | What makes a strong resume bullet? | action, scope, technology, impact | 5 |
-| 3 | Why avoid inflated claims? | trust and interview defense risk | 4 |
-| 4 | What should LinkedIn headline show? | target role and core strengths | 4 |
-| 5 | What should LinkedIn About include? | experience, stack, direction, credibility | 4 |
-| 6 | What should recruiter message include? | role target, stack fit, clear ask | 4 |
-| 7 | What should referral packet include? | resume, LinkedIn, role link, fit summary | 4 |
-| 8 | What should behavioral STAR include? | situation, task, action, result, reflection | 5 |
-| 9 | How answer "why looking"? | positive growth/fit answer, not complaint | 4 |
-| 10 | How defend resume bullet? | context, your role, details, impact | 5 |
-| 11 | What does Merge Intervals test? | sorting and interval merging | 3 |
-| 12 | What does Meeting Rooms II test? | heap or sweep line | 4 |
-| 13 | What does Min Stack test? | auxiliary minimum tracking | 3 |
-| 14 | What does Koko test? | binary search on answer | 4 |
-| 15 | What does Rotting Oranges test? | multi-source BFS | 3 |
-| 16 | What does Clone Graph test? | graph traversal and map old to new | 4 |
-| 17 | What is a target role filter? | must-have/nice-to-have/deal-breaker criteria | 4 |
-| 18 | Why personalize referrals? | fit, trust, and referrer respect | 4 |
-| 19 | What makes behavioral answer senior? | ownership, judgment, communication, result | 5 |
-| 20 | Why track outreach? | follow-up and pipeline conversion | 4 |
+| 1 | What is resume positioning? | aligning profile to target roles | 3 |
+| 2 | What makes a strong resume bullet? | action, scope, technology, impact | 3 |
+| 3 | Why avoid inflated claims? | trust and interview defense risk | 2 |
+| 4 | What should LinkedIn headline show? | target role and core strengths | 2 |
+| 5 | What should LinkedIn About include? | experience, stack, direction, credibility | 2 |
+| 6 | What should recruiter message include? | role target, stack fit, clear ask | 2 |
+| 7 | What should referral packet include? | resume, LinkedIn, role link, fit summary | 2 |
+| 8 | What should behavioral STAR include? | situation, task, action, result, reflection | 3 |
+| 9 | How answer "why looking"? | positive growth/fit answer, not complaint | 2 |
+| 10 | How defend resume bullet? | context, your role, details, impact | 3 |
+| 11 | What does Merge Intervals test? | sorting and interval merging | 2 |
+| 12 | What does Meeting Rooms II test? | heap or sweep line | 2 |
+| 13 | What does Min Stack test? | auxiliary minimum tracking | 2 |
+| 14 | What does Koko test? | binary search on answer | 2 |
+| 15 | What does Rotting Oranges test? | multi-source BFS | 2 |
+| 16 | What does Clone Graph test? | graph traversal and map old to new | 2 |
+| 17 | What is a target role filter? | must-have/nice-to-have/deal-breaker criteria | 2 |
+| 18 | Why personalize referrals? | fit, trust, and referrer respect | 2 |
+| 19 | What makes behavioral answer senior? | ownership, judgment, communication, result | 3 |
+| 20 | Why track outreach? | follow-up and pipeline conversion | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Resume bullet says "worked on APIs". | rewrite with action, API scope, tech, impact | 4 |
-| 2 | Recruiter asks for roles you want. | concise target role and stack answer | 4 |
-| 3 | Referrer asks why you fit. | send role link, 3-line fit, resume/LinkedIn | 4 |
-| 4 | Interviewer probes practice project. | frame honestly as project/prep work | 4 |
-| 5 | Behavioral story blames teammate. | reframe around communication/action/result | 4 |
-| 6 | LinkedIn has many unrelated skills. | prioritize target-role keywords | 4 |
-| 7 | You are unsure about salary in first recruiter call. | defer exact number or give researched range later | 4 |
-| 8 | Recruiter role is poor fit. | politely decline or ask for better-matched roles | 4 |
-| 9 | Resume claim cannot be defended. | remove or rewrite honestly | 4 |
+| 1 | Resume bullet says "worked on APIs". | rewrite with action, API scope, tech, impact | 2 |
+| 2 | Recruiter asks for roles you want. | concise target role and stack answer | 2 |
+| 3 | Referrer asks why you fit. | send role link, 3-line fit, resume/LinkedIn | 2 |
+| 4 | Interviewer probes practice project. | frame honestly as project/prep work | 2 |
+| 5 | Behavioral story blames teammate. | reframe around communication/action/result | 2 |
+| 6 | LinkedIn has many unrelated skills. | prioritize target-role keywords | 2 |
+| 7 | You are unsure about salary in first recruiter call. | defer exact number or give researched range later | 2 |
+| 8 | Recruiter role is poor fit. | politely decline or ask for better-matched roles | 2 |
+| 9 | Resume claim cannot be defended. | remove or rewrite honestly | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Resume has no measurable impact. | add metrics, scale, outcome, or qualitative result | 4 |
-| 2 | LinkedIn About is generic. | add stack, senior scope, and target direction | 4 |
-| 3 | Outreach follow-ups are forgotten. | use tracker with follow-up dates | 4 |
-| 4 | Behavioral answer has no reflection. | add what you learned or changed | 4 |
+| 1 | Resume has no measurable impact. | add metrics, scale, outcome, or qualitative result | 2 |
+| 2 | LinkedIn About is generic. | add stack, senior scope, and target direction | 2 |
+| 3 | Outreach follow-ups are forgotten. | use tracker with follow-up dates | 2 |
+| 4 | Behavioral answer has no reflection. | add what you learned or changed | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA career-week retake.  
 Task: Solve three weakest Week 22 DSA problems.  
 Expected points: correct pattern, complexity, edge cases.  
-Points: 7.
+Points: 4.
 
 Problem 2: Resume defense.  
 Task: Defend five resume bullets.  
 Expected points: context, role, details, impact, tradeoff.  
-Points: 7.
+Points: 4.
 
 Problem 3: Behavioral answer.  
 Task: Answer conflict or production issue prompt.  
 Expected points: STAR, ownership, result, reflection.  
-Points: 6.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -2926,7 +2926,7 @@ Expected points:
 * job-search strategy.
 * weak areas still being improved.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -2947,7 +2947,7 @@ Strong answer expectations:
 * positive tone.
 * senior maturity.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -2960,7 +2960,7 @@ Expected answer structure:
 * Action: evidence, empathy, communication.
 * Result: decision or learning.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -4337,66 +4337,66 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is coding mock flow? | clarify, brute force, optimize, code, test, complexity | 5 |
-| 2 | What should system design mock include? | requirements, APIs/data, architecture, reliability, observability | 5 |
-| 3 | What should backend deep dive cover? | API, EF, SQL, Azure, messaging, observability | 5 |
-| 4 | What should behavioral mock score? | clarity, action, result, reflection | 4 |
-| 5 | What is outbox? | stored event row with business data transaction | 4 |
-| 6 | What is idempotent consumer? | safe duplicate event handling | 4 |
-| 7 | Event Grid vs Event Hubs? | notification routing vs stream ingestion | 5 |
-| 8 | App Insights vs OpenTelemetry? | backend/APM vs instrumentation model | 4 |
-| 9 | What is salary range based on? | market, role, level, location, total comp | 4 |
-| 10 | What should application pipeline track? | role, stage, next action, date, status | 4 |
-| 11 | What does LRU Cache test? | hash map + doubly linked list | 3 |
-| 12 | What does Add and Search Words test? | trie with wildcard DFS | 4 |
-| 13 | What does Task Scheduler test? | frequency/heap/formula | 3 |
-| 14 | What does Decode Ways test? | DP over string positions | 4 |
-| 15 | What does Combination Sum test? | backtracking | 3 |
-| 16 | Why retake weak problems? | pressure performance improves through repetition | 4 |
-| 17 | What should "why hire you" show? | role fit and senior value | 4 |
-| 18 | What should offer decision include? | comp, role, growth, culture, manager, risk | 4 |
-| 19 | Why use role-specific prep? | interview topics vary by role | 4 |
-| 20 | What should final-week retake list include? | specific problem/answer/task and deadline | 4 |
+| 1 | What is coding mock flow? | clarify, brute force, optimize, code, test, complexity | 3 |
+| 2 | What should system design mock include? | requirements, APIs/data, architecture, reliability, observability | 3 |
+| 3 | What should backend deep dive cover? | API, EF, SQL, Azure, messaging, observability | 3 |
+| 4 | What should behavioral mock score? | clarity, action, result, reflection | 3 |
+| 5 | What is outbox? | stored event row with business data transaction | 2 |
+| 6 | What is idempotent consumer? | safe duplicate event handling | 2 |
+| 7 | Event Grid vs Event Hubs? | notification routing vs stream ingestion | 3 |
+| 8 | App Insights vs OpenTelemetry? | backend/APM vs instrumentation model | 2 |
+| 9 | What is salary range based on? | market, role, level, location, total comp | 2 |
+| 10 | What should application pipeline track? | role, stage, next action, date, status | 2 |
+| 11 | What does LRU Cache test? | hash map + doubly linked list | 2 |
+| 12 | What does Add and Search Words test? | trie with wildcard DFS | 2 |
+| 13 | What does Task Scheduler test? | frequency/heap/formula | 2 |
+| 14 | What does Decode Ways test? | DP over string positions | 2 |
+| 15 | What does Combination Sum test? | backtracking | 2 |
+| 16 | Why retake weak problems? | pressure performance improves through repetition | 2 |
+| 17 | What should "why hire you" show? | role fit and senior value | 2 |
+| 18 | What should offer decision include? | comp, role, growth, culture, manager, risk | 2 |
+| 19 | Why use role-specific prep? | interview topics vary by role | 2 |
+| 20 | What should final-week retake list include? | specific problem/answer/task and deadline | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Coding mock fails DP. | schedule DP retake and rewrite state/transition | 4 |
-| 2 | Design mock skips observability. | add telemetry and runbooks to framework | 4 |
-| 3 | Backend mock confuses Event Grid/Event Hubs. | redo service selection drill | 4 |
-| 4 | Behavioral answer is too long. | reduce to scoped STAR answer | 4 |
-| 5 | Recruiter asks salary early. | understand role first, provide market-aligned range carefully | 4 |
-| 6 | Application has no follow-up date. | add next action and date | 4 |
-| 7 | Offer has high pay but weak role scope. | evaluate decision matrix | 4 |
-| 8 | Interview question probes resume project. | answer with project defense and tradeoffs | 4 |
-| 9 | You are rejected after screen. | update tracker, extract lesson, continue pipeline | 4 |
+| 1 | Coding mock fails DP. | schedule DP retake and rewrite state/transition | 2 |
+| 2 | Design mock skips observability. | add telemetry and runbooks to framework | 2 |
+| 3 | Backend mock confuses Event Grid/Event Hubs. | redo service selection drill | 2 |
+| 4 | Behavioral answer is too long. | reduce to scoped STAR answer | 2 |
+| 5 | Recruiter asks salary early. | understand role first, provide market-aligned range carefully | 2 |
+| 6 | Application has no follow-up date. | add next action and date | 2 |
+| 7 | Offer has high pay but weak role scope. | evaluate decision matrix | 2 |
+| 8 | Interview question probes resume project. | answer with project defense and tradeoffs | 2 |
+| 9 | You are rejected after screen. | update tracker, extract lesson, continue pipeline | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Mock notes only say "bad". | record exact failed skill and retake action | 4 |
-| 2 | Salary script gives low number too early. | defer or anchor with researched market range | 4 |
-| 3 | Application pipeline has stale roles. | update status and next actions weekly | 4 |
-| 4 | Backend answer has no project example. | connect to PrepTrack or InterviewOps | 4 |
+| 1 | Mock notes only say "bad". | record exact failed skill and retake action | 2 |
+| 2 | Salary script gives low number too early. | defer or anchor with researched market range | 2 |
+| 3 | Application pipeline has stale roles. | update status and next actions weekly | 2 |
+| 4 | Backend answer has no project example. | connect to PrepTrack or InterviewOps | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: Coding mock retake.  
 Task: Solve three weakest Week 23 problems.  
 Expected points: approach communication, correct solution, testing, complexity.  
-Points: 7.
+Points: 4.
 
 Problem 2: System design retake.  
 Task: Redo weakest system design section.  
 Expected points: structure, reliability, observability, tradeoffs.  
-Points: 7.
+Points: 4.
 
 Problem 3: Negotiation script.  
 Task: Answer expected compensation and counteroffer prompts.  
 Expected points: calm tone, market range, total comp, role fit.  
-Points: 6.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -4411,7 +4411,7 @@ Expected points:
 * negotiation readiness.
 * final retake plan.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -4432,7 +4432,7 @@ Strong answer expectations:
 * concrete examples.
 * no vague claims.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -4445,7 +4445,7 @@ Expected answer structure:
 * Action: prioritization and communication.
 * Result: outcome and learning.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -5854,73 +5854,73 @@ At the end of the day, this should exist:
 **Week number:** 24  
 **Topics covered:** Final DSA retake, final system design retake, resume/project defense, full-loop technical mock, behavioral/managerial/negotiation mock, final readiness checklist, launch plan, application cadence, Azure/messaging rapid selection, final 24-week checkpoint.  
 **Total score:** 100 points  
-**Passing score:** 80 points  
-**Retake rule:** If below 80, start job search only for lower-risk roles while continuing daily recovery. If below 65, complete one additional recovery week before high-priority interviews.
+**Passing score:** 75 points  
+**Retake rule:** If below 75, start job search only for lower-risk roles while continuing daily recovery. If below 60, complete one additional recovery week before high-priority interviews.
 
 ### Technical Questions
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What does final readiness require? | evidence across technical, behavioral, career, and pipeline areas | 5 |
-| 2 | What should final DSA retake produce? | weak patterns, results, bugs, red flags | 4 |
-| 3 | What should final system design include? | requirements, APIs/data, reliability, security, observability, tradeoffs | 5 |
-| 4 | What should project defense prove? | ownership, architecture, tradeoffs, impact, improvement | 5 |
-| 5 | What should full-loop mock test? | stamina and switching across interview types | 4 |
-| 6 | What should behavioral loop test? | communication, leadership, judgment, fit | 4 |
-| 7 | What should negotiation prep include? | range, priorities, scripts, decision matrix | 4 |
-| 8 | What should launch plan include? | applications, referrals, recruiters, cadence, prep routine | 5 |
-| 9 | Service Bus best fit? | durable Azure brokered queues/topics | 3 |
-| 10 | Event Grid best fit? | event notification/routing | 3 |
-| 11 | Event Hubs best fit? | high-throughput stream ingestion | 3 |
-| 12 | RabbitMQ best fit? | broker routing/queues where RabbitMQ is chosen/hosted | 3 |
-| 13 | Application Insights role? | Azure observability/APM backend | 3 |
-| 14 | OpenTelemetry role? | telemetry instrumentation model | 3 |
-| 15 | Key Vault role? | secret/key/certificate storage | 3 |
-| 16 | Managed identity role? | Azure resource identity without stored credentials | 3 |
-| 17 | What should remaining weak areas get? | scheduled routine/retakes | 4 |
-| 18 | What should interview-day checklist include? | JD, stories, DSA, design, questions, setup | 4 |
-| 19 | What should post-interview review include? | questions asked, performance, weak areas, follow-up | 4 |
-| 20 | Why readiness is not perfection? | strong baseline plus feedback loop | 4 |
+| 1 | What does final readiness require? | evidence across technical, behavioral, career, and pipeline areas | 3 |
+| 2 | What should final DSA retake produce? | weak patterns, results, bugs, red flags | 3 |
+| 3 | What should final system design include? | requirements, APIs/data, reliability, security, observability, tradeoffs | 3 |
+| 4 | What should project defense prove? | ownership, architecture, tradeoffs, impact, improvement | 3 |
+| 5 | What should full-loop mock test? | stamina and switching across interview types | 2 |
+| 6 | What should behavioral loop test? | communication, leadership, judgment, fit | 2 |
+| 7 | What should negotiation prep include? | range, priorities, scripts, decision matrix | 2 |
+| 8 | What should launch plan include? | applications, referrals, recruiters, cadence, prep routine | 3 |
+| 9 | Service Bus best fit? | durable Azure brokered queues/topics | 2 |
+| 10 | Event Grid best fit? | event notification/routing | 2 |
+| 11 | Event Hubs best fit? | high-throughput stream ingestion | 2 |
+| 12 | RabbitMQ best fit? | broker routing/queues where RabbitMQ is chosen/hosted | 2 |
+| 13 | Application Insights role? | Azure observability/APM backend | 2 |
+| 14 | OpenTelemetry role? | telemetry instrumentation model | 2 |
+| 15 | Key Vault role? | secret/key/certificate storage | 2 |
+| 16 | Managed identity role? | Azure resource identity without stored credentials | 2 |
+| 17 | What should remaining weak areas get? | scheduled routine/retakes | 2 |
+| 18 | What should interview-day checklist include? | JD, stories, DSA, design, questions, setup | 2 |
+| 19 | What should post-interview review include? | questions asked, performance, weak areas, follow-up | 2 |
+| 20 | Why readiness is not perfection? | strong baseline plus feedback loop | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Final coding mock below 75. | retake weak pattern before priority interview | 4 |
-| 2 | System design skips security. | add auth/secrets/access/privacy section | 4 |
-| 3 | Resume claim cannot be defended. | rewrite or remove | 4 |
-| 4 | Behavioral answer sounds negative. | reframe around growth and ownership | 4 |
-| 5 | Offer arrives before research. | ask for time and evaluate total package | 4 |
-| 6 | Interview scheduled for Azure-heavy role. | prioritize Azure/service-selection/project defense prep | 4 |
-| 7 | Rejection after onsite. | document feedback, update weak-area routine, continue pipeline | 4 |
-| 8 | Too many applications with no responses. | improve targeting, referrals, resume alignment | 4 |
-| 9 | Multiple interview loops overlap. | prioritize by fit and prepare role-specific plans | 4 |
+| 1 | Final coding mock below 75. | retake weak pattern before priority interview | 2 |
+| 2 | System design skips security. | add auth/secrets/access/privacy section | 2 |
+| 3 | Resume claim cannot be defended. | rewrite or remove | 2 |
+| 4 | Behavioral answer sounds negative. | reframe around growth and ownership | 2 |
+| 5 | Offer arrives before research. | ask for time and evaluate total package | 2 |
+| 6 | Interview scheduled for Azure-heavy role. | prioritize Azure/service-selection/project defense prep | 2 |
+| 7 | Rejection after onsite. | document feedback, update weak-area routine, continue pipeline | 2 |
+| 8 | Too many applications with no responses. | improve targeting, referrals, resume alignment | 2 |
+| 9 | Multiple interview loops overlap. | prioritize by fit and prepare role-specific plans | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Readiness checklist has empty evidence. | add proof or mark not ready with action | 4 |
-| 2 | Application pipeline has no cadence. | define weekly targets and follow-ups | 4 |
-| 3 | Mock feedback is forgotten. | add post-interview review routine | 4 |
-| 4 | Salary decision ignores role quality. | use weighted decision matrix | 4 |
+| 1 | Readiness checklist has empty evidence. | add proof or mark not ready with action | 2 |
+| 2 | Application pipeline has no cadence. | define weekly targets and follow-ups | 2 |
+| 3 | Mock feedback is forgotten. | add post-interview review routine | 2 |
+| 4 | Salary decision ignores role quality. | use weighted decision matrix | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: Final DSA validation.  
 Task: Solve one medium problem from weakest remaining pattern.  
 Expected points: communication, correctness, tests, complexity.  
-Points: 6.
+Points: 4.
 
 Problem 2: Final system design validation.  
 Task: Design reliable interview scheduling/reminder system in 15 minutes.  
 Expected points: requirements, data/API, outbox, broker, idempotency, observability, tradeoffs.  
-Points: 7.
+Points: 4.
 
 Problem 3: Final project/career defense.  
 Task: Walk through resume and defend InterviewOps.  
 Expected points: narrative, project depth, role fit, honest framing.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -5937,7 +5937,7 @@ Expected points:
 * negotiation plan.
 * ongoing improvement loop.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -5959,7 +5959,7 @@ Strong answer expectations:
 * senior-level.
 * calm under pressure.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -5972,20 +5972,19 @@ Expected answer structure:
 * Action: 24-week structured preparation, projects, mocks, career assets.
 * Result: readiness evidence and ongoing practice.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
 | Score | Result | Action |
 | ---: | --- | --- |
-| 85-100 | Strong launch | Start job-search execution with normal daily maintenance |
-| 80-84 | Launch with caution | Start applications and continue daily weak-area retakes |
-| 65-79 | Partial readiness | Apply selectively and complete one recovery week |
-| Below 65 | Not ready for priority loops | Complete focused recovery before high-priority interviews |
+| 75-100 | Continue normally | Start job-search execution with normal daily maintenance |
+| 60-74 | Continue with recovery | Apply selectively and continue daily weak-area retakes |
+| Below 60 | Recovery required | Complete focused recovery before high-priority interviews |
 
 ### Recovery Plan
 
-If below 80:
+If below 75:
 
 1. Retake weakest full-loop round.
 2. Retake weakest DSA pattern.
@@ -6356,10 +6355,9 @@ Use recovery rules quickly. Month 6 is execution mode, so weak areas must be sma
 
 | Score | Meaning | Required Action |
 | ---: | --- | --- |
-| 85-100 | strong | maintain daily routine |
-| 80-84 | launch with caution | apply and retake weak areas daily |
-| 65-79 | partial | apply selectively and complete focused recovery |
-| Below 65 | not ready for priority loops | complete recovery before high-priority interviews |
+| 75-100 | strong | maintain daily routine |
+| 60-74 | launch with recovery | apply selectively and retake weak areas daily |
+| Below 60 | not ready for priority loops | complete recovery before high-priority interviews |
 
 ### Topic Recovery
 

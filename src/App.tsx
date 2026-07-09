@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   ChevronDown,
   ChevronUp,
-  ClipboardList,
   Clock,
   Download,
   FileSearch,
@@ -22,11 +21,15 @@ import {
   LayoutDashboard,
   ListChecks,
   Menu,
+  NotebookText,
+  PencilLine,
   Play,
+  Plus,
   RotateCcw,
   Search,
   Settings,
   Sparkles,
+  StickyNote,
   Target,
   Trash2,
   Upload,
@@ -36,6 +39,7 @@ import { content } from "./data/content";
 import type {
   AreaProgress,
   DayContent,
+  DayNote,
   DayProgress,
   DayStatus,
   JobApplication,
@@ -48,6 +52,7 @@ import {
   backupAndReplaceProgress,
   calculateStats,
   createInitialProgress,
+  createDayNote,
   createJobApplication,
   createWeakArea,
   createWeekProgress,
@@ -75,6 +80,12 @@ const views: Array<{ key: ViewKey; label: string; icon: typeof LayoutDashboard }
   { key: "library", label: "Library", icon: BookOpen },
   { key: "trackers", label: "Trackers", icon: ListChecks },
   { key: "settings", label: "Settings", icon: Settings }
+];
+
+const dayStatusOptions: Array<{ value: DayStatus; label: string; detail: string }> = [
+  { value: "not-started", label: "Not Started", detail: "Planned" },
+  { value: "in-progress", label: "In Progress", detail: "Working" },
+  { value: "complete", label: "Complete", detail: "Done" }
 ];
 
 export default function App() {
@@ -292,7 +303,7 @@ function DashboardView({
                 <div className="month-progress" key={month.id}>
                   <span>Month {month.monthNumber}</span>
                   <strong>{percent}%</strong>
-                  <div className="progress-bar"><span style={{ width: `${percent}%` }} /></div>
+                  <div className={`progress-bar ${progressToneClass(percent)}`}><span style={{ width: `${percent}%` }} /></div>
                 </div>
               );
             })}
@@ -367,18 +378,55 @@ function StudyDayView({
   setProgress: React.Dispatch<React.SetStateAction<ProgressState>>;
   onSelectDay: (dayId: string) => void;
 }) {
-  const [isProgressPanelOpen, setIsProgressPanelOpen] = useState(false);
+  const [newNoteText, setNewNoteText] = useState("");
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [openStudyPanels, setOpenStudyPanels] = useState<Record<string, boolean>>({
+    context: false,
+    mainGoal: true,
+    notes: false,
+    savedCaptures: false,
+    scores: false
+  });
+  const [openContentSections, setOpenContentSections] = useState<Record<string, boolean>>({});
   const dayProgress = getDayProgress(progress, activeDay);
   const visibleSections = activeDay.sections.filter((section) => section.kind !== "checklist");
   const dayIndex = content.days.findIndex((day) => day.id === activeDay.id);
   const previousDay = dayIndex > 0 ? content.days[dayIndex - 1] : null;
   const nextDay = dayIndex >= 0 && dayIndex < content.days.length - 1 ? content.days[dayIndex + 1] : null;
   const dayWeakAreas = progress.weakAreas.filter((area) => {
-    return area.sourceDayId === activeDay.id || area.evidence.includes(`Day ${activeDay.dayNumber}`);
+    return area.sourceDayId === activeDay.id;
   });
+  const isSavedCapturesOpen = openStudyPanels.savedCaptures ?? false;
+
+  useEffect(() => {
+    setNewNoteText("");
+    setEditingNoteId(null);
+    setOpenStudyPanels({
+      context: false,
+      mainGoal: true,
+      notes: false,
+      savedCaptures: false,
+      scores: false
+    });
+    setOpenContentSections(
+      Object.fromEntries(
+        activeDay.sections
+          .filter((section) => section.kind !== "checklist")
+          .map((section) => [section.id, true])
+      )
+    );
+  }, [activeDay.id]);
 
   const updateDay = (updater: (current: DayProgress) => DayProgress) => {
     setProgress((current) => upsertDayProgress(current, activeDay.id, updater));
+  };
+
+  const toggleStudyPanel = (panel: string) => {
+    setOpenStudyPanels((current) => ({ ...current, [panel]: !current[panel] }));
+  };
+
+  const toggleContentSection = (sectionId: string) => {
+    setOpenContentSections((current) => ({ ...current, [sectionId]: !(current[sectionId] ?? true) }));
   };
 
   const toggleSection = (sectionId: string) => {
@@ -394,36 +442,60 @@ function StudyDayView({
     });
   };
 
-  const toggleChecklist = (itemId: string) => {
-    updateDay((current) => ({
-      ...current,
-      status: current.status === "not-started" ? "in-progress" : current.status,
-      checklist: {
-        ...current.checklist,
-        [itemId]: !current.checklist[itemId]
-      }
-    }));
-  };
-
-  const setAllChecklistItems = (checked: boolean) => {
-    updateDay((current) => ({
-      ...current,
-      status: current.status === "not-started" ? "in-progress" : current.status,
-      checklist: Object.fromEntries(activeDay.checklistItems.map((item) => [item.id, checked]))
-    }));
-  };
-
   const markDayComplete = () => {
     updateDay((current) => ({
       ...current,
       status: "complete",
       completedSections: [...new Set([...current.completedSections, ...visibleSections.map((section) => section.id)])],
-      checklist: {
-        ...current.checklist,
-        ...Object.fromEntries(activeDay.checklistItems.map((item) => [item.id, true]))
-      },
       completedAt: new Date().toISOString()
     }));
+  };
+
+  const saveDayNote = () => {
+    const text = newNoteText.trim();
+    if (!text) return;
+    updateDay((current) => {
+      const timestamp = new Date().toISOString();
+      const hasEditingNote = editingNoteId
+        ? current.noteEntries.some((note) => note.id === editingNoteId)
+        : false;
+      const noteEntries = editingNoteId && hasEditingNote
+        ? current.noteEntries.map((note) =>
+            note.id === editingNoteId ? { ...note, text, updatedAt: timestamp } : note
+          )
+        : [createDayNote({ text }), ...current.noteEntries];
+      return {
+        ...current,
+        noteEntries,
+        notes: notesToLegacyText(noteEntries)
+      };
+    });
+    setNewNoteText("");
+    setEditingNoteId(null);
+  };
+
+  const startEditingDayNote = (note: DayNote) => {
+    setEditingNoteId(note.id);
+    setNewNoteText(note.text);
+  };
+
+  const cancelEditingDayNote = () => {
+    setEditingNoteId(null);
+    setNewNoteText("");
+  };
+
+  const deleteDayNote = (noteId: string) => {
+    updateDay((current) => {
+      const noteEntries = current.noteEntries.filter((note) => note.id !== noteId);
+      return {
+        ...current,
+        noteEntries,
+        notes: notesToLegacyText(noteEntries)
+      };
+    });
+    if (editingNoteId === noteId) {
+      cancelEditingDayNote();
+    }
   };
 
   const addWeakAreaFromDay = () => {
@@ -436,9 +508,7 @@ function StudyDayView({
         weakAreas: [
           createWeakArea({
             sourceDayId: activeDay.id,
-            category: "General",
             weakArea: weakText,
-            evidence: `Logged from Day ${activeDay.dayNumber}`,
             recoveryTask: "Schedule retake or explanation practice"
           }),
           ...nextProgress.weakAreas
@@ -448,11 +518,9 @@ function StudyDayView({
     });
   };
 
-  const checklistDone = activeDay.checklistItems.filter((item) => dayProgress.checklist[item.id]).length;
   const sectionsDone = visibleSections.filter((section) => dayProgress.completedSections.includes(section.id)).length;
-  const totalWorkItems = visibleSections.length + activeDay.checklistItems.length;
-  const doneWorkItems = sectionsDone + checklistDone;
-  const dayCompletionPercent = totalWorkItems === 0 ? 0 : Math.round((doneWorkItems / totalWorkItems) * 100);
+  const totalWorkItems = visibleSections.length;
+  const dayCompletionPercent = totalWorkItems === 0 ? 0 : Math.round((sectionsDone / totalWorkItems) * 100);
 
   return (
     <section className="screen">
@@ -481,127 +549,313 @@ function StudyDayView({
         }
       />
 
-      <article className="panel study-summary-card">
-        <div className="study-goal">
-          <p className="kicker">Main goal</p>
-          <p>{activeDay.metadata["Main Goal"] ?? "Complete today's guided prep tasks."}</p>
-        </div>
-        <div className="study-summary-progress">
-          <div className="summary-progress-heading">
-            <span className={`status-badge ${dayProgress.status}`}>{statusLabel(dayProgress.status)}</span>
-            <strong>{dayCompletionPercent}% complete</strong>
-          </div>
-          <div className="progress-bar"><span style={{ width: `${dayCompletionPercent}%` }} /></div>
-          <div className="summary-stat-row">
-            <span>{sectionsDone}/{visibleSections.length} sections</span>
-            <span>{checklistDone}/{activeDay.checklistItems.length} checks</span>
-            <span>{dayWeakAreas.length} weak areas</span>
-          </div>
-        </div>
-        <button className="primary-button complete-day-button" onClick={markDayComplete}>
-          <CheckCheck size={18} />
-          Mark day complete
-        </button>
-      </article>
-
-      <section className="panel progress-accordion">
-        <button
-          className="progress-accordion-toggle"
-          onClick={() => setIsProgressPanelOpen((isOpen) => !isOpen)}
-          aria-expanded={isProgressPanelOpen}
+      <div className="study-page-stack">
+        <CollapsiblePanel
+          eyebrow="Day context"
+          icon={Sparkles}
+          isOpen={openStudyPanels.context}
+          // meta={ JSON.stringify(activeDay.metadata)}
+          meta={ activeDay.metadata?.Phase}
+          onToggle={() => toggleStudyPanel("context")}
+          title="What this session looks like"
         >
-          <div>
-            <p className="kicker">Daily progress details</p>
-            <strong>
-              {statusLabel(dayProgress.status)} · {dayCompletionPercent}% · {checklistDone}/{activeDay.checklistItems.length} checks
-            </strong>
-          </div>
-          <span>{isProgressPanelOpen ? "Hide details" : "Show notes, checklist, artifacts"}</span>
-        </button>
+          <MetadataSummary day={activeDay} />
+        </CollapsiblePanel>
 
-        {isProgressPanelOpen && (
-          <div className="progress-accordion-body">
-            <div className="progress-detail-card progress-status-card">
-              <h3><BarChart3 size={18} /> Status and scores</h3>
-              <label className="field">
-                <span>Status</span>
-                <select
-                  value={dayProgress.status}
-                  onChange={(event) => updateDay((current) => applyStatus(current, event.target.value as DayStatus))}
-                >
-                  <option value="not-started">Not started</option>
-                  <option value="in-progress">In progress</option>
-                  <option value="complete">Complete</option>
-                </select>
-              </label>
-              <div className="mini-stats compact-stats">
-                <span>{sectionsDone}/{visibleSections.length} sections</span>
-                <span>{checklistDone}/{activeDay.checklistItems.length} checks</span>
+        <CollapsiblePanel
+          eyebrow="Main goal"
+          icon={Target}
+          isOpen={openStudyPanels.mainGoal}
+          meta={statusLabel(dayProgress.status)}
+          onToggle={() => toggleStudyPanel("mainGoal")}
+          title="Goal status and progress"
+        >
+          <div className="main-goal-layout">
+            <div className="main-goal-copy">
+              <p>{activeDay.metadata["Main Goal"] ?? "Complete today's guided prep tasks."}</p>
+              <div className="study-summary-progress">
+                <div className="summary-progress-heading">
+                  <span className={`status-badge ${dayProgress.status}`}>{statusLabel(dayProgress.status)}</span>
+                  <strong>{dayCompletionPercent}% complete</strong>
+                </div>
+                <div className={`progress-bar ${progressToneClass(dayCompletionPercent)}`}><span style={{ width: `${dayCompletionPercent}%` }} /></div>
+                <div className="summary-stat-row">
+                  <span>{sectionsDone}/{visibleSections.length} sections</span>
+                  <span>{dayProgress.noteEntries.length} notes</span>
+                  <span>{dayWeakAreas.length} weak points</span>
+                </div>
               </div>
-              <div className="score-input-row">
+            </div>
+            <DayStatusSelector
+              value={dayProgress.status}
+              onChange={(status) => updateDay((current) => applyStatus(current, status))}
+            />
+            <button className="primary-button complete-day-button" onClick={markDayComplete}>
+              <CheckCheck size={18} />
+              Complete all sections
+            </button>
+          </div>
+        </CollapsiblePanel>
+
+        <CollapsiblePanel
+          eyebrow="Weak points and notes"
+          icon={NotebookText}
+          isOpen={openStudyPanels.notes}
+          meta={`${dayProgress.noteEntries.length} notes / ${dayWeakAreas.length} weak points`}
+          onToggle={() => toggleStudyPanel("notes")}
+          title="Capture mistakes, explanations, and recovery work"
+        >
+          <div className="capture-workspace">
+            <div className="capture-compose-grid">
+              <div className="study-notes-column">
+                <div className="progress-card-heading">
+                  <h3><NotebookText size={18} /> Notes</h3>
+                  <span className="soft-count">{dayProgress.noteEntries.length}</span>
+                </div>
+                <div className={editingNoteId ? "note-compose-card note-input-card editing" : "note-compose-card note-input-card"}>
+                  <label className="field">
+                    <span>{editingNoteId ? "Edit saved note" : "New note"}</span>
+                    <textarea
+                      rows={4}
+                      value={newNoteText}
+                      onChange={(event) => setNewNoteText(event.target.value)}
+                      placeholder="Example: I confused middleware order with filter execution. Re-explain request pipeline tomorrow."
+                    />
+                  </label>
+                  <div className="note-compose-actions">
+                    <div className="note-action-group">
+                      {editingNoteId && (
+                        <button className="ghost-button compact-action-button" onClick={cancelEditingDayNote}>
+                          <X size={16} />
+                          Cancel
+                        </button>
+                      )}
+                      <button className="secondary-button" disabled={!newNoteText.trim()} onClick={saveDayNote}>
+                        {editingNoteId ? <PencilLine size={16} /> : <Plus size={16} />}
+                        {editingNoteId ? "Save note" : "Add note"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="study-weak-column warning-note-card">
+                <div className="progress-card-heading">
+                  <h3><AlertTriangle size={18} /> Weak Points</h3>
+                  <span className="soft-count warning-count">{dayWeakAreas.length}</span>
+                </div>
+                <label className="field">
+                  <span>New weak point</span>
+                  <textarea
+                    className="weak-area-note-input"
+                    rows={5}
+                    value={dayProgress.weakAreaNote}
+                    onChange={(event) => updateDay((current) => ({ ...current, weakAreaNote: event.target.value }))}
+                    placeholder="Example: I could not explain middleware order clearly."
+                  />
+                </label>
+                <button className="secondary-button" disabled={!dayProgress.weakAreaNote.trim()} onClick={addWeakAreaFromDay}>
+                  <Plus size={16} />
+                  Add weak point
+                </button>
+              </div>
+            </div>
+
+            <div className="saved-captures-panel">
+              <button
+                className="saved-captures-toggle"
+                onClick={() => toggleStudyPanel("savedCaptures")}
+                aria-expanded={isSavedCapturesOpen}
+              >
+                <span className="collapsible-title-group">
+                  <span className="saved-captures-icon"><StickyNote size={18} /></span>
+                  <span>
+                    <span className="tracker-eyebrow">Saved captures</span>
+                    <strong>{dayProgress.noteEntries.length} notes / {dayWeakAreas.length} weak points</strong>
+                  </span>
+                </span>
+                <span className="collapsible-panel-meta">
+                  {isSavedCapturesOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                </span>
+              </button>
+              {isSavedCapturesOpen && (
+                <div className="saved-captures-body">
+                  <div className="saved-capture-column">
+                    <div className="saved-capture-heading">
+                      <strong>Saved notes</strong>
+                      <span>{dayProgress.noteEntries.length}</span>
+                    </div>
+                    <div className="note-entry-list">
+                      {dayProgress.noteEntries.length === 0 ? (
+                        <div className="empty-note-state">
+                          <StickyNote size={18} />
+                          <span>No notes saved for this day yet.</span>
+                        </div>
+                      ) : (
+                        dayProgress.noteEntries.map((note, index) => (
+                          <article className="note-entry-card" key={note.id}>
+                            <div className="note-entry-heading">
+                              <div className="note-entry-title">
+                                <span className="note-entry-icon"><StickyNote size={16} /></span>
+                                <div>
+                                  <strong>Note {dayProgress.noteEntries.length - index}</strong>
+                                  <small>Updated {formatNoteTimestamp(note.updatedAt)}</small>
+                                </div>
+                              </div>
+                              <div className="note-entry-actions">
+                                <button
+                                  className="icon-soft-button"
+                                  aria-label={`Edit note ${note.id}`}
+                                  onClick={() => startEditingDayNote(note)}
+                                >
+                                  <PencilLine size={15} />
+                                </button>
+                                <button
+                                  className="icon-danger-button"
+                                  aria-label={`Delete note ${note.id}`}
+                                  onClick={() => deleteDayNote(note.id)}
+                                >
+                                  <Trash2 size={15} />
+                                </button>
+                              </div>
+                            </div>
+                            <p className="note-entry-text">{note.text}</p>
+                          </article>
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="saved-capture-column">
+                    <div className="saved-capture-heading warning-heading">
+                      <strong>Saved weak points</strong>
+                      <span>{dayWeakAreas.length}</span>
+                    </div>
+                    <div className="weak-area-list">
+                      {dayWeakAreas.length === 0 ? (
+                        <div className="empty-note-state warning-empty-state">
+                          <AlertTriangle size={18} />
+                          <span>No weak points saved for this day yet.</span>
+                        </div>
+                      ) : (
+                        dayWeakAreas.map((area) => (
+                          <div className={`weak-area-chip ${area.status}`} key={area.id}>
+                            <div>
+                              <span>{area.weakArea}</span>
+                              <small>{area.status}</small>
+                            </div>
+                            <button
+                              className="icon-danger-button"
+                              aria-label={`Delete weak area ${area.id}`}
+                              onClick={() =>
+                                setProgress((current) => ({
+                                  ...current,
+                                  weakAreas: current.weakAreas.filter((item) => item.id !== area.id),
+                                  updatedAt: new Date().toISOString()
+                                }))
+                              }
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </CollapsiblePanel>
+
+        <div className="study-layout">
+          <article className="study-content">
+            {visibleSections.map((section) => {
+              const isSectionComplete = dayProgress.completedSections.includes(section.id);
+              const isSectionOpen = openContentSections[section.id] ?? true;
+              return (
+                <section
+                  className={isSectionComplete ? "content-section section-complete" : "content-section"}
+                  key={section.id}
+                >
+                  <div className="content-section-header">
+                    <button
+                      className="section-collapse-button"
+                      onClick={() => toggleContentSection(section.id)}
+                      aria-expanded={isSectionOpen}
+                    >
+                      {isSectionOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                      <span>
+                        <strong>{section.title}</strong>
+                      </span>
+                    </button>
+                    <label
+                      className={
+                        isSectionComplete
+                          ? "section-status-check checked"
+                          : "section-status-check"
+                      }
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSectionComplete}
+                        onChange={() => toggleSection(section.id)}
+                      />
+                      <span>{isSectionComplete ? "Complete" : "Mark complete"}</span>
+                    </label>
+                  </div>
+                  {isSectionOpen && (
+                    <div className="content-section-body">
+                      <MarkdownHtml html={sectionHtmlWithoutTitle(section.html)} />
+                    </div>
+                  )}
+                </section>
+              );
+            })}
+          </article>
+        </div>
+
+        <CollapsiblePanel
+          eyebrow="Scores and artifacts"
+          icon={BarChart3}
+          isOpen={openStudyPanels.scores}
+          onToggle={() => toggleStudyPanel("scores")}
+          title="Assessment evidence"
+        >
+          <div className="assessment-evidence-grid">
+            <div className="progress-detail-card assessment-score-card">
+              <h3><BarChart3 size={18} /> Scores</h3>
+              <div className="score-input-row compact-score-row">
                 <label className="field compact-field">
-                  <span>Mini-test score</span>
+                  <span>Mini-test</span>
                   <input
                     type="number"
                     min="0"
-                    max="100"
+                    max="9"
                     value={dayProgress.miniTestScore ?? ""}
                     onChange={(event) => updateDay((current) => ({ ...current, miniTestScore: numberOrNull(event.target.value) }))}
+                    placeholder="/9"
                   />
                 </label>
                 <label className="field compact-field">
-                  <span>Self-score / 5</span>
+                  <span>Self-score</span>
                   <input
                     type="number"
                     min="1"
                     max="5"
                     value={dayProgress.selfScore ?? ""}
                     onChange={(event) => updateDay((current) => ({ ...current, selfScore: numberOrNull(event.target.value) }))}
+                    placeholder="/5"
                   />
                 </label>
               </div>
             </div>
-
-            <div className="progress-detail-card checklist-box">
-              <div className="sidebar-section-heading">
-                <strong><ClipboardList size={18} /> Completion checklist</strong>
-                <button
-                  className="text-button"
-                  onClick={() => setAllChecklistItems(checklistDone !== activeDay.checklistItems.length)}
-                >
-                  {checklistDone === activeDay.checklistItems.length ? "Clear" : "Check all"}
-                </button>
-              </div>
-              {activeDay.checklistItems.length === 0 ? (
-                <p className="muted">No checklist parsed for this day.</p>
-              ) : (
-                activeDay.checklistItems.map((item) => (
-                  <label key={item.id} className="check-row">
-                    <input
-                      type="checkbox"
-                      checked={Boolean(dayProgress.checklist[item.id])}
-                      onChange={() => toggleChecklist(item.id)}
-                    />
-                    <span>{item.text}</span>
-                  </label>
-                ))
-              )}
-            </div>
-
-            <div className="progress-detail-card notes-artifacts-card">
-              <h3><FileSearch size={18} /> Notes and artifacts</h3>
+            <div className="progress-detail-card assessment-artifact-card">
+              <h3><FileSearch size={18} /> Artifacts</h3>
               <label className="field">
-                <span>Notes</span>
+                <span>Links or paths</span>
                 <textarea
-                  rows={4}
-                  value={dayProgress.notes}
-                  onChange={(event) => updateDay((current) => ({ ...current, notes: event.target.value }))}
-                />
-              </label>
-              <label className="field">
-                <span>Artifact links or paths</span>
-                <textarea
-                  rows={3}
+                  rows={1}
                   value={dayProgress.artifactLinks.join("\n")}
                   onChange={(event) =>
                     updateDay((current) => ({
@@ -611,84 +865,9 @@ function StudyDayView({
                   }
                 />
               </label>
-              <div className="artifact-list">
-                <strong>Expected artifacts</strong>
-                {activeDay.outputArtifacts.length === 0 ? (
-                  <p className="muted">No artifacts parsed.</p>
-                ) : (
-                  activeDay.outputArtifacts.map((artifact) => <code key={artifact}>{artifact}</code>)
-                )}
-              </div>
-            </div>
-
-            <div className="progress-detail-card weak-area-mini-list">
-              <div className="sidebar-section-heading">
-                <strong><AlertTriangle size={18} /> Weak areas</strong>
-                <span>{dayWeakAreas.length}</span>
-              </div>
-              <label className="field">
-                <span>Weak-area note</span>
-                <textarea
-                  rows={3}
-                  value={dayProgress.weakAreaNote}
-                  onChange={(event) => updateDay((current) => ({ ...current, weakAreaNote: event.target.value }))}
-                />
-              </label>
-              <button className="secondary-button" onClick={addWeakAreaFromDay}>Add to weak areas</button>
-              {dayWeakAreas.length === 0 ? (
-                <p className="muted">No weak areas saved for this day yet.</p>
-              ) : (
-                dayWeakAreas.map((area) => (
-                  <div className="weak-area-chip" key={area.id}>
-                    <div>
-                      <span>{area.weakArea}</span>
-                      <small>{area.status}</small>
-                    </div>
-                    <button
-                      className="icon-danger-button"
-                      aria-label={`Delete weak area ${area.id}`}
-                      onClick={() =>
-                        setProgress((current) => ({
-                          ...current,
-                          weakAreas: current.weakAreas.filter((item) => item.id !== area.id),
-                          updatedAt: new Date().toISOString()
-                        }))
-                      }
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  </div>
-                ))
-              )}
             </div>
           </div>
-        )}
-      </section>
-
-      <div className="study-layout">
-        <article className="study-content">
-          <MetadataSummary day={activeDay} />
-
-          {visibleSections.map((section) => (
-            <section className="content-section" key={section.id}>
-              <label
-                className={
-                  dayProgress.completedSections.includes(section.id)
-                    ? "section-check checked"
-                    : "section-check"
-                }
-              >
-                <input
-                  type="checkbox"
-                  checked={dayProgress.completedSections.includes(section.id)}
-                  onChange={() => toggleSection(section.id)}
-                />
-                <span>Mark section complete</span>
-              </label>
-              <MarkdownHtml html={section.html} />
-            </section>
-          ))}
-        </article>
+        </CollapsiblePanel>
       </div>
     </section>
   );
@@ -797,12 +976,37 @@ function TrackersView({
   setProgress: React.Dispatch<React.SetStateAction<ProgressState>>;
 }) {
   const [newWeakArea, setNewWeakArea] = useState("");
+  const [newTrackerNote, setNewTrackerNote] = useState("");
+  const [newTrackerNoteDayId, setNewTrackerNoteDayId] = useState(progress.activeDayId || content.days[0]?.id || "");
+  const [editingTrackerNote, setEditingTrackerNote] = useState<{ dayId: string; noteId: string } | null>(null);
+  const [trackerNoteDraft, setTrackerNoteDraft] = useState("");
+  const [editingWeakAreaId, setEditingWeakAreaId] = useState<string | null>(null);
+  const [weakAreaDraft, setWeakAreaDraft] = useState<{
+    recoveryTask: string;
+    status: WeakArea["status"];
+    weakArea: string;
+  }>({
+    recoveryTask: "",
+    status: "open",
+    weakArea: ""
+  });
   const [openTrackers, setOpenTrackers] = useState<Record<string, boolean>>({
     weakAreas: true,
+    notes: false,
     weeklyScores: false,
     readiness: false,
     jobs: false
   });
+  const dayNoteItems = useMemo(
+    () =>
+      content.days.flatMap((day) =>
+        getDayProgress(progress, day).noteEntries.map((note) => ({
+          day,
+          note
+        }))
+      ),
+    [progress]
+  );
 
   const toggleTracker = (tracker: string) => {
     setOpenTrackers((current) => ({ ...current, [tracker]: !current[tracker] }));
@@ -814,6 +1018,110 @@ function TrackersView({
       weakAreas: current.weakAreas.map((weakArea) => (weakArea.id === id ? updater(weakArea) : weakArea)),
       updatedAt: new Date().toISOString()
     }));
+  };
+
+  const startEditingWeakArea = (weakArea: WeakArea) => {
+    setEditingWeakAreaId(weakArea.id);
+    setWeakAreaDraft({
+      recoveryTask: weakArea.recoveryTask,
+      status: weakArea.status,
+      weakArea: weakArea.weakArea
+    });
+  };
+
+  const cancelEditingWeakArea = () => {
+    setEditingWeakAreaId(null);
+    setWeakAreaDraft({
+      recoveryTask: "",
+      status: "open",
+      weakArea: ""
+    });
+  };
+
+  const saveWeakAreaEdit = () => {
+    if (!editingWeakAreaId || !weakAreaDraft.weakArea.trim()) return;
+    updateWeakArea(editingWeakAreaId, (item) => ({
+      ...item,
+      recoveryTask: weakAreaDraft.recoveryTask.trim(),
+      status: weakAreaDraft.status,
+      weakArea: weakAreaDraft.weakArea.trim()
+    }));
+    cancelEditingWeakArea();
+  };
+
+  const deleteWeakArea = (id: string) => {
+    setProgress((current) => ({
+      ...current,
+      weakAreas: current.weakAreas.filter((item) => item.id !== id),
+      updatedAt: new Date().toISOString()
+    }));
+    if (editingWeakAreaId === id) {
+      cancelEditingWeakArea();
+    }
+  };
+
+  const updateTrackedDay = (dayId: string, updater: (current: DayProgress) => DayProgress) => {
+    setProgress((current) => {
+      const updated = upsertDayProgress(current, dayId, updater);
+      return { ...updated, activeDayId: current.activeDayId };
+    });
+  };
+
+  const saveTrackerNote = () => {
+    const text = newTrackerNote.trim();
+    if (!text || !newTrackerNoteDayId) return;
+    updateTrackedDay(newTrackerNoteDayId, (current) => {
+      const noteEntries = [createDayNote({ text }), ...current.noteEntries];
+      return {
+        ...current,
+        noteEntries,
+        notes: notesToLegacyText(noteEntries)
+      };
+    });
+    setNewTrackerNote("");
+  };
+
+  const saveTrackerNoteEdit = () => {
+    if (!editingTrackerNote) return;
+    const text = trackerNoteDraft.trim();
+    if (!text) return;
+    updateTrackedDay(editingTrackerNote.dayId, (current) => {
+      const timestamp = new Date().toISOString();
+      const noteEntries = current.noteEntries.map((note) =>
+        note.id === editingTrackerNote.noteId ? { ...note, text, updatedAt: timestamp } : note
+      );
+      return {
+        ...current,
+        noteEntries,
+        notes: notesToLegacyText(noteEntries)
+      };
+    });
+    setEditingTrackerNote(null);
+    setTrackerNoteDraft("");
+  };
+
+  const startEditingTrackerNote = (dayId: string, note: DayNote) => {
+    setEditingTrackerNote({ dayId, noteId: note.id });
+    setTrackerNoteDraft(note.text);
+  };
+
+  const cancelEditingTrackerNote = () => {
+    setEditingTrackerNote(null);
+    setTrackerNoteDraft("");
+  };
+
+  const deleteTrackerNote = (dayId: string, noteId: string) => {
+    updateTrackedDay(dayId, (current) => {
+      const noteEntries = current.noteEntries.filter((note) => note.id !== noteId);
+      return {
+        ...current,
+        noteEntries,
+        notes: notesToLegacyText(noteEntries)
+      };
+    });
+    if (editingTrackerNote?.dayId === dayId && editingTrackerNote.noteId === noteId) {
+      cancelEditingTrackerNote();
+    }
   };
 
   const updateJob = (id: string, updater: (job: JobApplication) => JobApplication) => {
@@ -836,81 +1144,240 @@ function TrackersView({
           onToggle={() => toggleTracker("weakAreas")}
           title="Weak areas"
         >
-          <div className="inline-form">
-            <input
-              value={newWeakArea}
-              onChange={(event) => setNewWeakArea(event.target.value)}
-              placeholder="Add a concrete weak area"
-            />
-            <button
-              className="secondary-button"
-              onClick={() => {
-                if (!newWeakArea.trim()) return;
-                setProgress((current) => ({
-                  ...current,
-                  weakAreas: [createWeakArea({ weakArea: newWeakArea.trim() }), ...current.weakAreas],
-                  updatedAt: new Date().toISOString()
-                }));
-                setNewWeakArea("");
-              }}
-            >
-              Add
-            </button>
+          <div className="tracker-section-grid">
+            <div className="tracker-intake-card compact-tracker-intake">
+              <div className="tracker-intake-heading">
+                <p className="kicker">New weak area</p>
+                <h3>Capture the exact gap</h3>
+              </div>
+              <div className="inline-form tracker-compact-form">
+                <input
+                  value={newWeakArea}
+                  onChange={(event) => setNewWeakArea(event.target.value)}
+                  placeholder="Example: Explain async deadlock clearly"
+                />
+                <button
+                  className="secondary-button"
+                  disabled={!newWeakArea.trim()}
+                  onClick={() => {
+                    if (!newWeakArea.trim()) return;
+                    setProgress((current) => ({
+                      ...current,
+                      weakAreas: [createWeakArea({ weakArea: newWeakArea.trim() }), ...current.weakAreas],
+                      updatedAt: new Date().toISOString()
+                    }));
+                    setNewWeakArea("");
+                  }}
+                >
+                  <Plus size={16} />
+                  Add
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="stack-list">
+          <div className="stack-list weak-area-stack">
             {progress.weakAreas.length === 0 ? (
               <p className="muted">No weak areas logged yet.</p>
             ) : (
-              progress.weakAreas.map((weakArea) => (
-                <div className="editable-card" key={weakArea.id}>
-                  <div className="editable-card-heading">
-                    <span>{weakAreaSourceLabel(weakArea)}</span>
-                    <button
-                      className="icon-danger-button"
-                      aria-label={`Delete weak area ${weakArea.id}`}
-                      onClick={() =>
-                        setProgress((current) => ({
-                          ...current,
-                          weakAreas: current.weakAreas.filter((item) => item.id !== weakArea.id),
-                          updatedAt: new Date().toISOString()
-                        }))
-                      }
-                    >
-                      <Trash2 size={16} />
-                    </button>
+              progress.weakAreas.map((weakArea) => {
+                const isEditing = editingWeakAreaId === weakArea.id;
+                return (
+                  <div className={`editable-card weak-area-card ${weakArea.status}`} key={weakArea.id}>
+                    <div className="editable-card-heading weak-area-card-heading">
+                      <div className="weak-area-source-line">
+                        <span>{weakAreaSourceLabel(weakArea)}</span>
+                        <strong>{weakArea.status === "closed" ? "Closed" : "Open"}</strong>
+                      </div>
+                      <div className="note-entry-actions">
+                        {!isEditing && (
+                          <button
+                            className="icon-soft-button"
+                            aria-label={`Edit weak area ${weakArea.id}`}
+                            onClick={() => startEditingWeakArea(weakArea)}
+                          >
+                            <PencilLine size={16} />
+                          </button>
+                        )}
+                        <button
+                          className="icon-danger-button"
+                          aria-label={`Delete weak area ${weakArea.id}`}
+                          onClick={() => deleteWeakArea(weakArea.id)}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                    {isEditing ? (
+                      <div className="weak-area-edit-form">
+                        <label className="field">
+                          <span>Weak area</span>
+                          <textarea
+                            className="weak-area-tracker-note"
+                            rows={3}
+                            value={weakAreaDraft.weakArea}
+                            onChange={(event) => setWeakAreaDraft((current) => ({ ...current, weakArea: event.target.value }))}
+                            placeholder="Describe the weak area or mistake pattern"
+                          />
+                        </label>
+                        <div className="weak-area-controls">
+                          <label className="field">
+                            <span>Status</span>
+                            <select
+                              value={weakAreaDraft.status}
+                              onChange={(event) => setWeakAreaDraft((current) => ({ ...current, status: event.target.value as WeakArea["status"] }))}
+                            >
+                              <option value="open">Open</option>
+                              <option value="closed">Closed</option>
+                            </select>
+                          </label>
+                          <label className="field">
+                            <span>Recovery task</span>
+                            <textarea
+                              rows={2}
+                              value={weakAreaDraft.recoveryTask}
+                              onChange={(event) => setWeakAreaDraft((current) => ({ ...current, recoveryTask: event.target.value }))}
+                              placeholder="Recovery task"
+                            />
+                          </label>
+                        </div>
+                        <div className="note-action-group weak-area-edit-actions">
+                          <button className="ghost-button compact-action-button" onClick={cancelEditingWeakArea}>
+                            <X size={16} />
+                            Cancel
+                          </button>
+                          <button className="secondary-button compact-action-button" disabled={!weakAreaDraft.weakArea.trim()} onClick={saveWeakAreaEdit}>
+                            <PencilLine size={16} />
+                            Save weak area
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="weak-area-readonly">
+                        <p>{weakArea.weakArea || "No weak-area description saved."}</p>
+                        {weakArea.recoveryTask ? (
+                          <div className="recovery-task-readonly">
+                            <span>Recovery task</span>
+                            <strong>{weakArea.recoveryTask}</strong>
+                          </div>
+                        ) : (
+                          <p className="muted">No recovery task set yet.</p>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <input
-                    value={weakArea.weakArea}
-                    onChange={(event) => updateWeakArea(weakArea.id, (item) => ({ ...item, weakArea: event.target.value }))}
-                  />
-                  <div className="two-column">
-                    <input
-                      value={weakArea.category}
-                      onChange={(event) => updateWeakArea(weakArea.id, (item) => ({ ...item, category: event.target.value }))}
-                      placeholder="Category"
-                    />
-                    <select
-                      value={weakArea.status}
-                      onChange={(event) => updateWeakArea(weakArea.id, (item) => ({ ...item, status: event.target.value as WeakArea["status"] }))}
-                    >
-                      <option value="open">Open</option>
-                      <option value="closed">Closed</option>
-                    </select>
+                );
+              })
+            )}
+          </div>
+        </TrackerPanel>
+
+        <TrackerPanel
+          accent="notes"
+          icon={BookOpen}
+          isOpen={openTrackers.notes}
+          meta={`${dayNoteItems.length} saved`}
+          onToggle={() => toggleTracker("notes")}
+          title="Daily notes"
+        >
+          <div className="tracker-notes-form tracker-intake-card tracker-note-intake">
+            <div className="tracker-intake-heading">
+              <p className="kicker">New note</p>
+              <h3>Add a note to any day</h3>
+            </div>
+            <div className="tracker-note-fields">
+              <label className="field compact-tracker-field">
+                <span>Day</span>
+                <select
+                  value={newTrackerNoteDayId}
+                  onChange={(event) => setNewTrackerNoteDayId(event.target.value)}
+                  aria-label="Day for new note"
+                >
+                  {content.days.map((day) => (
+                    <option key={day.id} value={day.id}>
+                      Day {day.dayNumber}: {day.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field compact-tracker-field">
+                <span>Note</span>
+                <textarea
+                  rows={2}
+                  value={newTrackerNote}
+                  onChange={(event) => setNewTrackerNote(event.target.value)}
+                  placeholder="Add a note for the selected day"
+                />
+              </label>
+              <button className="secondary-button compact-action-button tracker-add-note-button" disabled={!newTrackerNote.trim()} onClick={saveTrackerNote}>
+                <Plus size={16} />
+                Add note
+              </button>
+            </div>
+          </div>
+          <div className="stack-list notes-stack">
+            {dayNoteItems.length === 0 ? (
+              <div className="empty-note-state">
+                <StickyNote size={18} />
+                <span>No daily notes saved yet.</span>
+              </div>
+            ) : (
+              dayNoteItems.map(({ day, note }) => {
+                const isEditing = editingTrackerNote?.dayId === day.id && editingTrackerNote.noteId === note.id;
+                return (
+                  <div className={isEditing ? "editable-card note-card editing" : "editable-card note-card"} key={`${day.id}-${note.id}`}>
+                    <div className="editable-card-heading">
+                      <div className="note-entry-title">
+                        <span className="note-entry-icon"><StickyNote size={16} /></span>
+                        <div>
+                          <strong>Day {day.dayNumber}: {day.title}</strong>
+                          <small>Updated {formatNoteTimestamp(note.updatedAt)}</small>
+                        </div>
+                      </div>
+                      <div className="note-entry-actions">
+                        {!isEditing && (
+                          <button
+                            className="icon-soft-button"
+                            aria-label={`Edit note ${note.id}`}
+                            onClick={() => startEditingTrackerNote(day.id, note)}
+                          >
+                            <PencilLine size={16} />
+                          </button>
+                        )}
+                        <button
+                          className="icon-danger-button"
+                          aria-label={`Delete note ${note.id}`}
+                          onClick={() => deleteTrackerNote(day.id, note.id)}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                    {isEditing ? (
+                      <div className="tracker-note-edit-form">
+                        <textarea
+                          className="tracker-note-edit-input"
+                          rows={4}
+                          value={trackerNoteDraft}
+                          onChange={(event) => setTrackerNoteDraft(event.target.value)}
+                          placeholder="Edit this note"
+                        />
+                        <div className="note-action-group tracker-note-edit-actions">
+                          <button className="ghost-button compact-action-button" onClick={cancelEditingTrackerNote}>
+                            <X size={16} />
+                            Cancel
+                          </button>
+                          <button className="secondary-button compact-action-button" disabled={!trackerNoteDraft.trim()} onClick={saveTrackerNoteEdit}>
+                            <PencilLine size={16} />
+                            Save note
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="note-entry-text">{note.text}</p>
+                    )}
                   </div>
-                  <textarea
-                    rows={2}
-                    value={weakArea.recoveryTask}
-                    onChange={(event) => updateWeakArea(weakArea.id, (item) => ({ ...item, recoveryTask: event.target.value }))}
-                    placeholder="Recovery task"
-                  />
-                  <textarea
-                    rows={2}
-                    value={weakArea.evidence}
-                    onChange={(event) => updateWeakArea(weakArea.id, (item) => ({ ...item, evidence: event.target.value }))}
-                    placeholder="Source or evidence"
-                  />
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </TrackerPanel>
@@ -1064,7 +1531,7 @@ function TrackerPanel({
   onToggle,
   title
 }: {
-  accent: "warning" | "info" | "success" | "career";
+  accent: "warning" | "notes" | "info" | "success" | "career";
   children: React.ReactNode;
   icon: typeof Gauge;
   isOpen: boolean;
@@ -1196,6 +1663,70 @@ function SettingsView({
   );
 }
 
+function CollapsiblePanel({
+  children,
+  eyebrow,
+  icon: Icon,
+  isOpen,
+  meta,
+  onToggle,
+  title
+}: {
+  children: React.ReactNode;
+  eyebrow: string;
+  icon: typeof Gauge;
+  isOpen: boolean;
+  meta?: React.ReactNode;
+  onToggle: () => void;
+  title: string;
+}) {
+  return (
+    <section className="panel collapsible-panel">
+      <button className="collapsible-panel-toggle" onClick={onToggle} aria-expanded={isOpen}>
+        <span className="collapsible-title-group">
+          <span className="collapsible-icon"><Icon size={20} /></span>
+          <span>
+            <span className="tracker-eyebrow">{eyebrow}</span>
+            <strong>{title}</strong>
+          </span>
+        </span>
+        <span className="collapsible-panel-meta">
+          {meta && <span className="collapsible-panel-meta-content">{meta}</span>}
+          {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+        </span>
+      </button>
+      {isOpen && <div className="collapsible-panel-body">{children}</div>}
+    </section>
+  );
+}
+
+function DayStatusSelector({
+  value,
+  onChange
+}: {
+  value: DayStatus;
+  onChange: (status: DayStatus) => void;
+}) {
+  return (
+    <div className="day-status-selector" role="group" aria-label="Main goal status">
+      {dayStatusOptions.map((option) => (
+        <button
+          key={option.value}
+          className={value === option.value ? `status-option ${option.value} active` : `status-option ${option.value}`}
+          onClick={() => onChange(option.value)}
+          type="button"
+        >
+          <span className="status-option-marker" />
+          <span>
+            <strong>{option.label}</strong>
+            <small>{option.detail}</small>
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function ScreenHeader({
   eyebrow,
   title,
@@ -1241,14 +1772,7 @@ function MetadataSummary({ day }: { day: DayContent }) {
   const metadataEntries = Object.entries(day.metadata).filter(([key]) => key !== "Main Goal");
 
   return (
-    <article className="metadata-summary-card">
-      <div className="metadata-summary-heading">
-        <span className="metadata-summary-icon"><Sparkles size={20} /></span>
-        <div>
-          <p className="kicker">Day context</p>
-          <h2>What this session looks like</h2>
-        </div>
-      </div>
+    <div className="metadata-summary-content">
       <div className="metadata-summary-list">
         {metadataEntries.map(([key, value]) => (
           <div className="metadata-summary-item" key={key}>
@@ -1267,7 +1791,7 @@ function MetadataSummary({ day }: { day: DayContent }) {
           </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -1292,6 +1816,10 @@ function MarkdownHtml({ html }: { html: string }) {
   return <div className="markdown-body" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
+function sectionHtmlWithoutTitle(html: string): string {
+  return html.replace(/^<h3>[\s\S]*?<\/h3>\s*/, "");
+}
+
 function htmlForSearchRecord(record: SearchRecord): string {
   if (record.type === "assessment") {
     return content.weeks.find((week) => week.id === record.sourceId)?.assessment?.html ?? "";
@@ -1310,11 +1838,6 @@ function weakAreaSourceLabel(weakArea: WeakArea): string {
     const sourceDay = content.days.find((day) => day.id === weakArea.sourceDayId);
     if (sourceDay) return `Day ${sourceDay.dayNumber}: ${sourceDay.title}`;
     return `Saved from ${weakArea.sourceDayId}`;
-  }
-  const dayMatch = weakArea.evidence.match(/Day\s+(\d+)/i);
-  if (dayMatch) {
-    const sourceDay = content.days.find((day) => day.dayNumber === Number(dayMatch[1]));
-    if (sourceDay) return `Day ${sourceDay.dayNumber}: ${sourceDay.title}`;
   }
   return weakArea.date ? `Manual entry: ${weakArea.date}` : "Manual entry";
 }
@@ -1340,6 +1863,29 @@ function numberOrNull(value: string): number | null {
   if (value.trim() === "") return null;
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
+}
+
+function notesToLegacyText(notes: DayNote[]): string {
+  return notes.map((note) => note.text.trim()).filter(Boolean).join("\n\n");
+}
+
+function formatNoteTimestamp(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Saved note";
+  return date.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function progressToneClass(percent: number): string {
+  if (percent >= 100) return "progress-complete";
+  if (percent >= 70) return "progress-strong";
+  if (percent >= 35) return "progress-steady";
+  if (percent > 0) return "progress-started";
+  return "progress-empty";
 }
 
 function scoreStatus(score: number | null): string {

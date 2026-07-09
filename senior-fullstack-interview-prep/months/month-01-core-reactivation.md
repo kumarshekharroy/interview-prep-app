@@ -1235,17 +1235,17 @@ At the end of the day, this should exist:
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | A teammate says structs always live on the stack. Respond. | Correct gently; explain copy semantics and context-dependent storage | 5 |
-| 2 | An API returns an EF entity directly. What risk do you mention? | Leaks internal fields, couples API to persistence, may expose sensitive data | 5 |
-| 3 | A class has one implementation and no real boundary. Should you create an interface? | Not automatically; use when variation, testing, or boundary justifies it | 5 |
-| 4 | A loop stores thousands of ints in `List<object>`. What do you review? | Boxing, allocations, type safety, use `List<int>` | 5 |
+| 1 | A teammate says structs always live on the stack. Respond. | Correct gently; explain copy semantics and context-dependent storage | 4 |
+| 2 | An API returns an EF entity directly. What risk do you mention? | Leaks internal fields, couples API to persistence, may expose sensitive data | 4 |
+| 3 | A class has one implementation and no real boundary. Should you create an interface? | Not automatically; use when variation, testing, or boundary justifies it | 4 |
+| 4 | A loop stores thousands of ints in `List<object>`. What do you review? | Boxing, allocations, type safety, use `List<int>` | 4 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | `object x = 10; long y = (long)x;` throws. Why? | Boxed type is `Int32`; unbox as `int` then convert to long if needed | 5 |
-| 2 | Mutating a copied struct does not affect original. Why? | Struct assignment/pass-by-value copied the value; use return value or `ref` intentionally | 5 |
+| 1 | `object x = 10; long y = (long)x;` throws. Why? | Boxed type is `Int32`; unbox as `int` then convert to long if needed | 4 |
+| 2 | Mutating a copied struct does not affect original. Why? | Struct assignment/pass-by-value copied the value; use return value or `ref` intentionally | 4 |
 
 ### Coding Problem
 
@@ -1255,7 +1255,7 @@ Input: `[2, 7, 11, 15]`, target `9`.
 Expected output: indices `0` and `1`.  
 Required approach: one-pass dictionary lookup.  
 Complexity target: `O(n)` time, `O(n)` space.  
-Points: 10.
+Points: 9.
 
 Scoring:
 
@@ -1275,7 +1275,7 @@ Expected points:
 * Readonly struct for small immutable value semantics.
 * Mention copy cost and API DTO use.
 
-Points: 10.
+Points: 9.
 
 ### Short Interview Simulation
 
@@ -1293,7 +1293,7 @@ Strong answer expectations:
 * One code-level example each.
 * One tradeoff or common mistake each.
 
-Points: 10.
+Points: 9.
 
 ### Scoring Rubric
 
@@ -2543,45 +2543,45 @@ At the end of the day, this should exist:
 | ---: | --- | --- | ---: |
 | 1 | What does SRP mean? | One main reason to change | 3 |
 | 2 | What does OCP mean? | Extend behavior without modifying stable code | 3 |
-| 3 | When is an interface justified? | Real boundary, variation, substitution, tests | 4 |
+| 3 | When is an interface justified? | Real boundary, variation, substitution, tests | 3 |
 | 4 | What is a generic type? | Type with type parameters, reusable and type-safe | 3 |
 | 5 | What does `where T : class, IEntity` mean? | T is reference type implementing IEntity | 3 |
 | 6 | What is `Result<T>` useful for? | Expected business/validation outcomes | 3 |
-| 7 | What is a delegate? | Type-safe callable reference | 3 |
-| 8 | What is a lambda? | Inline function expression | 3 |
-| 9 | What is a closure? | Captures variables from surrounding scope | 4 |
-| 10 | What is a C# event? | Controlled notification mechanism based on delegates | 3 |
-| 11 | What is an extension method? | Static method called like instance method | 3 |
-| 12 | What does `IDisposable` solve? | Deterministic cleanup of resources | 4 |
-| 13 | When should exceptions be used? | Unexpected/exceptional failures, not every validation branch | 4 |
-| 14 | What is deferred execution? | Query runs on enumeration/materialization | 4 |
-| 15 | What does `ToList()` do in LINQ? | Materializes query immediately | 3 |
+| 7 | What is a delegate? | Type-safe callable reference | 2 |
+| 8 | What is a lambda? | Inline function expression | 2 |
+| 9 | What is a closure? | Captures variables from surrounding scope | 3 |
+| 10 | What is a C# event? | Controlled notification mechanism based on delegates | 2 |
+| 11 | What is an extension method? | Static method called like instance method | 2 |
+| 12 | What does `IDisposable` solve? | Deterministic cleanup of resources | 3 |
+| 13 | When should exceptions be used? | Unexpected/exceptional failures, not every validation branch | 3 |
+| 14 | What is deferred execution? | Query runs on enumeration/materialization | 3 |
+| 15 | What does `ToList()` do in LINQ? | Materializes query immediately | 2 |
 
 ### Scenario Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | A developer creates one interface for every class. What do you say? | Interfaces need purpose; avoid one-to-one noise unless boundary/test/variation exists | 5 |
-| 2 | A LINQ query changes results after a list is modified. Why? | Deferred execution; query enumerated after mutation | 5 |
-| 3 | A method throws exceptions for expected validation failures. What alternative exists? | Use validation result or `Result<T>` for expected business outcomes | 5 |
-| 4 | A lambda inside a loop sees an unexpected final variable value. Why? | Closure captured variable; use local copy | 5 |
+| 1 | A developer creates one interface for every class. What do you say? | Interfaces need purpose; avoid one-to-one noise unless boundary/test/variation exists | 4 |
+| 2 | A LINQ query changes results after a list is modified. Why? | Deferred execution; query enumerated after mutation | 4 |
+| 3 | A method throws exceptions for expected validation failures. What alternative exists? | Use validation result or `Result<T>` for expected business outcomes | 4 |
+| 4 | A lambda inside a loop sees an unexpected final variable value. Why? | Closure captured variable; use local copy | 4 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | `Where` query runs twice and produces different output. | Materialize with `ToList()` if stable snapshot is needed; avoid source mutation | 5 |
-| 2 | File-like resource not released promptly. | Implement/use `IDisposable` and `using`; do not rely only on GC timing | 5 |
+| 1 | `Where` query runs twice and produces different output. | Materialize with `ToList()` if stable snapshot is needed; avoid source mutation | 4 |
+| 2 | File-like resource not released promptly. | Implement/use `IDisposable` and `using`; do not rely only on GC timing | 4 |
 
 ### Coding Problems
 
 Problem 1: DSA-006 - Valid Palindrome.  
 Required approach: two pointers, skip non-alphanumeric, compare lowercase characters.  
-Points: 8.
+Points: 6.
 
 Problem 2: DSA-007 - Merge Sorted Array.  
 Required approach: two pointers and append remaining values.  
-Points: 8.
+Points: 6.
 
 ### Written Explanation Task
 
@@ -2594,7 +2594,7 @@ Expected points:
 * `IEnumerable<T>` preserves type safety.
 * Deferred execution means query timing matters.
 
-Points: 10.
+Points: 8.
 
 ### Interview Simulation
 
@@ -2612,7 +2612,7 @@ Strong answer expectations:
 * Code-level examples.
 * One tradeoff or failure mode per answer.
 
-Points: 12.
+Points: 10.
 
 ### Behavioral Question
 
@@ -2626,7 +2626,7 @@ Expected answer structure:
 * Result: improved confidence, quality, or delivery.
 * Keep it honest; do not claim fake production achievements.
 
-Points: 8.
+Points: 6.
 
 ### Scoring Rubric
 
@@ -3926,52 +3926,52 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is an HTTP request? | Method, URL, headers, optional body | 3 |
-| 2 | What is an HTTP response? | Status, headers, optional body | 3 |
-| 3 | What is a controller action? | Method selected by routing to handle request | 3 |
-| 4 | What does routing do? | Matches method/path to endpoint/action | 3 |
-| 5 | What does model binding do? | Maps request data to parameters/models | 3 |
-| 6 | When should GET return 400? | Invalid request input such as non-positive id | 3 |
-| 7 | When should GET return 404? | Valid request but resource missing | 3 |
-| 8 | Why use request DTOs? | Input contract, validation, avoid over-posting | 4 |
-| 9 | What is ProblemDetails? | Standard error shape for APIs | 3 |
-| 10 | What does 201 Created mean? | Resource created; often includes location | 3 |
-| 11 | What is dependency injection? | External supply of dependencies to reduce coupling | 4 |
-| 12 | Compare Singleton, Scoped, Transient. | App lifetime, request scope, per resolution | 5 |
-| 13 | What is middleware? | Pipeline component around request processing | 4 |
-| 14 | Why does middleware order matter? | Earlier components affect later execution | 4 |
-| 15 | What is DbContext? | EF session/unit of work; tracks and saves entities | 4 |
-| 16 | What is DbSet? | Entity set for querying/updating table-like data | 3 |
-| 17 | What is an EF Core migration? | Versioned schema change | 3 |
-| 18 | Why is DbContext usually scoped? | One request unit of work; avoids shared state/thread issues | 4 |
+| 1 | What is an HTTP request? | Method, URL, headers, optional body | 2 |
+| 2 | What is an HTTP response? | Status, headers, optional body | 2 |
+| 3 | What is a controller action? | Method selected by routing to handle request | 2 |
+| 4 | What does routing do? | Matches method/path to endpoint/action | 2 |
+| 5 | What does model binding do? | Maps request data to parameters/models | 2 |
+| 6 | When should GET return 400? | Invalid request input such as non-positive id | 2 |
+| 7 | When should GET return 404? | Valid request but resource missing | 2 |
+| 8 | Why use request DTOs? | Input contract, validation, avoid over-posting | 3 |
+| 9 | What is ProblemDetails? | Standard error shape for APIs | 2 |
+| 10 | What does 201 Created mean? | Resource created; often includes location | 2 |
+| 11 | What is dependency injection? | External supply of dependencies to reduce coupling | 3 |
+| 12 | Compare Singleton, Scoped, Transient. | App lifetime, request scope, per resolution | 4 |
+| 13 | What is middleware? | Pipeline component around request processing | 3 |
+| 14 | Why does middleware order matter? | Earlier components affect later execution | 3 |
+| 15 | What is DbContext? | EF session/unit of work; tracks and saves entities | 3 |
+| 16 | What is DbSet? | Entity set for querying/updating table-like data | 2 |
+| 17 | What is an EF Core migration? | Versioned schema change | 2 |
+| 18 | Why is DbContext usually scoped? | One request unit of work; avoids shared state/thread issues | 3 |
 
 ### Scenario Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | A controller directly contains all product storage and validation logic. What would you improve? | Move product operations to service; keep HTTP concerns in controller | 5 |
-| 2 | An API returns 200 with error text for invalid input. What is wrong? | Incorrect status; clients cannot reliably distinguish failure | 5 |
-| 3 | A singleton service depends on DbContext. What risk exists? | Scoped service captured by singleton; lifetime/thread/state issues | 5 |
-| 4 | Middleware logs full request bodies including passwords. What is wrong? | Sensitive data leakage; log only safe context | 5 |
-| 5 | Switching to EF Core compiles but endpoint fails at runtime. What do you check? | Connection string, migration, provider, registration, logs | 5 |
+| 1 | A controller directly contains all product storage and validation logic. What would you improve? | Move product operations to service; keep HTTP concerns in controller | 4 |
+| 2 | An API returns 200 with error text for invalid input. What is wrong? | Incorrect status; clients cannot reliably distinguish failure | 3 |
+| 3 | A singleton service depends on DbContext. What risk exists? | Scoped service captured by singleton; lifetime/thread/state issues | 3 |
+| 4 | Middleware logs full request bodies including passwords. What is wrong? | Sensitive data leakage; log only safe context | 3 |
+| 5 | Switching to EF Core compiles but endpoint fails at runtime. What do you check? | Connection string, migration, provider, registration, logs | 3 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | `GET /api/products/999` returns 500. | Handle missing product and return 404 instead of throwing | 5 |
-| 2 | Invalid POST creates a product with negative price. | Add/verify validation and return 400 validation problem | 5 |
-| 3 | DbContext registration uses singleton. | Register DbContext as scoped using provider configuration | 5 |
+| 1 | `GET /api/products/999` returns 500. | Handle missing product and return 404 instead of throwing | 3 |
+| 2 | Invalid POST creates a product with negative price. | Add/verify validation and return 400 validation problem | 3 |
+| 3 | DbContext registration uses singleton. | Register DbContext as scoped using provider configuration | 3 |
 
 ### Coding Problems
 
 Problem 1: DSA-008 - Move Zeroes.  
 Required approach: write pointer and fill zeroes.  
-Points: 7.
+Points: 5.
 
 Problem 2: DSA-009 - Best Time to Buy and Sell Stock.  
 Required approach: track min price and max profit.  
-Points: 7.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -3985,7 +3985,7 @@ Expected points:
 * DTOs protect API contract.
 * Middleware handles cross-cutting request timing/logging.
 
-Points: 10.
+Points: 7.
 
 ### Interview Simulation
 
@@ -4003,7 +4003,7 @@ Strong answer expectations:
 * One example from your API.
 * At least one production caution per answer.
 
-Points: 12.
+Points: 8.
 
 ### Behavioral Question
 
@@ -4016,7 +4016,7 @@ Expected answer structure:
 * Result: easier testability, readability, or change.
 * Do not invent a fake production story; use a learning artifact if needed and label it honestly.
 
-Points: 8.
+Points: 6.
 
 ### Scoring Rubric
 
@@ -5259,53 +5259,53 @@ At the end of the day, these should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What does SELECT choose? | Columns/expressions returned | 3 |
-| 2 | What does WHERE filter? | Rows before grouping | 3 |
-| 3 | What does ORDER BY control? | Result sorting | 3 |
-| 4 | Why avoid SELECT *? | Extra data, coupling, exposure, performance | 4 |
-| 5 | What does INNER JOIN return? | Rows with matches in both tables | 3 |
-| 6 | What does LEFT JOIN preserve? | All left-side rows | 3 |
-| 7 | What does GROUP BY do? | Groups rows for aggregate calculation | 3 |
-| 8 | What does HAVING filter? | Groups after aggregation | 3 |
-| 9 | What is a CTE? | Named temporary result for one statement | 3 |
-| 10 | What does ROW_NUMBER do? | Assigns sequence numbers in ordered partition | 4 |
-| 11 | Why use PARTITION BY CustomerId for latest order? | Rank orders per customer | 4 |
-| 12 | Why add tie-breaker to ORDER BY in ROW_NUMBER? | Deterministic ranking | 3 |
-| 13 | What is a foreign key? | Column referencing another table's primary key | 3 |
-| 14 | What does EF Core Include do? | Eagerly loads related data | 3 |
-| 15 | What does AsNoTracking do? | Skips change tracking for read-only query | 4 |
-| 16 | What is one N+1 query warning sign? | Many queries for related data per row | 4 |
-| 17 | Why project to DTO instead of returning entity graph? | Shape data, avoid overexposure, reduce payload | 4 |
-| 18 | What is one provider risk with SQLite vs SQL Server? | Behavior and SQL translation differences | 3 |
+| 1 | What does SELECT choose? | Columns/expressions returned | 2 |
+| 2 | What does WHERE filter? | Rows before grouping | 2 |
+| 3 | What does ORDER BY control? | Result sorting | 2 |
+| 4 | Why avoid SELECT *? | Extra data, coupling, exposure, performance | 3 |
+| 5 | What does INNER JOIN return? | Rows with matches in both tables | 2 |
+| 6 | What does LEFT JOIN preserve? | All left-side rows | 2 |
+| 7 | What does GROUP BY do? | Groups rows for aggregate calculation | 2 |
+| 8 | What does HAVING filter? | Groups after aggregation | 2 |
+| 9 | What is a CTE? | Named temporary result for one statement | 2 |
+| 10 | What does ROW_NUMBER do? | Assigns sequence numbers in ordered partition | 3 |
+| 11 | Why use PARTITION BY CustomerId for latest order? | Rank orders per customer | 3 |
+| 12 | Why add tie-breaker to ORDER BY in ROW_NUMBER? | Deterministic ranking | 2 |
+| 13 | What is a foreign key? | Column referencing another table's primary key | 2 |
+| 14 | What does EF Core Include do? | Eagerly loads related data | 2 |
+| 15 | What does AsNoTracking do? | Skips change tracking for read-only query | 3 |
+| 16 | What is one N+1 query warning sign? | Many queries for related data per row | 2 |
+| 17 | Why project to DTO instead of returning entity graph? | Shape data, avoid overexposure, reduce payload | 2 |
+| 18 | What is one provider risk with SQLite vs SQL Server? | Behavior and SQL translation differences | 2 |
 
 ### Scenario Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Need customers with no orders. Which join? | LEFT JOIN from Customers to Orders | 5 |
-| 2 | Need customers with at least two orders. WHERE or HAVING? | HAVING after GROUP BY count | 5 |
-| 3 | Need latest order full row per customer. What SQL pattern? | ROW_NUMBER partitioned by customer ordered by date desc | 5 |
-| 4 | Product list endpoint uses tracking for thousands of read-only rows. Improve it. | Use AsNoTracking, projection, pagination later | 5 |
-| 5 | Details endpoint includes huge child collections. Risk? | Large payload/query; use projection/paging/specific fields | 5 |
-| 6 | A SQL query gives different latest order for equal dates. Why? | Missing deterministic tie-breaker | 5 |
+| 1 | Need customers with no orders. Which join? | LEFT JOIN from Customers to Orders | 3 |
+| 2 | Need customers with at least two orders. WHERE or HAVING? | HAVING after GROUP BY count | 3 |
+| 3 | Need latest order full row per customer. What SQL pattern? | ROW_NUMBER partitioned by customer ordered by date desc | 3 |
+| 4 | Product list endpoint uses tracking for thousands of read-only rows. Improve it. | Use AsNoTracking, projection, pagination later | 3 |
+| 5 | Details endpoint includes huge child collections. Risk? | Large payload/query; use projection/paging/specific fields | 3 |
+| 6 | A SQL query gives different latest order for equal dates. Why? | Missing deterministic tie-breaker | 3 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | LEFT JOIN query excludes customers with no orders after adding `WHERE Orders.Status = 'Completed'`. | Move condition into join or allow nulls explicitly | 5 |
-| 2 | Latest-order query returns multiple rows per customer. | Use ROW_NUMBER and filter RowNum = 1 with tie-breaker | 5 |
-| 3 | EF details endpoint returns empty reviews unexpectedly. | Check relationship, data, Include, foreign keys, migration | 5 |
+| 1 | LEFT JOIN query excludes customers with no orders after adding `WHERE Orders.Status = 'Completed'`. | Move condition into join or allow nulls explicitly | 3 |
+| 2 | Latest-order query returns multiple rows per customer. | Use ROW_NUMBER and filter RowNum = 1 with tie-breaker | 3 |
+| 3 | EF details endpoint returns empty reviews unexpectedly. | Check relationship, data, Include, foreign keys, migration | 3 |
 
 ### Coding Problems
 
 Problem 1: DSA-011 - Intersection of Two Arrays.  
 Required approach: hash sets, unique output.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-012 - Remove Duplicates from Sorted Array.  
 Required approach: write pointer.  
-Points: 6.
+Points: 4.
 
 ### SQL Implementation Problem
 
@@ -5318,7 +5318,7 @@ Expected result:
 * Use `ROW_NUMBER() OVER (PARTITION BY CustomerId ORDER BY OrderDate DESC, Id DESC)`.
 * Return only `RowNum = 1`.
 
-Points: 10.
+Points: 6.
 
 ### Written Explanation Task
 
@@ -5332,7 +5332,7 @@ Expected points:
 * DTO projection controls response shape.
 * Overloading details endpoints can hurt performance.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -5350,7 +5350,7 @@ Strong answer expectations:
 * One example from the Month 1 scripts/API.
 * One performance caution.
 
-Points: 12.
+Points: 8.
 
 ### Behavioral Question
 
@@ -5364,7 +5364,7 @@ Expected answer structure:
 * Result: improved readiness or delivery.
 * Avoid pretending learning artifacts were production work.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 

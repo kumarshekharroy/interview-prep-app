@@ -1466,64 +1466,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What comes first in system design? | Requirements and constraints | 4 |
-| 2 | Why estimate capacity? | Identify bottlenecks and guide choices | 4 |
-| 3 | What is a functional requirement? | User-visible behavior | 3 |
-| 4 | What is a non-functional requirement? | Quality/constraint such as scale, latency, availability | 4 |
-| 5 | What should APIs clarify? | Request, response, validation, errors | 4 |
-| 6 | What should data model design include? | entities, relationships, indexes, consistency | 5 |
-| 7 | Why App Service for baseline API hosting? | Managed web hosting with lower operational overhead | 5 |
-| 8 | What does Azure SQL provide? | Managed relational SQL database suitable for EF Core | 4 |
-| 9 | What does Key Vault protect? | secrets, keys, certificates | 3 |
-| 10 | What does managed identity reduce? | need for app-managed credentials | 4 |
-| 11 | What should health checks verify? | app and critical dependencies | 4 |
-| 12 | What is a deployment slot? | Separate App Service slot for validation/swap/rollback | 4 |
-| 13 | Why avoid storing files in SQL? | storage/cost/performance concerns; use Blob Storage | 4 |
-| 14 | What should observability include? | logs, metrics, traces, alerts, dashboards | 5 |
-| 15 | Why avoid unnecessary microservices? | operational complexity without clear boundary | 5 |
-| 16 | What does Min Cost to Connect Points test? | MST | 3 |
-| 17 | What does Cheapest Flights test? | constrained shortest path | 4 |
-| 18 | What does Alien Dictionary test? | topological sort and invalid cases | 4 |
-| 19 | What does Design Twitter Feed test? | data structures and fanout tradeoffs | 4 |
-| 20 | What should rollback plan include? | trigger, steps, validation, owner | 4 |
+| 1 | What comes first in system design? | Requirements and constraints | 3 |
+| 2 | Why estimate capacity? | Identify bottlenecks and guide choices | 2 |
+| 3 | What is a functional requirement? | User-visible behavior | 2 |
+| 4 | What is a non-functional requirement? | Quality/constraint such as scale, latency, availability | 2 |
+| 5 | What should APIs clarify? | Request, response, validation, errors | 2 |
+| 6 | What should data model design include? | entities, relationships, indexes, consistency | 3 |
+| 7 | Why App Service for baseline API hosting? | Managed web hosting with lower operational overhead | 3 |
+| 8 | What does Azure SQL provide? | Managed relational SQL database suitable for EF Core | 2 |
+| 9 | What does Key Vault protect? | secrets, keys, certificates | 2 |
+| 10 | What does managed identity reduce? | need for app-managed credentials | 2 |
+| 11 | What should health checks verify? | app and critical dependencies | 2 |
+| 12 | What is a deployment slot? | Separate App Service slot for validation/swap/rollback | 2 |
+| 13 | Why avoid storing files in SQL? | storage/cost/performance concerns; use Blob Storage | 2 |
+| 14 | What should observability include? | logs, metrics, traces, alerts, dashboards | 3 |
+| 15 | Why avoid unnecessary microservices? | operational complexity without clear boundary | 3 |
+| 16 | What does Min Cost to Connect Points test? | MST | 2 |
+| 17 | What does Cheapest Flights test? | constrained shortest path | 2 |
+| 18 | What does Alien Dictionary test? | topological sort and invalid cases | 2 |
+| 19 | What does Design Twitter Feed test? | data structures and fanout tradeoffs | 2 |
+| 20 | What should rollback plan include? | trigger, steps, validation, owner | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Interviewer asks "design X" and you start listing Azure services. | Pause and clarify requirements first | 4 |
-| 2 | Dashboard reads are much higher than writes. | indexes and possible cache after measurement | 4 |
-| 3 | App needs secret DB connection. | Key Vault and managed identity/app settings | 4 |
-| 4 | Deployment succeeds but health check fails. | stop promotion, inspect logs, protect prod | 4 |
-| 5 | Team proposes AKS for simple API. | challenge with operational tradeoffs | 4 |
-| 6 | Long report generation is added. | consider durable async queue | 4 |
-| 7 | Large exports are stored in database. | move files to Azure Storage and keep metadata in SQL | 4 |
-| 8 | Production config points to dev DB. | enforce environment config and deployment validation | 4 |
-| 9 | No telemetry in design. | add logs/metrics/traces/alerts | 4 |
+| 1 | Interviewer asks "design X" and you start listing Azure services. | Pause and clarify requirements first | 2 |
+| 2 | Dashboard reads are much higher than writes. | indexes and possible cache after measurement | 2 |
+| 3 | App needs secret DB connection. | Key Vault and managed identity/app settings | 2 |
+| 4 | Deployment succeeds but health check fails. | stop promotion, inspect logs, protect prod | 2 |
+| 5 | Team proposes AKS for simple API. | challenge with operational tradeoffs | 2 |
+| 6 | Long report generation is added. | consider durable async queue | 2 |
+| 7 | Large exports are stored in database. | move files to Azure Storage and keep metadata in SQL | 2 |
+| 8 | Production config points to dev DB. | enforce environment config and deployment validation | 2 |
+| 9 | No telemetry in design. | add logs/metrics/traces/alerts | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Connection string committed to repo. | remove/rotate secret and move to secure configuration | 4 |
-| 2 | Deployment slot swap breaks prod. | add smoke tests, warm-up, rollback, config validation | 4 |
-| 3 | Slow dashboard query. | inspect query plan, add index, consider cache after measurement | 4 |
-| 4 | Health check returns OK while DB is down. | include dependency health checks with appropriate status | 4 |
+| 1 | Connection string committed to repo. | remove/rotate secret and move to secure configuration | 2 |
+| 2 | Deployment slot swap breaks prod. | add smoke tests, warm-up, rollback, config validation | 2 |
+| 3 | Slow dashboard query. | inspect query plan, add index, consider cache after measurement | 2 |
+| 4 | Health check returns OK while DB is down. | include dependency health checks with appropriate status | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-067 - Min Cost to Connect All Points.  
 Required approach: MST.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-070 - Alien Dictionary.  
 Required approach: directed graph plus topological sort and invalid prefix handling.  
-Points: 7.
+Points: 4.
 
 Problem 3: System design prompt.  
 Task: Design PrepTrack on Azure for 100k registered users.  
 Expected points: requirements, estimates, APIs, data, Azure baseline, security, telemetry, deployment, tradeoffs.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -1540,7 +1540,7 @@ Expected points:
 * CI/CD.
 * rollback.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -1561,7 +1561,7 @@ Strong answer expectations:
 * Clear tradeoffs.
 * Operational maturity.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -1574,7 +1574,7 @@ Expected answer structure:
 * Action: clarified needs, compared options, reduced scope.
 * Result: easier operation or faster delivery.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -3005,64 +3005,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | When does Container Apps fit? | containerized apps/workers/jobs, event-driven scaling | 4 |
-| 2 | What is managed identity? | Azure-managed identity for resource access | 4 |
-| 3 | What does Key Vault store? | secrets, keys, certificates | 3 |
-| 4 | What is least privilege? | minimum permissions required | 4 |
-| 5 | Why rotate secrets? | reduce long-term exposure risk | 3 |
-| 6 | What is connection resiliency? | safe retry of transient database failures | 4 |
-| 7 | What should SQL troubleshooting inspect? | query plan, indexes, query shape, resource metrics | 5 |
-| 8 | Why not add every index? | write/storage/maintenance cost | 4 |
-| 9 | What is Blob Storage for? | object/file content storage | 3 |
-| 10 | What is SAS? | time-limited delegated storage access | 4 |
-| 11 | Why store file metadata in SQL? | ownership/search/status/querying | 4 |
-| 12 | What are logs? | event records with context | 3 |
-| 13 | What are metrics? | numeric time-series signals | 3 |
-| 14 | What are traces? | related spans showing operation path | 4 |
-| 15 | What does Application Insights provide? | request/dependency/exception/performance telemetry | 4 |
-| 16 | What is OpenTelemetry? | standard instrumentation model for telemetry | 4 |
-| 17 | What is a span? | timed operation inside trace | 3 |
-| 18 | What is an exporter? | sends telemetry to backend | 3 |
-| 19 | What does Word Search II test? | trie + DFS backtracking | 4 |
-| 20 | What does Median Data Stream test? | two heaps | 4 |
+| 1 | When does Container Apps fit? | containerized apps/workers/jobs, event-driven scaling | 3 |
+| 2 | What is managed identity? | Azure-managed identity for resource access | 3 |
+| 3 | What does Key Vault store? | secrets, keys, certificates | 2 |
+| 4 | What is least privilege? | minimum permissions required | 3 |
+| 5 | Why rotate secrets? | reduce long-term exposure risk | 2 |
+| 6 | What is connection resiliency? | safe retry of transient database failures | 3 |
+| 7 | What should SQL troubleshooting inspect? | query plan, indexes, query shape, resource metrics | 3 |
+| 8 | Why not add every index? | write/storage/maintenance cost | 2 |
+| 9 | What is Blob Storage for? | object/file content storage | 2 |
+| 10 | What is SAS? | time-limited delegated storage access | 2 |
+| 11 | Why store file metadata in SQL? | ownership/search/status/querying | 2 |
+| 12 | What are logs? | event records with context | 2 |
+| 13 | What are metrics? | numeric time-series signals | 2 |
+| 14 | What are traces? | related spans showing operation path | 2 |
+| 15 | What does Application Insights provide? | request/dependency/exception/performance telemetry | 2 |
+| 16 | What is OpenTelemetry? | standard instrumentation model for telemetry | 2 |
+| 17 | What is a span? | timed operation inside trace | 2 |
+| 18 | What is an exporter? | sends telemetry to backend | 2 |
+| 19 | What does Word Search II test? | trie + DFS backtracking | 2 |
+| 20 | What does Median Data Stream test? | two heaps | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Worker scales out and duplicates reminders. | idempotent consumer with DB constraint | 4 |
-| 2 | App needs to read a secret. | managed identity to Key Vault | 4 |
-| 3 | Slow API is reported. | use correlation, request/dependency telemetry, SQL plan/metrics | 4 |
-| 4 | User report file is large. | Blob Storage for content, SQL for metadata | 4 |
-| 5 | SAS token grants broad long-lived access. | shorten scope/lifetime and review access pattern | 4 |
-| 6 | No trace from API to consumer. | propagate trace/correlation context | 4 |
-| 7 | Alert fires on every small spike. | tune threshold/actionability | 4 |
-| 8 | Key Vault permission grants owner rights. | reduce to least required permissions | 4 |
-| 9 | Query performance worsens after adding indexes. | review write cost and unused indexes | 4 |
+| 1 | Worker scales out and duplicates reminders. | idempotent consumer with DB constraint | 2 |
+| 2 | App needs to read a secret. | managed identity to Key Vault | 2 |
+| 3 | Slow API is reported. | use correlation, request/dependency telemetry, SQL plan/metrics | 2 |
+| 4 | User report file is large. | Blob Storage for content, SQL for metadata | 2 |
+| 5 | SAS token grants broad long-lived access. | shorten scope/lifetime and review access pattern | 2 |
+| 6 | No trace from API to consumer. | propagate trace/correlation context | 2 |
+| 7 | Alert fires on every small spike. | tune threshold/actionability | 2 |
+| 8 | Key Vault permission grants owner rights. | reduce to least required permissions | 2 |
+| 9 | Query performance worsens after adding indexes. | review write cost and unused indexes | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Secret appears in logs. | remove logging, rotate secret, add redaction review | 4 |
-| 2 | Blob file upload succeeds but SQL update fails. | design compensating cleanup/retry and status tracking | 4 |
-| 3 | Traces have no service names. | configure OpenTelemetry resource attributes | 4 |
-| 4 | Outbox backlog grows silently. | add metric, dashboard, and alert on oldest pending age | 4 |
+| 1 | Secret appears in logs. | remove logging, rotate secret, add redaction review | 2 |
+| 2 | Blob file upload succeeds but SQL update fails. | design compensating cleanup/retry and status tracking | 2 |
+| 3 | Traces have no service names. | configure OpenTelemetry resource attributes | 2 |
+| 4 | Outbox backlog grows silently. | add metric, dashboard, and alert on oldest pending age | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-072 - Find Median from Data Stream.  
 Required approach: two heaps.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-075 - Word Search II.  
 Required approach: trie plus DFS backtracking.  
-Points: 7.
+Points: 4.
 
 Problem 3: Observability prompt.  
 Task: Design telemetry for `POST /api/interviews` through outbox publisher and reminder consumer.  
 Expected points: logs, metrics, traces, correlation ID, outbox lag, broker queue depth, DLQ/dead-letter count, consumer failures.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -3080,7 +3080,7 @@ Expected points:
 * alerts.
 * incident usefulness.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -3100,7 +3100,7 @@ Strong answer expectations:
 * Security and operations included.
 * Concrete Project 1 and Project 2 examples.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -3113,7 +3113,7 @@ Expected answer structure:
 * Action: added logs, metrics, traces, dashboards, or alerts.
 * Result: reduced time to detect or resolve.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -4571,64 +4571,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is Event Grid? | Event routing/notification service | 4 |
-| 2 | What is an Event Grid source? | Publisher of events | 3 |
-| 3 | What is an Event Grid subscription? | Routing rule to handler | 4 |
-| 4 | Why must Event Grid handlers be idempotent? | Duplicate/retry delivery can occur | 4 |
-| 5 | What is Event Hubs? | High-throughput streaming ingestion service | 4 |
-| 6 | What is an Event Hubs partition? | Parallel ordered stream shard | 4 |
-| 7 | What is a consumer group? | Independent view over event stream | 4 |
-| 8 | What is checkpointing? | Persisting consumer read position | 4 |
-| 9 | Event Grid vs Event Hubs? | notifications/routing vs streaming ingestion | 5 |
-| 10 | Event Hubs vs Service Bus? | stream ingestion vs brokered queue/topic processing | 5 |
-| 11 | What should outbox publisher track? | status, attempts, last error, published time | 4 |
-| 12 | What should idempotent consumer track? | processed event ID or unique side-effect key | 5 |
-| 13 | When should ack/complete happen? | after successful idempotent processing | 4 |
-| 14 | What should DLQ runbook include? | inspect, fix root cause, controlled replay | 4 |
-| 15 | What is outbox lag? | oldest pending outbox age | 4 |
-| 16 | What does Largest Rectangle test? | monotonic stack | 3 |
-| 17 | What does Edit Distance test? | dynamic programming | 3 |
-| 18 | What does Burst Balloons test? | interval DP | 4 |
-| 19 | What does Minimum Window Substring test? | sliding window | 4 |
-| 20 | What does consumer lag mean? | stream consumer falling behind ingestion | 4 |
+| 1 | What is Event Grid? | Event routing/notification service | 3 |
+| 2 | What is an Event Grid source? | Publisher of events | 2 |
+| 3 | What is an Event Grid subscription? | Routing rule to handler | 3 |
+| 4 | Why must Event Grid handlers be idempotent? | Duplicate/retry delivery can occur | 2 |
+| 5 | What is Event Hubs? | High-throughput streaming ingestion service | 2 |
+| 6 | What is an Event Hubs partition? | Parallel ordered stream shard | 2 |
+| 7 | What is a consumer group? | Independent view over event stream | 2 |
+| 8 | What is checkpointing? | Persisting consumer read position | 2 |
+| 9 | Event Grid vs Event Hubs? | notifications/routing vs streaming ingestion | 3 |
+| 10 | Event Hubs vs Service Bus? | stream ingestion vs brokered queue/topic processing | 3 |
+| 11 | What should outbox publisher track? | status, attempts, last error, published time | 2 |
+| 12 | What should idempotent consumer track? | processed event ID or unique side-effect key | 3 |
+| 13 | When should ack/complete happen? | after successful idempotent processing | 2 |
+| 14 | What should DLQ runbook include? | inspect, fix root cause, controlled replay | 2 |
+| 15 | What is outbox lag? | oldest pending outbox age | 2 |
+| 16 | What does Largest Rectangle test? | monotonic stack | 2 |
+| 17 | What does Edit Distance test? | dynamic programming | 2 |
+| 18 | What does Burst Balloons test? | interval DP | 2 |
+| 19 | What does Minimum Window Substring test? | sliding window | 2 |
+| 20 | What does consumer lag mean? | stream consumer falling behind ingestion | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | React to blob created. | Event Grid | 4 |
-| 2 | Ingest high-volume usage events. | Event Hubs | 4 |
-| 3 | Durable reminder work item. | Service Bus or RabbitMQ queue | 4 |
-| 4 | Multiple brokered subscribers in Azure. | Service Bus topic/subscriptions | 4 |
-| 5 | Consumer receives same event twice. | idempotent consumer with DB constraint | 4 |
-| 6 | Outbox oldest age grows. | inspect publisher/broker/recent deploy | 4 |
-| 7 | Event Hubs consumer restarts. | resumes from checkpoint | 4 |
-| 8 | Partition is overloaded. | review partition key/skew | 4 |
-| 9 | DLQ has invalid schema messages. | fix schema/consumer and replay carefully | 4 |
+| 1 | React to blob created. | Event Grid | 2 |
+| 2 | Ingest high-volume usage events. | Event Hubs | 2 |
+| 3 | Durable reminder work item. | Service Bus or RabbitMQ queue | 2 |
+| 4 | Multiple brokered subscribers in Azure. | Service Bus topic/subscriptions | 2 |
+| 5 | Consumer receives same event twice. | idempotent consumer with DB constraint | 2 |
+| 6 | Outbox oldest age grows. | inspect publisher/broker/recent deploy | 2 |
+| 7 | Event Hubs consumer restarts. | resumes from checkpoint | 2 |
+| 8 | Partition is overloaded. | review partition key/skew | 2 |
+| 9 | DLQ has invalid schema messages. | fix schema/consumer and replay carefully | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Event Grid handler processes duplicate blob event twice. | add idempotency by event/resource ID | 4 |
-| 2 | Event Hubs consumer starts from beginning unexpectedly. | inspect checkpoint store/configuration | 4 |
-| 3 | Outbox row marked published before broker send. | mark only after confirmed send | 4 |
-| 4 | DLQ messages are replayed without fix. | stop replay, fix root cause, replay controlled | 4 |
+| 1 | Event Grid handler processes duplicate blob event twice. | add idempotency by event/resource ID | 2 |
+| 2 | Event Hubs consumer starts from beginning unexpectedly. | inspect checkpoint store/configuration | 2 |
+| 3 | Outbox row marked published before broker send. | mark only after confirmed send | 2 |
+| 4 | DLQ messages are replayed without fix. | stop replay, fix root cause, replay controlled | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-078 - Largest Rectangle in Histogram.  
 Required approach: monotonic stack.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-079 - Edit Distance.  
 Required approach: dynamic programming.  
-Points: 7.
+Points: 4.
 
 Problem 3: Project 2 completion prompt.  
 Task: Design outbox publisher, broker publish, idempotent consumer, retry, DLQ/dead-letter, and observability.  
 Expected points: pending row selection, mark published after send, processed event unique key, ack/complete after success, retry caps, DLQ alert, outbox lag dashboard.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -4644,7 +4644,7 @@ Expected points:
 * delivery model.
 * project examples.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -4665,7 +4665,7 @@ Strong answer expectations:
 * Concrete failure handling.
 * Observability included.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -4678,7 +4678,7 @@ Expected answer structure:
 * Action: compared tradeoffs and risks.
 * Result: practical outcome.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -6179,64 +6179,64 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What are core parts of notification system design? | scheduling, preferences, queue, worker, provider, status | 5 |
-| 2 | How do you avoid duplicate notifications? | idempotency key/status/provider key | 5 |
-| 3 | What is Event Hubs used for in analytics design? | high-throughput usage event ingestion | 4 |
-| 4 | What should usage event schema include? | event ID, type, version, timestamp, safe user/session data | 5 |
-| 5 | What is incident triage? | impact/scope/priority assessment | 4 |
-| 6 | What is mitigation? | reduce user impact before or during root cause work | 4 |
-| 7 | What is blue-green deployment? | two environments with switch between active/staged | 4 |
-| 8 | What is canary deployment? | gradual rollout to subset | 4 |
-| 9 | Why use feature flags? | decouple deploy from release | 4 |
-| 10 | Why are DB migrations rollback-sensitive? | schema/data changes may break old app | 5 |
-| 11 | What should architecture review include? | cost, security, scale, reliability, maintainability, operability | 5 |
-| 12 | What is operability? | ability to monitor, diagnose, and support system | 4 |
-| 13 | What should a runbook include? | signal, diagnostics, mitigation, escalation, follow-up | 4 |
-| 14 | What is a service selection answer based on? | workload requirements and tradeoffs | 4 |
-| 15 | What should project defense include? | context, architecture, reliability, security, observability, tradeoffs | 4 |
-| 16 | What does Maximal Rectangle test? | histogram + monotonic stack | 3 |
-| 17 | What does Basic Calculator test? | parsing and stack/sign handling | 3 |
-| 18 | What does Sliding Window Maximum test? | monotonic deque | 3 |
-| 19 | What does Word Break II test? | DFS memoization | 3 |
-| 20 | What makes an alert actionable? | owner, threshold, impact, next step | 4 |
+| 1 | What are core parts of notification system design? | scheduling, preferences, queue, worker, provider, status | 3 |
+| 2 | How do you avoid duplicate notifications? | idempotency key/status/provider key | 3 |
+| 3 | What is Event Hubs used for in analytics design? | high-throughput usage event ingestion | 2 |
+| 4 | What should usage event schema include? | event ID, type, version, timestamp, safe user/session data | 3 |
+| 5 | What is incident triage? | impact/scope/priority assessment | 2 |
+| 6 | What is mitigation? | reduce user impact before or during root cause work | 2 |
+| 7 | What is blue-green deployment? | two environments with switch between active/staged | 2 |
+| 8 | What is canary deployment? | gradual rollout to subset | 2 |
+| 9 | Why use feature flags? | decouple deploy from release | 2 |
+| 10 | Why are DB migrations rollback-sensitive? | schema/data changes may break old app | 3 |
+| 11 | What should architecture review include? | cost, security, scale, reliability, maintainability, operability | 3 |
+| 12 | What is operability? | ability to monitor, diagnose, and support system | 2 |
+| 13 | What should a runbook include? | signal, diagnostics, mitigation, escalation, follow-up | 2 |
+| 14 | What is a service selection answer based on? | workload requirements and tradeoffs | 2 |
+| 15 | What should project defense include? | context, architecture, reliability, security, observability, tradeoffs | 2 |
+| 16 | What does Maximal Rectangle test? | histogram + monotonic stack | 2 |
+| 17 | What does Basic Calculator test? | parsing and stack/sign handling | 2 |
+| 18 | What does Sliding Window Maximum test? | monotonic deque | 2 |
+| 19 | What does Word Break II test? | DFS memoization | 2 |
+| 20 | What makes an alert actionable? | owner, threshold, impact, next step | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Reminder provider times out after send may have happened. | provider idempotency key and persisted send state | 4 |
-| 2 | Usage stream has hot partition. | review partition key and event distribution | 4 |
-| 3 | API latency doubles after deploy. | triage, telemetry, recent deploy, mitigation/rollback | 4 |
-| 4 | Canary error rate is high. | stop rollout and rollback/disable flag | 4 |
-| 5 | Database migration breaks old version. | use expand/contract and backward compatibility | 4 |
-| 6 | Alert fires but nobody owns it. | assign owner and runbook | 4 |
-| 7 | Architecture has strong scale but high cost. | review cost drivers and right-size | 4 |
-| 8 | Event Grid suggested for analytics stream. | explain Event Hubs better fit | 4 |
-| 9 | Service Bus suggested for blob-created notification. | explain Event Grid better fit if only notification | 4 |
+| 1 | Reminder provider times out after send may have happened. | provider idempotency key and persisted send state | 2 |
+| 2 | Usage stream has hot partition. | review partition key and event distribution | 2 |
+| 3 | API latency doubles after deploy. | triage, telemetry, recent deploy, mitigation/rollback | 2 |
+| 4 | Canary error rate is high. | stop rollout and rollback/disable flag | 2 |
+| 5 | Database migration breaks old version. | use expand/contract and backward compatibility | 2 |
+| 6 | Alert fires but nobody owns it. | assign owner and runbook | 2 |
+| 7 | Architecture has strong scale but high cost. | review cost drivers and right-size | 2 |
+| 8 | Event Grid suggested for analytics stream. | explain Event Hubs better fit | 2 |
+| 9 | Service Bus suggested for blob-created notification. | explain Event Grid better fit if only notification | 2 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Duplicate notification sent after worker restart. | idempotent send record/provider key and ack after safe state | 4 |
-| 2 | Consumer lag grows but no alert. | add lag/checkpoint age alert | 4 |
-| 3 | Rollback fails after destructive migration. | use backward-compatible migration strategy | 4 |
-| 4 | Full mock answer skips observability. | add logs/metrics/traces/alerts/runbooks to design framework | 4 |
+| 1 | Duplicate notification sent after worker restart. | idempotent send record/provider key and ack after safe state | 2 |
+| 2 | Consumer lag grows but no alert. | add lag/checkpoint age alert | 2 |
+| 3 | Rollback fails after destructive migration. | use backward-compatible migration strategy | 2 |
+| 4 | Full mock answer skips observability. | add logs/metrics/traces/alerts/runbooks to design framework | 2 |
 
 ### Coding / Design / Implementation Problems
 
 Problem 1: DSA-084 - Maximal Rectangle.  
 Required approach: histogram per row plus monotonic stack.  
-Points: 6.
+Points: 4.
 
 Problem 2: DSA-088 - Sliding Window Maximum.  
 Required approach: monotonic deque.  
-Points: 7.
+Points: 4.
 
 Problem 3: Senior design prompt.  
 Task: Design InterviewOps as an Azure-ready, observable, reliable event-driven system.  
 Expected points: requirements, API/data, outbox, broker, idempotent consumer, Event Grid/Event Hubs fit, observability, deployment, incident response, tradeoffs.  
-Points: 7.
+Points: 4.
 
 ### Written Explanation Task
 
@@ -6254,7 +6254,7 @@ Expected points:
 * incident response.
 * tradeoffs.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -6275,7 +6275,7 @@ Strong answer expectations:
 * Failure-aware design.
 * Strong observability and incident thinking.
 
-Points: 10.
+Points: 6.
 
 ### Behavioral Question
 
@@ -6288,7 +6288,7 @@ Expected answer structure:
 * Action: telemetry, rollback, fix, communication.
 * Result: reduced impact or improved system.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 

@@ -109,11 +109,23 @@ export interface DayProgress {
   checklist: Record<string, boolean>;
   miniTestScore: number | null;
   selfScore: number | null;
+  noteEntries: DayNote[];
+  /**
+   * Legacy single-note field. New UI writes the joined note text here so older
+   * exports still retain readable notes.
+   */
   notes: string;
   artifactLinks: string[];
   weakAreaNote: string;
   startedAt: string | null;
   completedAt: string | null;
+  updatedAt: string;
+}
+
+export interface DayNote {
+  id: string;
+  text: string;
+  createdAt: string;
   updatedAt: string;
 }
 
@@ -135,9 +147,7 @@ export interface WeakArea {
   id: string;
   sourceDayId?: string;
   date: string;
-  category: string;
   weakArea: string;
-  evidence: string;
   rootCause: string;
   recoveryTask: string;
   dueDate: string;

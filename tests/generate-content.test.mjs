@@ -41,4 +41,54 @@ describe("content generator", () => {
     expect(searchText).toContain("RabbitMQ");
     expect(searchText).toContain("ProblemDetails");
   });
+
+  it("keeps every weekly assessment normalized to 100 points", () => {
+    const scoringProblems = prepContent.weeks.flatMap((week) => {
+      if (!week.assessment) {
+        return [`Week ${week.weekNumber} is missing an assessment`];
+      }
+
+      const scoring = assessmentScoring(week.assessment.markdown);
+      const problems = [];
+      if (scoring.totalScore !== 100) {
+        problems.push(`Week ${week.weekNumber} total score is ${scoring.totalScore}`);
+      }
+      if (scoring.passingScore !== 75) {
+        problems.push(`Week ${week.weekNumber} passing score is ${scoring.passingScore}`);
+      }
+      if (scoring.pointSum !== 100) {
+        problems.push(`Week ${week.weekNumber} point sum is ${scoring.pointSum}`);
+      }
+      return problems;
+    });
+
+    expect(scoringProblems).toEqual([]);
+  });
 });
+
+function assessmentScoring(markdown) {
+  const totalScore = Number(markdown.match(/\*\*Total score:\*\*\s*(\d+)/)?.[1]);
+  const passingScore = Number(markdown.match(/\*\*Passing score:\*\*\s*(\d+)/)?.[1]);
+  let pointSum = 0;
+
+  for (const line of markdown.split("\n")) {
+    if (/^\|\s*\d+\s*\|/.test(line)) {
+      const cells = line.split("|").slice(1, -1).map((cell) => cell.trim());
+      const points = Number(cells.at(-1));
+      if (Number.isFinite(points)) {
+        pointSum += points;
+      }
+    }
+
+    const pointsLine = line.match(/^Points:\s*(\d+)/);
+    if (pointsLine) {
+      pointSum += Number(pointsLine[1]);
+    }
+  }
+
+  return {
+    passingScore,
+    pointSum,
+    totalScore
+  };
+}

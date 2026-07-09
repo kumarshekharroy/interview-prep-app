@@ -1,6 +1,7 @@
 import type {
   AreaProgress,
   DayContent,
+  DayNote,
   DayProgress,
   DayStatus,
   JobApplication,
@@ -57,12 +58,23 @@ export function createDayProgress(status: DayStatus = "in-progress"): DayProgres
     checklist: {},
     miniTestScore: null,
     selfScore: null,
+    noteEntries: [],
     notes: "",
     artifactLinks: [],
     weakAreaNote: "",
     startedAt: status === "not-started" ? null : now,
     completedAt: status === "complete" ? now : null,
     updatedAt: now
+  };
+}
+
+export function createDayNote(partial: Partial<DayNote> = {}): DayNote {
+  const now = nowIso();
+  return {
+    id: partial.id ?? createId("note"),
+    text: partial.text ?? "",
+    createdAt: partial.createdAt ?? now,
+    updatedAt: partial.updatedAt ?? now
   };
 }
 
@@ -95,9 +107,7 @@ export function createWeakArea(partial: Partial<WeakArea> = {}): WeakArea {
     id: partial.id ?? `WA-${String(Date.now()).slice(-6)}`,
     sourceDayId: partial.sourceDayId,
     date: partial.date ?? today(),
-    category: partial.category ?? "General",
     weakArea: partial.weakArea ?? "",
-    evidence: partial.evidence ?? "",
     rootCause: partial.rootCause ?? "",
     recoveryTask: partial.recoveryTask ?? "",
     dueDate: partial.dueDate ?? "",
@@ -165,21 +175,95 @@ export function normalizeImportedProgress(
       startedAt: imported.profile?.startedAt ?? null
     },
     activeDayId: imported.activeDayId || fallbackDayId,
-    days: imported.days ?? {},
+    days: normalizeDayProgressMap(imported.days),
     weeks: imported.weeks ?? {},
     areas: {
       ...createInitialProgress(contentHash, fallbackDayId).areas,
       ...(imported.areas ?? {})
     },
-    weakAreas: imported.weakAreas ?? [],
+    weakAreas: normalizeWeakAreas(imported.weakAreas),
     jobApplications: imported.jobApplications ?? [],
     updatedAt: now
   };
   return normalized;
 }
 
+function normalizeDayProgressMap(days: unknown): Record<string, DayProgress> {
+  if (!isRecord(days)) return {};
+  return Object.fromEntries(
+    Object.entries(days).map(([dayId, value]) => [dayId, normalizeDayProgress(value, dayId)])
+  );
+}
+
+function normalizeDayProgress(value: unknown, dayId: string): DayProgress {
+  const base = createDayProgress("not-started");
+  if (!isRecord(value)) return base;
+
+  const legacyNotes = typeof value.notes === "string" ? value.notes : "";
+  const parsedNoteEntries = Array.isArray(value.noteEntries)
+    ? value.noteEntries.flatMap((note, index) => normalizeDayNote(note, `${dayId}-note-${index + 1}`))
+    : [];
+  const legacyNoteEntry = legacyNotes.trim()
+    ? [
+        createDayNote({
+          id: `${dayId}-note-legacy`,
+          text: legacyNotes,
+          createdAt: stringOrFallback(value.updatedAt, base.updatedAt),
+          updatedAt: stringOrFallback(value.updatedAt, base.updatedAt)
+        })
+      ]
+    : [];
+  const noteEntries = parsedNoteEntries.length > 0 ? parsedNoteEntries : legacyNoteEntry;
+
+  return {
+    status: isDayStatus(value.status) ? value.status : base.status,
+    completedSections: stringArray(value.completedSections),
+    checklist: booleanRecord(value.checklist),
+    miniTestScore: finiteNumberOrNull(value.miniTestScore),
+    selfScore: finiteNumberOrNull(value.selfScore),
+    noteEntries,
+    notes: noteEntries.length > 0 ? notesToLegacyText(noteEntries) : legacyNotes,
+    artifactLinks: stringArray(value.artifactLinks),
+    weakAreaNote: typeof value.weakAreaNote === "string" ? value.weakAreaNote : "",
+    startedAt: nullableString(value.startedAt),
+    completedAt: nullableString(value.completedAt),
+    updatedAt: stringOrFallback(value.updatedAt, base.updatedAt)
+  };
+}
+
+function normalizeDayNote(value: unknown, fallbackId: string): DayNote[] {
+  if (!isRecord(value)) return [];
+  return [
+    createDayNote({
+      id: stringOrFallback(value.id, fallbackId),
+      text: typeof value.text === "string" ? value.text : "",
+      createdAt: stringOrFallback(value.createdAt, nowIso()),
+      updatedAt: stringOrFallback(value.updatedAt, nowIso())
+    })
+  ];
+}
+
+function normalizeWeakAreas(value: unknown): WeakArea[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((weakArea) => {
+    if (!isRecord(weakArea)) return [];
+    return [
+      createWeakArea({
+        id: stringOrFallback(weakArea.id, `WA-${String(Date.now()).slice(-6)}`),
+        sourceDayId: typeof weakArea.sourceDayId === "string" ? weakArea.sourceDayId : undefined,
+        date: stringOrFallback(weakArea.date, today()),
+        weakArea: typeof weakArea.weakArea === "string" ? weakArea.weakArea : "",
+        rootCause: typeof weakArea.rootCause === "string" ? weakArea.rootCause : "",
+        recoveryTask: typeof weakArea.recoveryTask === "string" ? weakArea.recoveryTask : "",
+        dueDate: typeof weakArea.dueDate === "string" ? weakArea.dueDate : "",
+        status: weakArea.status === "closed" ? "closed" : "open"
+      })
+    ];
+  });
+}
+
 export function getDayProgress(progress: ProgressState, day: DayContent): DayProgress {
-  return progress.days[day.id] ?? createDayProgress("not-started");
+  return normalizeDayProgress(progress.days[day.id], day.id);
 }
 
 export function upsertDayProgress(
@@ -187,7 +271,7 @@ export function upsertDayProgress(
   dayId: string,
   updater: (current: DayProgress) => DayProgress
 ): ProgressState {
-  const current = progress.days[dayId] ?? createDayProgress();
+  const current = normalizeDayProgress(progress.days[dayId], dayId);
   const updated = updater(current);
   return touchProgress({
     ...progress,
@@ -289,6 +373,39 @@ export function statusLabel(status?: DayStatus): string {
   return "Not started";
 }
 
+function isDayStatus(value: unknown): value is DayStatus {
+  return value === "not-started" || value === "in-progress" || value === "complete";
+}
+
+function stringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function booleanRecord(value: unknown): Record<string, boolean> {
+  if (!isRecord(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter((entry): entry is [string, boolean] => typeof entry[1] === "boolean")
+  );
+}
+
+function finiteNumberOrNull(value: unknown): number | null {
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+function nullableString(value: unknown): string | null {
+  if (value === null) return null;
+  return typeof value === "string" ? value : null;
+}
+
+function stringOrFallback(value: unknown, fallback: string): string {
+  return typeof value === "string" && value ? value : fallback;
+}
+
+function notesToLegacyText(notes: DayNote[]): string {
+  return notes.map((note) => note.text.trim()).filter(Boolean).join("\n\n");
+}
+
 function createAreaProgress(timestamp: string): AreaProgress {
   return {
     score: null,
@@ -311,6 +428,13 @@ function nowIso() {
 
 function today() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function createId(prefix: string): string {
+  if (typeof globalThis.crypto?.randomUUID === "function") {
+    return `${prefix}-${globalThis.crypto.randomUUID()}`;
+  }
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

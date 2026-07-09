@@ -1437,53 +1437,53 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Why should list endpoints use pagination? | Avoid unbounded payloads, database pressure, timeout risk | 4 |
-| 2 | What validation should `pageNumber` and `pageSize` have? | Page number >= 1; page size bounded | 3 |
-| 3 | Why restrict `sortBy` to allowed values? | Safe, supported contract; avoids raw column exposure | 4 |
-| 4 | What is `ProblemDetails`? | Standard HTTP API error body | 3 |
-| 5 | What status code fits duplicate product creation? | 409 Conflict | 3 |
-| 6 | What should a 500 response avoid exposing? | Stack trace, internals, secrets | 4 |
-| 7 | What is a validation boundary? | Layer responsible for a validation kind | 4 |
-| 8 | Compare input validation and business validation. | Shape/field checks vs state/domain rules | 5 |
-| 9 | What does the options pattern do? | Binds configuration to typed objects | 3 |
-| 10 | Why use environment variables in deployment? | Environment-specific values and secrets | 4 |
-| 11 | What is OpenAPI used for? | API contract documentation/tooling | 3 |
-| 12 | Give one API breaking change. | Removing field, changing type/status/route, making optional required | 4 |
-| 13 | What is a vertical API slice? | One feature through controller/service/data/DTO | 4 |
-| 14 | Why defer Clean Architecture in Project 1? | Avoid premature ceremony; foundations first | 4 |
-| 15 | Why is returning all products risky? | Scaling, payload, memory, slow clients | 4 |
-| 16 | What does a trace id help with? | Correlating client-visible error to logs | 3 |
-| 17 | Should every constant be configuration? | No; configure values that vary by environment/policy | 4 |
-| 18 | What is one downside of one-to-one repository wrapping over EF Core? | Hides query capability, adds indirection | 4 |
+| 1 | Why should list endpoints use pagination? | Avoid unbounded payloads, database pressure, timeout risk | 3 |
+| 2 | What validation should `pageNumber` and `pageSize` have? | Page number >= 1; page size bounded | 2 |
+| 3 | Why restrict `sortBy` to allowed values? | Safe, supported contract; avoids raw column exposure | 3 |
+| 4 | What is `ProblemDetails`? | Standard HTTP API error body | 2 |
+| 5 | What status code fits duplicate product creation? | 409 Conflict | 2 |
+| 6 | What should a 500 response avoid exposing? | Stack trace, internals, secrets | 3 |
+| 7 | What is a validation boundary? | Layer responsible for a validation kind | 3 |
+| 8 | Compare input validation and business validation. | Shape/field checks vs state/domain rules | 3 |
+| 9 | What does the options pattern do? | Binds configuration to typed objects | 2 |
+| 10 | Why use environment variables in deployment? | Environment-specific values and secrets | 3 |
+| 11 | What is OpenAPI used for? | API contract documentation/tooling | 2 |
+| 12 | Give one API breaking change. | Removing field, changing type/status/route, making optional required | 3 |
+| 13 | What is a vertical API slice? | One feature through controller/service/data/DTO | 3 |
+| 14 | Why defer Clean Architecture in Project 1? | Avoid premature ceremony; foundations first | 2 |
+| 15 | Why is returning all products risky? | Scaling, payload, memory, slow clients | 2 |
+| 16 | What does a trace id help with? | Correlating client-visible error to logs | 2 |
+| 17 | Should every constant be configuration? | No; configure values that vary by environment/policy | 2 |
+| 18 | What is one downside of one-to-one repository wrapping over EF Core? | Hides query capability, adds indirection | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Client requests `pageSize=5000`. What do you return? | 400 with clear validation error; explain configured max | 5 |
-| 2 | Duplicate product name in same category. What response? | 409 Conflict with ProblemDetails | 5 |
-| 3 | Unexpected exception occurs in service. What should client and logs receive? | Client safe 500 ProblemDetails; logs full exception and trace id | 5 |
-| 4 | Frontend asks to sort by any database column. What do you decide? | Use allowed sort values; avoid raw column exposure | 5 |
-| 5 | Product 1 API sketch has 10 modules. What do you implement first? | One `StudyTasks` vertical slice | 5 |
-| 6 | Swagger shows route but no error responses. What improve? | Document response types and examples | 5 |
+| 1 | Client requests `pageSize=5000`. What do you return? | 400 with clear validation error; explain configured max | 3 |
+| 2 | Duplicate product name in same category. What response? | 409 Conflict with ProblemDetails | 3 |
+| 3 | Unexpected exception occurs in service. What should client and logs receive? | Client safe 500 ProblemDetails; logs full exception and trace id | 3 |
+| 4 | Frontend asks to sort by any database column. What do you decide? | Use allowed sort values; avoid raw column exposure | 3 |
+| 5 | Product 1 API sketch has 10 modules. What do you implement first? | One `StudyTasks` vertical slice | 3 |
+| 6 | Swagger shows route but no error responses. What improve? | Document response types and examples | 3 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Invalid query throws 500 instead of 400. | Validate query before use and return validation problem | 5 |
-| 2 | 404 body is plain text while 409 is ProblemDetails. | Centralize error mapping and standardize error shape | 5 |
-| 3 | Configured max page size is ignored. | Inject/use typed options instead of hardcoded value | 5 |
+| 1 | Invalid query throws 500 instead of 400. | Validate query before use and return validation problem | 3 |
+| 2 | 404 body is plain text while 409 is ProblemDetails. | Centralize error mapping and standardize error shape | 3 |
+| 3 | Configured max page size is ignored. | Inject/use typed options instead of hardcoded value | 3 |
 
 ### Coding Problems
 
 Problem 1: DSA-014 - Minimum Size Subarray Sum.  
 Required approach: variable-size sliding window.  
-Points: 8.
+Points: 5.
 
 Problem 2: DSA-015 - Valid Parentheses.  
 Required approach: stack and bracket map.  
-Points: 8.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -1499,7 +1499,7 @@ Expected points:
 * Status codes.
 * Performance considerations.
 
-Points: 10.
+Points: 6.
 
 ### Interview Simulation
 
@@ -1517,7 +1517,7 @@ Strong answer expectations:
 * Correct status codes.
 * One tradeoff per topic.
 
-Points: 12.
+Points: 8.
 
 ### Behavioral Question
 
@@ -1530,7 +1530,7 @@ Expected answer structure:
 * Action: chose a small valuable slice.
 * Result: working increment or clearer path.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -2883,53 +2883,53 @@ At the end of the day, these should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is authentication? | Verifies caller identity | 3 |
-| 2 | What is authorization? | Decides allowed actions | 3 |
-| 3 | What is a claim? | Statement about caller/client | 3 |
-| 4 | What are the main JWT parts? | Header, payload, signature | 3 |
-| 5 | Is JWT payload encrypted by default? | No, encoded not encrypted | 3 |
-| 6 | What must JWT validation check? | Signature, issuer, audience, expiry, relevant claims | 5 |
-| 7 | What header sends bearer token? | `Authorization: Bearer <token>` | 3 |
-| 8 | What does 401 mean? | Missing/invalid authentication | 3 |
-| 9 | What does 403 mean? | Authenticated but forbidden | 3 |
-| 10 | Role vs policy authorization? | Role is simple group check; policy supports richer rules | 5 |
-| 11 | Why enforce authorization server-side? | Client cannot be trusted | 4 |
-| 12 | What is a unit test? | Fast isolated behavior test | 3 |
-| 13 | What is an integration test? | Tests components working together | 3 |
-| 14 | What does WebApplicationFactory-style testing help with? | In-memory host for real pipeline tests | 4 |
-| 15 | What should a good test name communicate? | Scenario and expected behavior | 3 |
-| 16 | Why test StudyTaskService separately? | Business rules and status workflow | 4 |
-| 17 | What is binary search prerequisite? | Sorted search space | 3 |
-| 18 | What is a monotonic stack useful for? | Next greater/warmer element style problems | 4 |
+| 1 | What is authentication? | Verifies caller identity | 2 |
+| 2 | What is authorization? | Decides allowed actions | 2 |
+| 3 | What is a claim? | Statement about caller/client | 2 |
+| 4 | What are the main JWT parts? | Header, payload, signature | 2 |
+| 5 | Is JWT payload encrypted by default? | No, encoded not encrypted | 2 |
+| 6 | What must JWT validation check? | Signature, issuer, audience, expiry, relevant claims | 4 |
+| 7 | What header sends bearer token? | `Authorization: Bearer <token>` | 2 |
+| 8 | What does 401 mean? | Missing/invalid authentication | 2 |
+| 9 | What does 403 mean? | Authenticated but forbidden | 2 |
+| 10 | Role vs policy authorization? | Role is simple group check; policy supports richer rules | 3 |
+| 11 | Why enforce authorization server-side? | Client cannot be trusted | 3 |
+| 12 | What is a unit test? | Fast isolated behavior test | 2 |
+| 13 | What is an integration test? | Tests components working together | 2 |
+| 14 | What does WebApplicationFactory-style testing help with? | In-memory host for real pipeline tests | 3 |
+| 15 | What should a good test name communicate? | Scenario and expected behavior | 2 |
+| 16 | Why test StudyTaskService separately? | Business rules and status workflow | 3 |
+| 17 | What is binary search prerequisite? | Sorted search space | 2 |
+| 18 | What is a monotonic stack useful for? | Next greater/warmer element style problems | 3 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Protected endpoint called without token. Response? | 401 | 5 |
-| 2 | User token calls admin endpoint. Response? | 403 | 5 |
-| 3 | API decodes JWT but does not validate signature. Risk? | Forged claims/token accepted | 5 |
-| 4 | Frontend hides button but API allows delete. Risk? | Authorization bypass; server must enforce | 5 |
-| 5 | Unit test starts full API server for a pure validation rule. Improve? | Test validator/service directly | 5 |
-| 6 | Integration tests fail only when run together. What suspect? | Shared state/test data isolation/order dependency | 5 |
+| 1 | Protected endpoint called without token. Response? | 401 | 3 |
+| 2 | User token calls admin endpoint. Response? | 403 | 3 |
+| 3 | API decodes JWT but does not validate signature. Risk? | Forged claims/token accepted | 3 |
+| 4 | Frontend hides button but API allows delete. Risk? | Authorization bypass; server must enforce | 3 |
+| 5 | Unit test starts full API server for a pure validation rule. Improve? | Test validator/service directly | 3 |
+| 6 | Integration tests fail only when run together. What suspect? | Shared state/test data isolation/order dependency | 3 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Valid token still returns 401. | Check signing key, issuer, audience, expiry, middleware order | 5 |
-| 2 | Wrong role returns 401 instead of 403. | Ensure authentication succeeds, authorization fails; inspect policy/role setup | 5 |
-| 3 | Integration test cannot start app due to missing service. | Register dependency or override in test host | 5 |
+| 1 | Valid token still returns 401. | Check signing key, issuer, audience, expiry, middleware order | 3 |
+| 2 | Wrong role returns 401 instead of 403. | Ensure authentication succeeds, authorization fails; inspect policy/role setup | 3 |
+| 3 | Integration test cannot start app due to missing service. | Register dependency or override in test host | 3 |
 
 ### Coding Problems
 
 Problem 1: DSA-017 - Daily Temperatures.  
 Required approach: monotonic stack of indices.  
-Points: 8.
+Points: 5.
 
 Problem 2: DSA-019 - Search Insert Position.  
 Required approach: binary search lower-bound style.  
-Points: 8.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -2944,7 +2944,7 @@ Expected points:
 * Unit vs integration tests.
 * Server-side enforcement.
 
-Points: 10.
+Points: 7.
 
 ### Interview Simulation
 
@@ -2962,7 +2962,7 @@ Strong answer expectations:
 * No overclaiming demo auth as production identity.
 * Concrete test examples.
 
-Points: 12.
+Points: 8.
 
 ### Behavioral Question
 
@@ -2975,7 +2975,7 @@ Expected answer structure:
 * Action: unit/integration tests around key behavior.
 * Result: safer changes, fewer regressions, better review.
 
-Points: 8.
+Points: 5.
 
 ### Scoring Rubric
 
@@ -4312,55 +4312,55 @@ At the end of the day, this should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is EF Core query translation? | LINQ expression translated to SQL by provider | 4 |
-| 2 | `IQueryable` vs `IEnumerable` in EF? | Provider expression vs in-memory enumeration | 5 |
-| 3 | Why use projection? | Select needed fields, reduce payload/materialization | 4 |
-| 4 | When is tracking needed? | Updating entities in same DbContext | 3 |
-| 5 | When use AsNoTracking? | Read-only queries | 3 |
-| 6 | Why can early AsEnumerable be dangerous? | Pulls data before filtering, memory/perf issue | 5 |
-| 7 | What is an index? | Structure improving suitable lookup/filter/sort | 3 |
-| 8 | What is a composite index? | Multi-column index | 3 |
-| 9 | What is a covering index? | Includes all needed columns for query | 4 |
-| 10 | Why can indexes hurt writes? | Maintenance overhead/storage | 4 |
-| 11 | What is N+1? | Parent query plus child query per parent | 5 |
-| 12 | Include vs projection? | Related entity load vs selected DTO shape | 5 |
-| 13 | What is a transaction? | Atomic group of operations | 3 |
-| 14 | What is isolation level? | Controls concurrent visibility/anomalies | 4 |
-| 15 | What is a deadlock? | Transactions wait on each other | 4 |
-| 16 | What is optimistic concurrency? | Detect rare conflicts using token/version | 4 |
-| 17 | What status code fits stale update? | 409 Conflict | 3 |
-| 18 | Why preserve API contract when switching persistence? | Internal change should not break clients | 4 |
+| 1 | What is EF Core query translation? | LINQ expression translated to SQL by provider | 2 |
+| 2 | `IQueryable` vs `IEnumerable` in EF? | Provider expression vs in-memory enumeration | 3 |
+| 3 | Why use projection? | Select needed fields, reduce payload/materialization | 2 |
+| 4 | When is tracking needed? | Updating entities in same DbContext | 2 |
+| 5 | When use AsNoTracking? | Read-only queries | 2 |
+| 6 | Why can early AsEnumerable be dangerous? | Pulls data before filtering, memory/perf issue | 3 |
+| 7 | What is an index? | Structure improving suitable lookup/filter/sort | 2 |
+| 8 | What is a composite index? | Multi-column index | 2 |
+| 9 | What is a covering index? | Includes all needed columns for query | 2 |
+| 10 | Why can indexes hurt writes? | Maintenance overhead/storage | 2 |
+| 11 | What is N+1? | Parent query plus child query per parent | 3 |
+| 12 | Include vs projection? | Related entity load vs selected DTO shape | 3 |
+| 13 | What is a transaction? | Atomic group of operations | 1 |
+| 14 | What is isolation level? | Controls concurrent visibility/anomalies | 2 |
+| 15 | What is a deadlock? | Transactions wait on each other | 2 |
+| 16 | What is optimistic concurrency? | Detect rare conflicts using token/version | 2 |
+| 17 | What status code fits stale update? | 409 Conflict | 1 |
+| 18 | Why preserve API contract when switching persistence? | Internal change should not break clients | 2 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | List endpoint loads full entities then maps to DTO. Improve? | Project directly to DTO with AsNoTracking | 5 |
-| 2 | Query calls AsEnumerable before Where. Risk? | In-memory filtering after loading too much data | 5 |
-| 3 | Endpoint logs 101 SQL queries for 100 orders. Diagnosis? | N+1; use projection/Include/optimized query | 5 |
-| 4 | Slow filter by Category and InStock. What inspect? | Query pattern, execution plan, index, data distribution | 5 |
-| 5 | Order created but inventory update fails. What protects consistency? | Transaction and rollback | 5 |
-| 6 | Two users update same row; one overwrites another. Fix? | Optimistic concurrency token, return 409 | 5 |
-| 7 | PrepTrack data disappears after restart. Cause? | In-memory storage; use EF persistence | 5 |
+| 1 | List endpoint loads full entities then maps to DTO. Improve? | Project directly to DTO with AsNoTracking | 3 |
+| 2 | Query calls AsEnumerable before Where. Risk? | In-memory filtering after loading too much data | 3 |
+| 3 | Endpoint logs 101 SQL queries for 100 orders. Diagnosis? | N+1; use projection/Include/optimized query | 3 |
+| 4 | Slow filter by Category and InStock. What inspect? | Query pattern, execution plan, index, data distribution | 3 |
+| 5 | Order created but inventory update fails. What protects consistency? | Transaction and rollback | 3 |
+| 6 | Two users update same row; one overwrites another. Fix? | Optimistic concurrency token, return 409 | 3 |
+| 7 | PrepTrack data disappears after restart. Cause? | In-memory storage; use EF persistence | 3 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Read-only query uses tracking and loads all columns. | Add projection and AsNoTracking | 5 |
-| 2 | LEFT side order summaries trigger one item query per order. | Replace with projection or Include depending response need | 5 |
-| 3 | Stale update returns 500. | Catch concurrency mismatch and return 409 ProblemDetails | 5 |
-| 4 | Index added but query still scans. | Check leading columns, predicates, statistics, selectivity, actual plan | 5 |
+| 1 | Read-only query uses tracking and loads all columns. | Add projection and AsNoTracking | 3 |
+| 2 | LEFT side order summaries trigger one item query per order. | Replace with projection or Include depending response need | 3 |
+| 3 | Stale update returns 500. | Catch concurrency mismatch and return 409 ProblemDetails | 3 |
+| 4 | Index added but query still scans. | Check leading columns, predicates, statistics, selectivity, actual plan | 3 |
 
 ### Coding Problems
 
 Problem 1: DSA-020 - Reverse Linked List.  
 Required approach: iterative pointer reversal.  
-Points: 7.
+Points: 4.
 
 Problem 2: DSA-021 - Linked List Cycle.  
 Required approach: slow/fast pointers.  
-Points: 7.
+Points: 4.
 
 ### SQL/EF Implementation Problem
 
@@ -4374,7 +4374,7 @@ Expected points:
 * Order by `DueDate`.
 * Use index on `(Status, DueDate)` or explain index choice.
 
-Points: 10.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -4389,7 +4389,7 @@ Expected points:
 * N+1 risk.
 * Verification through logs/plans.
 
-Points: 10.
+Points: 5.
 
 ### Interview Simulation
 
@@ -4408,7 +4408,7 @@ Strong answer expectations:
 * Tradeoffs and failure modes.
 * Avoid ORM-only shallow answers.
 
-Points: 12.
+Points: 7.
 
 ### Behavioral Question
 
@@ -4421,7 +4421,7 @@ Expected answer structure:
 * Action: inspect query/logs/plan, change query/index.
 * Result: measurable or explainable improvement.
 
-Points: 8.
+Points: 4.
 
 ### Scoring Rubric
 
@@ -5811,58 +5811,58 @@ At the end of the day, these should exist:
 
 | # | Question | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | What is Redis commonly used for? | Cache, fast data structures, counters, sessions; not default source of truth | 4 |
-| 2 | Explain cache-aside. | Check cache, load source on miss, store with TTL, return | 5 |
-| 3 | What is TTL? | Expiry time for cached value | 3 |
-| 4 | What is cache invalidation? | Removing/updating cache after source changes | 4 |
-| 5 | What is cache stampede? | Many requests rebuild expired/missing key at once | 4 |
-| 6 | What is TTL jitter? | Randomized expiry to reduce synchronized misses | 3 |
-| 7 | What should happen if Redis is down for non-critical cache? | Fallback to source, log/monitor | 4 |
-| 8 | Liveness vs readiness? | Process alive vs ready to serve traffic/dependencies | 5 |
-| 9 | Should DB check be in liveness? | Usually no; readiness fits dependency checks | 4 |
-| 10 | What does rate limiting protect? | Capacity, abuse prevention, fairness | 3 |
-| 11 | What is PrepTrack dashboard cache key? | `preptrack:dashboard:summary` | 3 |
-| 12 | What invalidates dashboard cache? | StudyTask/WeakArea writes | 4 |
-| 13 | What are valid WeakArea severities? | 1 through 5 | 3 |
-| 14 | Why not use Redis as source of truth for PrepTrack tasks? | Durability/consistency; database is authoritative | 4 |
-| 15 | What is one risk of naive rate limiting? | Blocks legitimate users, easy bypass, distributed consistency issue | 4 |
-| 16 | What is one honest resume framing for PrepTrack? | Portfolio/prep project demonstrating backend readiness | 4 |
-| 17 | What is deferred to Month 3? | React, TypeScript frontend, Docker/CI basics | 3 |
-| 18 | What is deferred to Month 4? | Clean Architecture and messaging | 3 |
+| 1 | What is Redis commonly used for? | Cache, fast data structures, counters, sessions; not default source of truth | 2 |
+| 2 | Explain cache-aside. | Check cache, load source on miss, store with TTL, return | 3 |
+| 3 | What is TTL? | Expiry time for cached value | 2 |
+| 4 | What is cache invalidation? | Removing/updating cache after source changes | 2 |
+| 5 | What is cache stampede? | Many requests rebuild expired/missing key at once | 2 |
+| 6 | What is TTL jitter? | Randomized expiry to reduce synchronized misses | 2 |
+| 7 | What should happen if Redis is down for non-critical cache? | Fallback to source, log/monitor | 2 |
+| 8 | Liveness vs readiness? | Process alive vs ready to serve traffic/dependencies | 3 |
+| 9 | Should DB check be in liveness? | Usually no; readiness fits dependency checks | 2 |
+| 10 | What does rate limiting protect? | Capacity, abuse prevention, fairness | 2 |
+| 11 | What is PrepTrack dashboard cache key? | `preptrack:dashboard:summary` | 2 |
+| 12 | What invalidates dashboard cache? | StudyTask/WeakArea writes | 2 |
+| 13 | What are valid WeakArea severities? | 1 through 5 | 2 |
+| 14 | Why not use Redis as source of truth for PrepTrack tasks? | Durability/consistency; database is authoritative | 2 |
+| 15 | What is one risk of naive rate limiting? | Blocks legitimate users, easy bypass, distributed consistency issue | 2 |
+| 16 | What is one honest resume framing for PrepTrack? | Portfolio/prep project demonstrating backend readiness | 2 |
+| 17 | What is deferred to Month 3? | React, TypeScript frontend, Docker/CI basics | 2 |
+| 18 | What is deferred to Month 4? | Clean Architecture and messaging | 1 |
 
 ### Scenario-Based Questions
 
 | # | Scenario | Expected answer points | Points |
 | ---: | --- | --- | ---: |
-| 1 | Dashboard returns stale task count after task update. What check? | Invalidation key on write, TTL, cache key consistency | 5 |
-| 2 | Redis outage causes dashboard endpoint 500. Improve? | Fallback to DB/source, log warning, monitor | 5 |
-| 3 | Hundreds of requests rebuild dashboard after expiry. What is this? | Stampede; use jitter/single-flight/prewarm/locking | 5 |
-| 4 | Readiness fails because DB down but liveness works. Is that valid? | Yes; app alive but not ready for traffic | 5 |
-| 5 | WeakArea severity 9 accepted. What bug? | Missing validation; should return 400 | 5 |
-| 6 | Resume says "implemented production Redis architecture" for this project. Problem? | Overclaiming; should frame as portfolio cache-aside implementation | 5 |
+| 1 | Dashboard returns stale task count after task update. What check? | Invalidation key on write, TTL, cache key consistency | 3 |
+| 2 | Redis outage causes dashboard endpoint 500. Improve? | Fallback to DB/source, log warning, monitor | 3 |
+| 3 | Hundreds of requests rebuild dashboard after expiry. What is this? | Stampede; use jitter/single-flight/prewarm/locking | 3 |
+| 4 | Readiness fails because DB down but liveness works. Is that valid? | Yes; app alive but not ready for traffic | 3 |
+| 5 | WeakArea severity 9 accepted. What bug? | Missing validation; should return 400 | 3 |
+| 6 | Resume says "implemented production Redis architecture" for this project. Problem? | Overclaiming; should frame as portfolio cache-aside implementation | 3 |
 
 ### Debugging Questions
 
 | # | Bug | Expected fix | Points |
 | ---: | --- | --- | ---: |
-| 1 | Every dashboard request is MISS. | Check key consistency, serialization, TTL, Redis connection | 5 |
-| 2 | Cache HIT after creating WeakArea. | Ensure write path removes `preptrack:dashboard:summary` | 5 |
-| 3 | Live health fails when Redis is down. | Remove Redis dependency from liveness; keep in readiness | 5 |
-| 4 | Min Stack returns wrong min after pop. | Maintain min stack correctly when popped value equals current min | 5 |
+| 1 | Every dashboard request is MISS. | Check key consistency, serialization, TTL, Redis connection | 3 |
+| 2 | Cache HIT after creating WeakArea. | Ensure write path removes `preptrack:dashboard:summary` | 3 |
+| 3 | Live health fails when Redis is down. | Remove Redis dependency from liveness; keep in readiness | 3 |
+| 4 | Min Stack returns wrong min after pop. | Maintain min stack correctly when popped value equals current min | 3 |
 
 ### Coding Problems
 
 Problem 1: DSA-023 - First Bad Version.  
 Required approach: binary search first true.  
-Points: 7.
+Points: 4.
 
 Problem 2: DSA-024 - Min Stack.  
 Required approach: value stack plus min stack or value/min pairs.  
-Points: 7.
+Points: 4.
 
 Problem 3: DSA-026 - Evaluate Reverse Polish Notation.  
 Required approach: stack with correct operand order.  
-Points: 7.
+Points: 4.
 
 ### Implementation Problem
 
@@ -5877,7 +5877,7 @@ Expected points:
 * Cache outage falls back when possible.
 * Response exposes debug header only if safe for environment.
 
-Points: 10.
+Points: 5.
 
 ### Written Explanation Task
 
@@ -5892,7 +5892,7 @@ Expected points:
 * Liveness/readiness.
 * Staleness tradeoff.
 
-Points: 10.
+Points: 5.
 
 ### Interview Simulation
 
@@ -5912,7 +5912,7 @@ Strong answer expectations:
 * Honest project framing.
 * No claims of advanced distributed system readiness yet.
 
-Points: 12.
+Points: 7.
 
 ### Behavioral Question
 
@@ -5925,7 +5925,7 @@ Expected answer structure:
 * Action: prioritized API, data, tests, cache carefully.
 * Result: working project evidence and clear next steps.
 
-Points: 8.
+Points: 4.
 
 ### Scoring Rubric
 

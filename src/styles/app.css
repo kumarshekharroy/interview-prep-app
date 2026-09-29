@@ -9,9 +9,9 @@
   --color-line: #d9e5e1;
   --color-surface: rgba(255, 255, 255, 0.92);
   --color-surface-solid: #ffffff;
-  --color-primary: #2f7d69;
-  --color-primary-strong: #195944;
-  --color-primary-soft: #e7f3ef;
+  --color-primary: #506f73;
+  --color-primary-strong: #344f55;
+  --color-primary-soft: #e9f0f1;
   --color-blue: #376fa8;
   --color-blue-soft: #eef5ff;
   --color-slate: #557386;
@@ -40,7 +40,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(180deg, rgba(231, 243, 239, 0.78), rgba(245, 248, 247, 0.96) 36%),
+    linear-gradient(180deg, rgba(233, 240, 241, 0.78), rgba(245, 248, 247, 0.96) 36%),
     var(--color-page);
 }
 
@@ -71,8 +71,8 @@ button {
   min-width: 0;
   padding: 12px 22px;
   background:
-    radial-gradient(circle at 10% 0%, rgba(74, 202, 171, 0.2), transparent 36%),
-    linear-gradient(100deg, #102343, #16344f 58%, #164d54);
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.06), transparent 36%),
+    linear-gradient(100deg, var(--color-primary-strong), var(--color-primary));
   color: #f6fbf8;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 22px rgba(16, 35, 31, 0.15);
@@ -124,7 +124,7 @@ button {
 
 .brand span,
 .nav-footer span {
-  color: #aec4bd;
+  color: #f6fbf8;
   font-size: 0.84rem;
 }
 
@@ -142,7 +142,7 @@ button {
   gap: 10px;
   width: auto;
   padding: 9px 11px;
-  color: #dce9e4;
+  color: #f6fbf8;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 8px;
@@ -158,8 +158,8 @@ button {
 
 .nav-button.active {
   background:
-    linear-gradient(135deg, rgba(74, 202, 171, 0.3), rgba(69, 139, 207, 0.2));
-  border-color: rgba(151, 226, 195, 0.42);
+    linear-gradient(135deg, rgba(233, 240, 241, 0.22), rgba(255, 255, 255, 0.1));
+  border-color: rgba(233, 240, 241, 0.38);
 }
 
 .nav-footer {
@@ -170,7 +170,7 @@ button {
 }
 
 .nav-footer code {
-  color: #d6f4e3;
+  color: #e9f0f1;
   font-size: 0.8rem;
   word-break: break-all;
 }
@@ -335,17 +335,17 @@ button {
 .primary-button {
   background: linear-gradient(135deg, var(--color-primary-strong), var(--color-primary));
   color: #ffffff;
-  box-shadow: 0 8px 18px rgba(47, 125, 105, 0.18);
+  box-shadow: 0 8px 18px rgba(52, 79, 85, 0.18);
 }
 
 .primary-button:hover {
-  background: #184d3f;
+  background: #2b444a;
 }
 
 .secondary-button {
-  background: linear-gradient(135deg, var(--color-primary-soft), #f8fcfa);
+  background: linear-gradient(135deg, var(--color-primary-soft), #f8fbfb);
   color: var(--color-primary-strong);
-  border-color: #bddfd3;
+  border-color: #c9d9dc;
 }
 
 .ghost-button {

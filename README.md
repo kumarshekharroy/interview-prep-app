@@ -1,164 +1,66 @@
-# Interview Prep OS
+# Fullstack Prep
 
-Interview Prep OS is a local-first web app for following a markdown-based interview preparation plan.
-
-It keeps the prep curriculum in markdown, while providing a cleaner daily experience with a dashboard, guided study pages, search, progress tracking, weak-area notes, and JSON export/import.
-
-## Hosted App
-
-You can use the hosted version here:
-
-```text
-https://shekharroy.com/interview-prep-app/
-```
-
-## Overview
-
-The app is built around two parts:
-
-* **Curriculum content**: generated from markdown files in `senior-fullstack-interview-prep/`
-* **Personal progress**: stored locally in the browser
-
-Your progress is not written back into the markdown files. It stays local and can be exported or imported as a JSON file.
+Fullstack Prep is a local-first web app for working through a six-month senior full-stack interview curriculum. It turns the Markdown material in [`senior-fullstack-interview-prep/`](senior-fullstack-interview-prep/) into a daily study plan with a roadmap, searchable library, and progress trackers.
 
 ## Features
 
-* Dashboard with current progress and next study day
-* Roadmap for the full prep plan
-* Guided daily study pages
-* Searchable prep library
-* Trackers for weak areas, scores, readiness, and job applications
-* Local progress storage
-* Progress export/import through JSON
+- Guided study pages for 168 days across 24 weeks
+- Dashboard and roadmap for tracking progress
+- Searchable curriculum and project material
+- Trackers for weak areas, scores, readiness, and applications
+- JSON export and import for moving progress between browsers or devices
 
-## Getting Started
+## Your data
 
-Install dependencies:
+Progress, notes, and application details are stored in your browser's local storage. The app has no account or server-side progress store. Data will not transfer automatically to another browser, device, or site domain; use **Settings → Export JSON** and **Import progress** to move it.
 
-```bash
-npm install
-```
+Exports can contain personal notes and application details. Keep them private and avoid committing them to the repository. The standard export filenames are covered by [`.gitignore`](.gitignore).
 
-Start the app:
+## Run locally
+
+Use Node.js 22 and npm:
 
 ```bash
-npm start
-```
-
-This generates the app content from markdown and opens the local app in your browser.
-
-## Commands
-
-```bash
-npm run generate
-```
-
-Generate app content from markdown.
-
-```bash
-npm start
-```
-
-Generate content, start the app, and open it in the browser.
-
-```bash
+npm ci
 npm run dev
 ```
 
-Generate content and start the dev server.
+Open the URL shown by Vite. The development command generates app content from the Markdown source before starting the server.
 
-```bash
-npm run build
-```
+| Command | Purpose |
+| --- | --- |
+| `npm start` | Generate content, start Vite, and open the browser |
+| `npm run generate` | Rebuild `src/data/prep-content.json` from Markdown |
+| `npm test` | Generate content and run tests |
+| `npm run build` | Generate content, type-check, and build into `dist/` |
+| `npm run preview` | Preview the production build locally |
 
-Generate content, type-check, and build the production app.
+## Deploy on Cloudflare Pages
 
-```bash
-npm run preview
-```
+Connect the repository to [Cloudflare Pages](https://developers.cloudflare.com/pages/get-started/git-integration/) and use these build settings:
 
-Preview the production build locally.
+| Setting | Value |
+| --- | --- |
+| Production branch | `main` |
+| Root directory | Repository root |
+| Framework preset | React (Vite) |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Environment variable | `NODE_VERSION=22` |
 
-```bash
-npm test
-```
+The app builds at `/` and uses hash-based navigation. Cloudflare Pages handles deployment; the GitHub Actions workflow runs validation only. Add a custom domain through the Pages project's **Custom domains** settings and follow [Cloudflare's DNS instructions](https://developers.cloudflare.com/pages/configuration/custom-domains/).
 
-Generate content and run tests.
+The canonical URL and social metadata in [`index.html`](index.html), plus [`robots.txt`](public/robots.txt) and [`sitemap.xml`](public/sitemap.xml), target `fullstack-prep.lunarping.com`. Update these files if deploying a fork to another domain.
 
-## Main Screens
+## Project structure
 
-### Dashboard
-
-Shows your current study status, progress, active days, weak areas, scores, and month-by-month progress.
-
-### Roadmap
-
-Shows the full prep plan. Each day can be opened and tracked individually.
-
-### Study Day
-
-Guides you through one day of prep with study content, checklist items, notes, scores, artifacts, and weak-area capture.
-
-### Library
-
-Lets you search and browse prep material across days, topics, banks, projects, career notes, and tracking files.
-
-### Trackers
-
-Provides sections for weak areas, weekly scores, readiness areas, and job applications.
-
-### Settings
-
-Lets you export progress, import saved progress, reset local progress, and view generated content metadata.
-
-## Progress Storage
-
-Progress is stored in browser local storage under:
-
-```text
-interview-prep-progress:v1
-```
-
-Exported progress files use names like:
-
-```text
-interview-prep-progress-YYYY-MM-DD.json
-```
-
-Export your progress before switching browsers, clearing site data, or moving to another machine.
-
-## Project Structure
-
-```text
-senior-fullstack-interview-prep/
-  Source markdown curriculum
-
-scripts/generate-content.mjs
-  Markdown parser and content generator
-
-src/data/prep-content.json
-  Generated app content
-
-src/App.tsx
-  Main app UI and routes
-
-src/lib/progress.ts
-  Progress storage, import/export, and helpers
-
-src/types.ts
-  Shared content and progress types
-
-src/styles/app.css
-  App styling
-
-tests/
-  Parser and progress tests
-```
-
-## Design Principles
-
-* Markdown-first: curriculum stays easy to edit
-* Local-first: no login, backend, or cloud dependency
-* Portable progress: export and import JSON when needed
-* Study-focused: built for daily execution, not just reading
-* Low distraction: details stay available without cluttering the main flow
+| Path | Purpose |
+| --- | --- |
+| `senior-fullstack-interview-prep/` | Source Markdown curriculum |
+| `scripts/generate-content.mjs` | Markdown parser and content generator |
+| `src/data/prep-content.json` | Generated app content |
+| `src/App.tsx` | App UI and hash routes |
+| `src/lib/progress.ts` | Local progress, backup, import, and export |
+| `src/styles/app.css` | App styling |
+| `public/` | Favicon, social card, sitemap, and crawler rules |
+| `tests/` | Parser and progress tests |

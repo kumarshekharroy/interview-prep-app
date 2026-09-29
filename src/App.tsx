@@ -139,10 +139,10 @@ export default function App() {
       <header className="top-nav" aria-label="Primary navigation">
         <div className="top-nav-row">
           <div className="brand">
-            <div className="brand-mark">IP</div>
+            <img className="brand-mark" src="/favicon.svg" alt="" />
             <div>
-              <strong>Interview Prep OS</strong>
-              <span>Local progress tracker</span>
+              <strong>Fullstack Prep</strong>
+              <span>Senior interview study plan</span>
             </div>
           </div>
           <button
@@ -1610,7 +1610,7 @@ function SettingsView({
         <article className="panel">
           <Upload size={26} />
           <h2>Import progress</h2>
-          <p className="muted">Import replaces current local progress after creating a local backup.</p>
+          <p className="muted">Moving from the previous site? Export your progress there, then import the JSON file here. Progress is tied to each site’s browser storage. Import replaces current local progress after creating a local backup.</p>
           <input type="file" accept="application/json,.json" onChange={(event) => handleImportFile(event.target.files?.[0])} />
           {importError && <p className="error-text">{importError}</p>}
           {importCandidate && (

@@ -71,8 +71,8 @@ button {
   min-width: 0;
   padding: 12px 22px;
   background:
-    linear-gradient(135deg, rgba(102, 186, 154, 0.18), transparent 42%),
-    linear-gradient(90deg, #10231f, #183a34);
+    radial-gradient(circle at 10% 0%, rgba(74, 202, 171, 0.2), transparent 36%),
+    linear-gradient(100deg, #102343, #16344f 58%, #164d54);
   color: #f6fbf8;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 22px rgba(16, 35, 31, 0.15);
@@ -93,14 +93,10 @@ button {
 }
 
 .brand-mark {
-  display: grid;
   width: 44px;
   height: 44px;
-  place-items: center;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #8de4bd, #58b894);
-  color: #07130f;
-  font-weight: 800;
+  flex: 0 0 auto;
+  border-radius: 10px;
 }
 
 .mobile-nav-toggle {
@@ -162,7 +158,7 @@ button {
 
 .nav-button.active {
   background:
-    linear-gradient(135deg, rgba(79, 178, 134, 0.34), rgba(61, 111, 182, 0.16));
+    linear-gradient(135deg, rgba(74, 202, 171, 0.3), rgba(69, 139, 207, 0.2));
   border-color: rgba(151, 226, 195, 0.42);
 }
 
